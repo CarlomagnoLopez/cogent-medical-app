@@ -56,9 +56,6 @@ const Login: React.FC<{}> = () => {
 
   const handleSubmit = async (values: LoginParamsType) => {
     setSubmitting(true);
-    if (type === 'verify') {
-      Cognito.verifyCode(values);
-    }
 
     try {
       // login with cognitio
@@ -73,12 +70,13 @@ const Login: React.FC<{}> = () => {
         return;
       }*/
       console.log(JSON.stringify(values));
-      Cognito.loginCognito(values);
-      setType('verify');
+      //      Cognito.loginCognito(values);
+      //    setType('verify');
       // 如果失败去设置用户错误信息
       // setUserLoginState(msg);
     } catch (error) {
-      message.error('please check ！');
+      //  message.error('please check ！');
+      replaceGoto();
     }
     setSubmitting(false);
   };
