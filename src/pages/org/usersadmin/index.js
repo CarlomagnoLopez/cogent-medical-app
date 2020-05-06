@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { Card, Table, Button, Tag, Space, Icon } from 'antd';
+import FormUser from './components/FormUser';
 export default class AdminUsers extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { visible: false };
   }
+  onCancel = () => {
+    this.setState({ visible: false });
+  };
 
+  onOk = () => {
+    this.setState({ visible: false });
+  };
   render() {
     const columns = [
       {
@@ -64,7 +71,19 @@ export default class AdminUsers extends Component {
       },
     ];
     return (
-      <Card title="Organization" extra={<Button>Create User</Button>}>
+      <Card
+        title="Organization"
+        extra={
+          <Button
+            onClick={() => {
+              this.setState({ visible: true });
+            }}
+          >
+            Create User
+          </Button>
+        }
+      >
+        <FormUser visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />
         <Table columns={columns} dataSource={data} />
       </Card>
     );
