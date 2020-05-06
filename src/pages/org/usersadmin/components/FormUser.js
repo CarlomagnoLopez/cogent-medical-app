@@ -64,7 +64,7 @@ class FormUser extends Component {
       <Modal
         closable={true}
         visible={this.props.visible}
-        title="Create Organization"
+        title="Create User"
         cancelText="Cancel"
         onCancel={this.props.onCancel}
         maskClosable={false}
