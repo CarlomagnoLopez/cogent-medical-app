@@ -45,15 +45,26 @@ export default defineConfig({
 
     {
       path: '/welcome',
-      name: 'welcome',
-      icon: 'smile',
-      component: './orgadmin',
-    },
-    {
-      path: '/',
       name: 'Create an Organization',
       icon: 'smile',
-      component: './orgadmin',
+      component: './org/orgs',
+    },
+    {
+      path: '/admincreate',
+      name: 'Create Organization Admin/Approver ',
+      icon: 'smile',
+      component: './org/orgadmin',
+    },
+    {
+      path: '/adminusers',
+      name: 'Manane Org Users',
+      icon: 'smile',
+      component: './org/usersadmin',
+    },
+    {
+      path: '/org/create',
+      hideInMenu: true,
+      component: './org/orgs/components/FormOrganization',
     },
 
     {
