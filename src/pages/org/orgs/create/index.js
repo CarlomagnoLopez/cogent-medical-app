@@ -8,7 +8,7 @@ export default class CreateOrganization extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentstep: 0,
+      currentstep: -1,
     };
   }
 
