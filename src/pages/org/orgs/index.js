@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
 import { Card, Table, Button, Tag, Space, Icon } from 'antd';
-//import { routerRedux } from 'dva';
+import { routerRedux } from 'dva';
 //import FormOrganization from './create/FormOrganization';
-import { routerRedux } from 'dva/router';
+//import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
+import { history } from 'umi';
 
+@connect(({ organization, loading }) => ({ organization }))
 export default class Org extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +16,7 @@ export default class Org extends Component {
     };
   }
   showOrg = () => {
-    this.props.dispatch(routerRedux.push('/org/create'));
+    history.push('/org/create');
   };
   onCancel = () => {
     this.setState({ visible: false });
@@ -86,15 +88,7 @@ export default class Org extends Component {
     return (
       <Card
         title="Organization"
-        extra={
-          <Button
-            onClick={() => {
-              this.showOrg;
-            }}
-          >
-            Create Organization
-          </Button>
-        }
+        extra={<Button onClick={this.showOrg}>Create Organization</Button>}
       >
         {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
 
