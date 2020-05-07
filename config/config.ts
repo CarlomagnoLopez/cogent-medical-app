@@ -64,7 +64,8 @@ export default defineConfig({
     {
       path: '/org/create',
       hideInMenu: true,
-      component: './org/orgs/components/FormOrganization',
+
+      component: './org/orgs/create',
     },
 
     {

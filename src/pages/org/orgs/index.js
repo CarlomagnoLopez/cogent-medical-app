@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Card, Table, Button, Tag, Space, Icon } from 'antd';
-import FormOrganization from './components/FormOrganization';
+import FormOrganization from './create/FormOrganization';
 
 export default class Org extends Component {
   constructor(props) {

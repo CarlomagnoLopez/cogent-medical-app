@@ -16,10 +16,10 @@ import {
   Form,
   List,
   Input,
-  AutoComplete,
   Modal,
   DatePicker,
   LocaleProvider,
+  AutoComplete,
   TimePicker,
   InputNumber,
   Upload,
@@ -36,7 +36,18 @@ const Dragger = Upload.Dragger;
 import { SmileOutlined } from '@ant-design/icons';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 
-class FormOrganization extends Component {
+class FormAdmin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      options: [{ value: ['test company', 'cogent ibs'] }],
+      roleoptions: [{ value: 'Approver' }],
+    };
+  }
+  onFinish = (values) => {
+    console.log('Received values of form: ', values);
+    this.props.finishOrganizationDetails();
+  };
   render() {
     const { Option } = Select;
     const formItemLayout = {
@@ -57,43 +68,41 @@ class FormOrganization extends Component {
         },
       },
     };
-    const onFinish = (values) => {
-      console.log('Received values of form: ', values);
+
+    const onSearchCompanyName = (data) => {
+      console.log(data);
+      this.setState({ options: [{ value: ['cogent ibs', 'test company'] }] });
     };
+
+    const onSelectCompanyName = (data) => {
+      console.log(data);
+    };
+
+    const onSearchRole = (data) => {
+      console.log(data);
+    };
+
+    const onSelectRole = (data) => {
+      console.log(data);
+    };
+
     return (
-      <Modal
-        closable={true}
-        visible={this.props.visible}
-        title="Create Organization"
-        cancelText="Cancel"
-        onCancel={this.props.onCancel}
-        maskClosable={false}
-        onOk={this.props.onOk}
-      >
+      <Card>
         <Form onFinish={this.onFinish}>
-          <Form.Item label="Organization Name">
-            <Input placeholder="Organization Name" id="error" />
+          <Form.Item label="Company Name">
+            <Input placeholder="Company Name" id="error" />
           </Form.Item>
-          <Form.Item label="Logo">
-            <Form.Item name="logo" valuePropName="fileList" noStyle>
-              <Upload.Dragger name="files" action="/upload.do">
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-              </Upload.Dragger>
-            </Form.Item>
+          <Form.Item label="Role">
+            <Input placeholder="Role" id="error" />
           </Form.Item>
           <Form.Item label="Contact Name">
             <Input placeholder="Contact Name" id="error" />
           </Form.Item>
+          <Form.Item label="Contact Number">
+            <Input placeholder="Contact Number" id="error" />
+          </Form.Item>
           <Form.Item label="Contact Email">
             <Input placeholder="Contact Email" id="error" />
-          </Form.Item>
-
-          <Form.Item label="Website">
-            <Input />
           </Form.Item>
 
           <Form.Item
@@ -103,13 +112,13 @@ class FormOrganization extends Component {
             }}
           >
             <Button type="primary" htmlType="submit">
-              Submit
+              Next
             </Button>
           </Form.Item>
         </Form>
-      </Modal>
+      </Card>
     );
   }
 }
 
-export default FormOrganization;
+export default FormAdmin;
