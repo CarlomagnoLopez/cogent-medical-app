@@ -8,7 +8,10 @@ import logo from '@/assets/logo.svg';
 import { LoginParamsType, fakeAccountLogin } from '@/services/login';
 import LoginFrom from './components/Login';
 import styles from './style.less';
+import { connect } from 'umi';
+const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 
+const Cognito = require('./../../../utils/Cognito.js');
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
 
 const LoginMessage: React.FC<{
@@ -46,31 +49,106 @@ const replaceGoto = () => {
   history.replace(redirect || '/');
 };
 
-const Login: React.FC<{}> = () => {
+const Login: React.FC<{}> = ({ dispatch, login }) => {
   const [userLoginState, setUserLoginState] = useState<API.LoginStateType>({});
   const [submitting, setSubmitting] = useState(false);
 
   const { refresh } = useModel('@@initialState');
+
   const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState<string>('account');
 
+  const doLogin = async (email) => {
+    dispatch({
+      type: 'login/login',
+      payload: {
+        email: email,
+      },
+    });
+  };
+
   const handleSubmit = async (values: LoginParamsType) => {
     setSubmitting(true);
+
     try {
-      // 登录
-      const msg = await fakeAccountLogin({ ...values, type });
+      // login with cognitio
+
+      var authenticationData = {
+        Username: values.userName,
+        Password: values.password,
+      };
+      var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
+        authenticationData,
+      );
+
+      var poolData = {
+        UserPoolId: ANT_DESIGN_PRO_USER_POOL_ID, // your user pool id here
+        ClientId: ANT_DESIGN_PRO_CLIENT_ID, // your app client id here
+      };
+      // Create the User Pool Object
+      var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+      var userData = {
+        Username: values.userName, // your username here
+        Pool: userPool,
+      };
+      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {
+          /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/
+          var accessToken = result.getAccessToken().getJwtToken();
+          var idToken = result.idToken.jwtToken;
+          sessionStorage.setItem('accessToken', accessToken);
+          let email = authenticationData.Username;
+          let params = { email: email };
+          doLogin(email);
+
+          //  router.push(`/welcome`);
+        },
+        onFailure: function (err) {
+          if (err) {
+            message.error(err.message);
+          }
+        },
+        mfaRequired: function (codeDeliveryDetails) {
+          var verificationCode = prompt('Please input verification code', '');
+          cognitoUser.sendMFACode(verificationCode, this);
+        },
+        newPasswordRequired: function (userAttributes, requiredAttributes) {
+          // User was signed up by an admin and must provide new
+          // password and required attributes, if any, to complete
+          // authentication.
+          // userAttributes: object, which is the user's current profile. It will list all attributes that are associated with the user.
+          // Required attributes according to schema, which don’t have any values yet, will have blank values.
+          // requiredAttributes: list of attributes that must be set by the user along with new password to complete the sign-in.
+          // Get these details and call
+          // newPassword: password that user has given
+          // attributesData: object with key as attribute name and value that the user has given.
+          /*self.setState({
+            visibleChangePassword: true,
+            userData: userData,
+            userAttributes: userAttributes,
+          });*/
+        },
+      });
+
+      /*const msg = await fakeAccountLogin({ ...values, type });
       if (msg.status === 'ok') {
-        message.success('登陆成功！');
+        message.success('login success！');
         replaceGoto();
         setTimeout(() => {
           refresh();
         }, 0);
         return;
-      }
+      }*/
+      console.log(JSON.stringify(values));
+      //      Cognito.loginCognito(values);
+      //    setType('verify');
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      // setUserLoginState(msg);
     } catch (error) {
-      message.error('登陆失败，请重试！');
+      console.log(JSON.stringify(error));
+      message.error('please check ！' + error);
+      //  replaceGoto();
     }
     setSubmitting(false);
   };
@@ -87,92 +165,103 @@ const Login: React.FC<{}> = () => {
           <div className={styles.header}>
             <Link to="/">
               <img alt="logo" className={styles.logo} src={logo} />
-              <span className={styles.title}>Ant Design</span>
+              <span className={styles.title}>Login</span>
             </Link>
           </div>
-          <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+          <div className={styles.desc}>Login</div>
         </div>
 
         <div className={styles.main}>
           <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-            <Tab key="account" tab="账户密码登录">
+            <Tab key="account" tab="Account">
               {status === 'error' && loginType === 'account' && !submitting && (
-                <LoginMessage content="账户或密码错误（admin/ant.design）" />
+                <LoginMessage content="Account" />
               )}
 
               <UserName
                 name="userName"
-                placeholder="用户名: admin or user"
+                placeholder="username"
                 rules={[
                   {
                     required: true,
-                    message: '请输入用户名!',
+                    message: 'please enter valid username!',
                   },
                 ]}
               />
               <Password
                 name="password"
-                placeholder="密码: ant.design"
+                placeholder="password"
                 rules={[
                   {
                     required: true,
-                    message: '请输入密码！',
+                    message: 'Please enter valid password!',
                   },
                 ]}
               />
             </Tab>
-            <Tab key="mobile" tab="手机号登录">
-              {status === 'error' && loginType === 'mobile' && !submitting && (
-                <LoginMessage content="验证码错误" />
-              )}
-              <Mobile
-                name="mobile"
-                placeholder="手机号"
-                rules={[
-                  {
-                    required: true,
-                    message: '请输入手机号！',
-                  },
-                  {
-                    pattern: /^1\d{10}$/,
-                    message: '手机号格式错误！',
-                  },
-                ]}
-              />
+            <Tab key="verify" tab="">
               <Captcha
                 name="captcha"
-                placeholder="验证码"
+                placeholder="qqq4"
                 countDown={120}
                 getCaptchaButtonText=""
                 getCaptchaSecondText="秒"
                 rules={[
                   {
                     required: true,
-                    message: '请输入验证码！',
+                    message: 'Please enter valid capcha',
                   },
                 ]}
               />
             </Tab>
+            {/*   <Tab key="mobile" tab="Mobile">
+              {status === 'error' && loginType === 'mobile' && !submitting && (
+                <LoginMessage content="Mobile" />
+              )}
+              <Mobile
+                name="mobile"
+                placeholder="Mobile no"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter valid mobile number!',
+                  },
+                  {
+                    pattern: /^1\d{10}$/,
+                    message: 'Please enter 10 digit mobile number!',
+                  },
+                ]}
+              />
+              <Captcha
+                name="captcha"
+                placeholder="qqq4"
+                countDown={120}
+                getCaptchaButtonText=""
+                getCaptchaSecondText="秒"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter valid capcha',
+                  },
+                ]}
+              />
+              </Tab>*/}
             <div>
               <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
-                自动登录
+                Remember me
               </Checkbox>
               <a
                 style={{
                   float: 'right',
                 }}
               >
-                忘记密码
+                forget password
               </a>
             </div>
-            <Submit loading={submitting}>登录</Submit>
+            <Submit loading={submitting}>Submit</Submit>
             <div className={styles.other}>
-              其他登录方式
-              <AlipayCircleOutlined className={styles.icon} />
-              <TaobaoCircleOutlined className={styles.icon} />
-              <WeiboCircleOutlined className={styles.icon} />
               <Link className={styles.register} to="/user/register">
-                注册账户
+                Register
               </Link>
             </div>
           </LoginFrom>
@@ -182,4 +271,6 @@ const Login: React.FC<{}> = () => {
   );
 };
 
-export default Login;
+export default connect(({ login }) => ({
+  login,
+}))(Login);
