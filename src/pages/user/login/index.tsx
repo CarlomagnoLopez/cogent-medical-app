@@ -141,6 +141,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         return;
       }*/
       console.log(JSON.stringify(values));
+      console.log(JSON.stringify(values));
       //      Cognito.loginCognito(values);
       //    setType('verify');
       // 如果失败去设置用户错误信息
