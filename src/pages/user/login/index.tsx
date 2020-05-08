@@ -8,6 +8,9 @@ import logo from '@/assets/logo.svg';
 import { LoginParamsType, fakeAccountLogin } from '@/services/login';
 import LoginFrom from './components/Login';
 import styles from './style.less';
+import { connect } from 'umi';
+const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+
 const Cognito = require('./../../../utils/Cognito.js');
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
 
@@ -46,19 +49,87 @@ const replaceGoto = () => {
   history.replace(redirect || '/');
 };
 
-const Login: React.FC<{}> = () => {
+const Login: React.FC<{}> = ({ dispatch, login }) => {
   const [userLoginState, setUserLoginState] = useState<API.LoginStateType>({});
   const [submitting, setSubmitting] = useState(false);
 
   const { refresh } = useModel('@@initialState');
+
   const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState<string>('account');
+
+  const doLogin = async (email) => {
+    dispatch({
+      type: 'login/login',
+      payload: {
+        email: email,
+      },
+    });
+  };
 
   const handleSubmit = async (values: LoginParamsType) => {
     setSubmitting(true);
 
     try {
       // login with cognitio
+
+      var authenticationData = {
+        Username: values.userName,
+        Password: values.password,
+      };
+      var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
+        authenticationData,
+      );
+
+      var poolData = {
+        UserPoolId: ANT_DESIGN_PRO_USER_POOL_ID, // your user pool id here
+        ClientId: ANT_DESIGN_PRO_CLIENT_ID, // your app client id here
+      };
+      // Create the User Pool Object
+      var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+      var userData = {
+        Username: values.userName, // your username here
+        Pool: userPool,
+      };
+      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {
+          /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/
+          var accessToken = result.getAccessToken().getJwtToken();
+          var idToken = result.idToken.jwtToken;
+          sessionStorage.setItem('accessToken', accessToken);
+          let email = authenticationData.Username;
+          let params = { email: email };
+          doLogin(email);
+
+          //  router.push(`/welcome`);
+        },
+        onFailure: function (err) {
+          if (err) {
+            message.error(err.message);
+          }
+        },
+        mfaRequired: function (codeDeliveryDetails) {
+          var verificationCode = prompt('Please input verification code', '');
+          cognitoUser.sendMFACode(verificationCode, this);
+        },
+        newPasswordRequired: function (userAttributes, requiredAttributes) {
+          // User was signed up by an admin and must provide new
+          // password and required attributes, if any, to complete
+          // authentication.
+          // userAttributes: object, which is the user's current profile. It will list all attributes that are associated with the user.
+          // Required attributes according to schema, which don’t have any values yet, will have blank values.
+          // requiredAttributes: list of attributes that must be set by the user along with new password to complete the sign-in.
+          // Get these details and call
+          // newPassword: password that user has given
+          // attributesData: object with key as attribute name and value that the user has given.
+          /*self.setState({
+            visibleChangePassword: true,
+            userData: userData,
+            userAttributes: userAttributes,
+          });*/
+        },
+      });
 
       /*const msg = await fakeAccountLogin({ ...values, type });
       if (msg.status === 'ok') {
@@ -75,8 +146,9 @@ const Login: React.FC<{}> = () => {
       // 如果失败去设置用户错误信息
       // setUserLoginState(msg);
     } catch (error) {
-      //  message.error('please check ！');
-      replaceGoto();
+      console.log(JSON.stringify(error));
+      message.error('please check ！' + error);
+      //  replaceGoto();
     }
     setSubmitting(false);
   };
@@ -199,4 +271,6 @@ const Login: React.FC<{}> = () => {
   );
 };
 
-export default Login;
+export default connect(({ login }) => ({
+  login,
+}))(Login);

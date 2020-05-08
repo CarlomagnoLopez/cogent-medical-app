@@ -48,6 +48,10 @@ class FormAdmin extends Component {
     console.log('Received values of form: ', values);
     this.props.finishOrganizationDetails();
   };
+
+  goBack = () => {
+    this.props.onPressBack;
+  };
   render() {
     const { Option } = Select;
     const formItemLayout = {
@@ -85,34 +89,47 @@ class FormAdmin extends Component {
     const onSelectRole = (data) => {
       console.log(data);
     };
-
+    const validateMessages = {
+      required: '${label} is required!',
+      types: {
+        email: '${label} is not validate email!',
+        number: '${label} is not a validate number!',
+      },
+      number: {
+        range: '${label} must be between ${min} and ${max}',
+      },
+    };
     return (
       <Card>
-        <Form onFinish={this.onFinish}>
-          <Form.Item label="Company Name">
-            <Input placeholder="Company Name" id="error" />
+        <Form onFinish={this.onFinish} validateMessages={validateMessages}>
+          <Form.Item label="Company Name" name="companyname" rules={[{ required: true }]}>
+            <Input placeholder="Company Name" id="companyname" name="companyname" />
           </Form.Item>
-          <Form.Item label="Role">
-            <Input placeholder="Role" id="error" />
+          <Form.Item label="Role" name="role" rules={[{ required: true }]}>
+            <Input placeholder="Role" id="role" />
           </Form.Item>
-          <Form.Item label="Contact Name">
-            <Input placeholder="Contact Name" id="error" />
+          <Form.Item label="Contact Name" name="contactname" rules={[{ required: true }]}>
+            <Input placeholder="Contact Name" id="contactname" />
           </Form.Item>
-          <Form.Item label="Contact Number">
-            <Input placeholder="Contact Number" id="error" />
+          <Form.Item label="Contact Number" name="contactnumber" rules={[{ required: true }]}>
+            <Input placeholder="Contact Number" id="contactnumber" />
           </Form.Item>
-          <Form.Item label="Contact Email">
-            <Input placeholder="Contact Email" id="error" />
+          <Form.Item
+            label="Contact Email"
+            name="contactemail"
+            rules={[{ required: true, type: 'email' }]}
+          >
+            <Input placeholder="Contact Email" id="contactemail" />
           </Form.Item>
 
-          <Form.Item
-            wrapperCol={{
-              span: 12,
-              offset: 6,
-            }}
-          >
+          <Form.Item>
             <Button type="primary" htmlType="submit">
               Next
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" onClick={this.goBack}>
+              Back
             </Button>
           </Form.Item>
         </Form>

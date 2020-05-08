@@ -15,6 +15,13 @@ export default class Org extends Component {
       visible: false,
     };
   }
+
+  componentWillMount() {
+    console.log('Username ' + localStorage.getItem('userName'));
+    if (localStorage.getItem('userName') === null) {
+      history.push('/user/login');
+    }
+  }
   showOrg = () => {
     history.push('/org/create');
   };

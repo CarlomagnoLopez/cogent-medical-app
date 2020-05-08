@@ -9,13 +9,43 @@ export default class CreateOrganization extends Component {
     super(props);
     this.state = {
       currentstep: 0,
+      organizationDetails: [],
+      admin1Details: [],
+      admin2Details: [],
+      approverDetails: [],
+      approver2Details: [],
     };
   }
 
-  finishOrganizationDetails = (values) => {
+  finishAdminDetails = (values) => {
+    console.log('Admin Details ' + JSON.stringify(values));
+    this.setState({ admin1Details: values, currentstep: currentstep + 1 });
+  };
+  finishAdmin2Details = (values) => {
+    console.log('Admin2 Details ' + JSON.stringify(values));
+    this.setState({ admin2Details: values, currentstep: currentstep + 1 });
+  };
+  finishApproverDetails = (values) => {
+    console.log('Approver Details ' + JSON.stringify(values));
+    this.setState({ approverDetails: values, currentstep: currentstep + 1 });
+  };
+  finishApprover2Details = (values) => {
+    console.log('Approver2 Details ' + JSON.stringify(values));
+    this.setState({ approver2Details: values, currentstep: currentstep + 1 });
+  };
+
+  onPressBack = () => {
     const { currentstep } = this.state;
 
-    this.setState({ currentstep: currentstep + 1 });
+    if (currentstep > 0) {
+      this.setState({ currentstep: currentstep - 1 });
+    }
+  };
+
+  finishOrganizationDetails = (values) => {
+    const { currentstep, organizationDetails } = this.state;
+    console.log('Org Details ' + values);
+    this.setState({ organizationDetails: values, currentstep: currentstep + 1 });
   };
 
   render() {
@@ -33,25 +63,37 @@ export default class CreateOrganization extends Component {
         {currentstep === 1 && (
           <Card>
             <p>Please fill Organization Details</p>
-            <FormAdmin finishOrganizationDetails={this.finishOrganizationDetails} />
+            <FormAdmin
+              finishOrganizationDetails={this.finishAdminDetails}
+              onPressBack={this.onPressBack}
+            />
           </Card>
         )}
         {currentstep === 2 && (
           <Card>
             <p>Please fill Organization Details</p>
-            <FormAdmin finishOrganizationDetails={this.finishOrganizationDetails} />
+            <FormAdmin
+              finishOrganizationDetails={this.finishAdmin2Details}
+              onPressBack={this.onPressBack}
+            />
           </Card>
         )}
         {currentstep === 3 && (
           <Card>
             <p>Please fill Organization Details</p>
-            <FormAdmin finishOrganizationDetails={this.finishOrganizationDetails} />
+            <FormAdmin
+              finishOrganizationDetails={this.finishApproverDetails}
+              onPressBack={this.onPressBack}
+            />
           </Card>
         )}{' '}
         {currentstep === 4 && (
           <Card>
             <p>Please fill Organization Details</p>
-            <FormAdmin finishOrganizationDetails={this.finishOrganizationDetails} />
+            <FormAdmin
+              finishOrganizationDetails={this.finishApprover2Details}
+              onPressBack={this.onPressBack}
+            />
           </Card>
         )}
       </Card>

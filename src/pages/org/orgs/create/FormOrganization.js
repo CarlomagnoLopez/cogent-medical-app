@@ -43,6 +43,16 @@ class FormOrganization extends Component {
   };
 
   render() {
+    const validateMessages = {
+      required: '${label} is required!',
+      types: {
+        email: '${label} is not validate email!',
+        number: '${label} is not a validate number!',
+      },
+      number: {
+        range: '${label} must be between ${min} and ${max}',
+      },
+    };
     const { Option } = Select;
     const formItemLayout = {
       labelCol: {
@@ -64,9 +74,9 @@ class FormOrganization extends Component {
     };
 
     return (
-      <Form onFinish={this.onFinish}>
-        <Form.Item label="Organization Name">
-          <Input placeholder="Organization Name" id="error" />
+      <Form onFinish={this.onFinish} validateMessages={validateMessages}>
+        <Form.Item label="Organization Name" name="orgname" rules={[{ required: true }]}>
+          <Input placeholder="Organization Name" id="organizationname" />
         </Form.Item>
         {/* <Form.Item label="Logo">
           <Form.Item name="logo" valuePropName="fileList" noStyle>
@@ -79,62 +89,66 @@ class FormOrganization extends Component {
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>*/}
-        <Form.Item label="Contact Name">
-          <Input placeholder="Contact Name" id="error" />
+        <Form.Item label="Contact Name" name="contactname" rules={[{ required: true }]}>
+          <Input placeholder="Contact Name" id="contactname" />
         </Form.Item>
-        <Form.Item label="Contact Email">
-          <Input placeholder="Contact Email" id="error" />
+        <Form.Item
+          label="Contact Email"
+          name="contactemail"
+          rules={[{ required: true, type: 'email' }]}
+        >
+          <Input placeholder="Contact Email" id="contactemail" />
         </Form.Item>
-        <Form.Item label="Website">
-          <Input placeholder="Website" />
+        <Form.Item label="Website" name="website" rules={[{ required: true }]}>
+          <Input placeholder="Website" id="website" />
         </Form.Item>
-        <Form.Item label="office phone">
-          <Input placeholder="office phone" />
+        <Form.Item label="office phone" name="officephone" rules={[{ required: true }]}>
+          <Input placeholder="office phone" id="officephone" />
         </Form.Item>
-        <Form.Item label="office fax">
-          <Input placeholder="office fax" />
+        <Form.Item label="office fax" name="officefax" rules={[{ required: true }]}>
+          <Input placeholder="office fax" id="faxnumber" />
         </Form.Item>
-        <Form.Item label="tax number">
-          <Input placeholder="tax number" />
-        </Form.Item>
-        <Form.Item label="field1">
-          <Input placeholder="field1" />
+        <Form.Item label="tax number" name="taxnumber" rules={[{ required: true }]}>
+          <Input placeholder="tax number" id="taxnumber" />
         </Form.Item>
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field1" />
+        </Form.Item>
+        <Form.Item label="field1">
+          <Input placeholder="field1" id="field2" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field3" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field4" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field5" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field6" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field7" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field8" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field9" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field10" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field11" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field12" />
         </Form.Item>{' '}
         <Form.Item label="field1">
-          <Input placeholder="field1" />
+          <Input placeholder="field1" id="field13" />
         </Form.Item>
         <Form.Item
           wrapperCol={{
