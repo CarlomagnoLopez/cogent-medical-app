@@ -13,7 +13,7 @@ export interface LoginUserType {
 }
 
 export async function fakeAccountLogin(params: LoginParamsType) {
-  return request<API.LoginStateType>('/api/login/account', {
+  return request<API.LoginStateType>(REACT_APP_ENV + '/login/account', {
     method: 'POST',
     data: params,
   });
