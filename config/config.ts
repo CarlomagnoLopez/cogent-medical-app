@@ -79,6 +79,7 @@ export default defineConfig({
   define: {
     ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_zgFW3AEob',
     ANT_DESIGN_PRO_CLIENT_ID: '13pbrvceiogtq8ikiv1l9v89t4',
+    REACT_APP_ENV: 'https://c4ymficygk.execute-api.us-east-1.amazonaws.com/dev',
   },
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
