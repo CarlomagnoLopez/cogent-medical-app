@@ -18,18 +18,22 @@ export default class CreateOrganization extends Component {
   }
 
   finishAdminDetails = (values) => {
+    const { currentstep } = this.state;
     console.log('Admin Details ' + JSON.stringify(values));
     this.setState({ admin1Details: values, currentstep: currentstep + 1 });
   };
   finishAdmin2Details = (values) => {
+    const { currentstep } = this.state;
     console.log('Admin2 Details ' + JSON.stringify(values));
     this.setState({ admin2Details: values, currentstep: currentstep + 1 });
   };
   finishApproverDetails = (values) => {
+    const { currentstep } = this.state;
     console.log('Approver Details ' + JSON.stringify(values));
     this.setState({ approverDetails: values, currentstep: currentstep + 1 });
   };
   finishApprover2Details = (values) => {
+    const { currentstep } = this.state;
     console.log('Approver2 Details ' + JSON.stringify(values));
     this.setState({ approver2Details: values, currentstep: currentstep + 1 });
   };
