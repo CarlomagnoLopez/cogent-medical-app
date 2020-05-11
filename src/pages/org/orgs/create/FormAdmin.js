@@ -46,7 +46,7 @@ class FormAdmin extends Component {
   }
   onFinish = (values) => {
     console.log('Received values of form: ', values);
-    this.props.finishOrganizationDetails();
+    this.props.finishOrganizationDetails(values);
   };
   prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -68,6 +68,7 @@ class FormAdmin extends Component {
     this.props.onPressBack();
   };
   render() {
+    const { tempinitialValues } = this.props;
     const { Option } = Select;
     const formItemLayout = {
       labelCol: {
@@ -121,29 +122,26 @@ class FormAdmin extends Component {
           validateMessages={validateMessages}
           initialValues={{
             prefix: '86',
+            tempinitialValues,
           }}
         >
-          <Form.Item label="Company Name" name="companyname" rules={[{ required: true }]}>
+          {/*<Form.Item label="Company Name" name="companY" rules={[{ required: true }]}>
             <Input placeholder="Company Name" id="companyname" name="companyname" />
-          </Form.Item>
-          <Form.Item label="Role" name="role" rules={[{ required: true }]}>
-            <Input placeholder="Role" id="role" />
-          </Form.Item>
-          <Form.Item label="Contact Name" name="contactname" rules={[{ required: true }]}>
+        </Form.Item>*/}
+          {/*<Form.Item label="Role" name="role" rules={[{ required: true }]}>
+            <Input placeholder="Role" id="role" value={this.props.type} />
+          </Form.Item>*/}
+          <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
             <Input placeholder="Contact Name" id="contactname" />
           </Form.Item>
-          <Form.Item label="Contact Number" name="contactnumber" rules={[{ required: true }]}>
+          <Form.Item label="Contact Number" name="phoneNumber" rules={[{ required: true }]}>
             <Input
               addonBefore={this.prefixSelector}
               placeholder="Contact Number"
               id="contactnumber"
             />
           </Form.Item>
-          <Form.Item
-            label="Contact Email"
-            name="contactemail"
-            rules={[{ required: true, type: 'email' }]}
-          >
+          <Form.Item label="Contact Email" name="email" rules={[{ required: true, type: 'email' }]}>
             <Input placeholder="Contact Email" id="contactemail" />
           </Form.Item>
 

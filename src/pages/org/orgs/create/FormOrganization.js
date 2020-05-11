@@ -39,7 +39,7 @@ import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 class FormOrganization extends Component {
   onFinish = (values) => {
     console.log('Received values of form: ', values);
-    this.props.finishOrganizationDetails();
+    this.props.finishOrganizationDetails(values);
   };
   prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -95,7 +95,7 @@ class FormOrganization extends Component {
           prefix: '86',
         }}
       >
-        <Form.Item label="Organization Name" name="orgname" rules={[{ required: true }]}>
+        <Form.Item label="Organization Name" name="orgName" rules={[{ required: true }]}>
           <Input placeholder="Organization Name" id="organizationname" />
         </Form.Item>
         {/* <Form.Item label="Logo">
@@ -109,19 +109,19 @@ class FormOrganization extends Component {
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>*/}
-        <Form.Item label="Contact Name" name="contactname" rules={[{ required: true }]}>
+        <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
           <Input placeholder="Contact Name" id="contactname" />
         </Form.Item>
         <Form.Item
           label="Contact Email"
-          name="contactemail"
+          name="contactEmail"
           rules={[{ required: true, type: 'email' }]}
         >
           <Input placeholder="Contact Email" id="contactemail" />
         </Form.Item>
         <Form.Item
           label="Website"
-          name="website"
+          name="orgWesite"
           rules={[
             { required: true },
             {
@@ -135,7 +135,7 @@ class FormOrganization extends Component {
         >
           <Input placeholder="Website" id="website" />
         </Form.Item>
-        <Form.Item label="office phone" name="officephone" rules={[{ required: true }]}>
+        <Form.Item label="office phone" name="phoneNumber" rules={[{ required: true }]}>
           <Input
             addonBefore={this.prefixSelector}
             style={{
@@ -143,10 +143,10 @@ class FormOrganization extends Component {
             }}
           />
         </Form.Item>
-        <Form.Item label="office fax" name="officefax" rules={[{ required: true }]}>
+        <Form.Item label="office fax" name="faxNumber" rules={[{ required: true }]}>
           <Input placeholder="office fax" id="faxnumber" />
         </Form.Item>
-        <Form.Item label="tax number" name="taxnumber" rules={[{ required: true }]}>
+        <Form.Item label="tax number" name="taxNumber" rules={[{ required: true }]}>
           <Input placeholder="tax number" id="taxnumber" />
         </Form.Item>
         <Form.Item label="field1">

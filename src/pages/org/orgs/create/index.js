@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import OrganizationSteps from './OrganizationSteps';
-import { Card, Button } from 'antd';
+import { Card, Button, Spin, message } from 'antd';
 import FormOrganization from './FormOrganization';
 import FormAdmin from './FormAdmin';
+import { connect } from 'umi';
 
-export default class CreateOrganization extends Component {
+class CreateOrganization extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentstep: 0,
+      orgName: '',
       organizationDetails: [],
       admin1Details: [],
       admin2Details: [],
       approverDetails: [],
       approver2Details: [],
+      loading: false,
     };
   }
 
@@ -46,7 +49,60 @@ export default class CreateOrganization extends Component {
     }
   };
 
-  createOrganization = () => {};
+  createOrganization = (e) => {
+    e.preventDefault();
+    const { loading } = this.state;
+    this.setState({ loading: true });
+    let tempsummaryOrg = this.state.organizationDetails;
+    let tempprefix = tempsummaryOrg.prefix;
+    tempsummaryOrg.phoneNumber = '+' + tempprefix + tempsummaryOrg.phoneNumber;
+
+    let tempadmin1Details = this.state.admin1Details;
+    tempprefix = tempadmin1Details.prefix;
+    tempadmin1Details.phoneNumber = '+' + tempprefix + tempadmin1Details.phoneNumber;
+    tempadmin1Details.role = 'OrgAdmin';
+    console.log('Admin 1 Details ' + JSON.stringify(tempadmin1Details));
+
+    let tempadmin2Details = this.state.admin2Details;
+    tempprefix = tempadmin2Details.prefix;
+    tempadmin2Details.phoneNumber = '+' + tempprefix + tempadmin2Details.phoneNumber;
+    tempadmin2Details.role = 'OrgAdmin';
+
+    console.log('Admin 2 Details ' + JSON.stringify(tempadmin2Details));
+
+    let tempapprovalDetails = this.state.approverDetails;
+    tempprefix = tempapprovalDetails.prefix;
+    tempapprovalDetails.phoneNumber = '+' + tempprefix + tempapprovalDetails.phoneNumber;
+    tempapprovalDetails.role = 'OrgApproval';
+
+    console.log('Approval 1 Details ' + JSON.stringify(tempapprovalDetails));
+
+    let tempapproval2Details = this.state.approver2Details;
+    tempprefix = tempapproval2Details.prefix;
+    tempapproval2Details.phoneNumber = '+' + tempprefix + tempapproval2Details.phoneNumber;
+    tempapproval2Details.role = 'OrgApproval';
+
+    console.log('Approval 2 Details ' + JSON.stringify(tempapproval2Details));
+
+    let organizationData = {};
+
+    (organizationData.summaryOrg = tempsummaryOrg),
+      (organizationData.usersOrg = [
+        tempadmin1Details,
+        tempadmin2Details,
+        tempapproval2Details,
+        tempapprovalDetails,
+      ]);
+    console.log('Organization Creation Data ' + JSON.stringify(organizationData));
+    this.props.dispatch({
+      type: 'organization/createOrganization',
+      payload: organizationData,
+    });
+
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 3000);
+  };
 
   finishOrganizationDetails = (values) => {
     const { currentstep, organizationDetails } = this.state;
@@ -57,58 +113,77 @@ export default class CreateOrganization extends Component {
   render() {
     const { currentstep } = this.state;
 
+    const { status } = this.props;
+
+    if (status != undefined && status.success) {
+      message.success('Organization Created!');
+      history.goBack();
+    }
+
     return (
-      <Card>
-        <OrganizationSteps currentstep={this.state.currentstep} />
-        {currentstep === 0 && (
-          <Card>
-            <p>Please fill Organization Details</p>
-            <FormOrganization finishOrganizationDetails={this.finishOrganizationDetails} />
-          </Card>
-        )}
-        {currentstep === 1 && (
-          <Card>
-            <p>Please fill Organization Details</p>
-            <FormAdmin
-              finishOrganizationDetails={this.finishAdminDetails}
-              onPressBack={this.onPressBack}
-              prefixSelector={this.prefixSelector}
-            />
-          </Card>
-        )}
-        {currentstep === 2 && (
-          <Card>
-            <p>Please fill Organization Details</p>
-            <FormAdmin
-              finishOrganizationDetails={this.finishAdmin2Details}
-              onPressBack={this.onPressBack}
-            />
-          </Card>
-        )}
-        {currentstep === 3 && (
-          <Card>
-            <p>Please fill Organization Details</p>
-            <FormAdmin
-              finishOrganizationDetails={this.finishApproverDetails}
-              onPressBack={this.onPressBack}
-            />
-          </Card>
-        )}{' '}
-        {currentstep === 4 && (
-          <Card>
-            <p>Please fill Organization Details</p>
-            <FormAdmin
-              finishOrganizationDetails={this.finishApprover2Details}
-              onPressBack={this.onPressBack}
-            />
-          </Card>
-        )}
-        {currentstep === 5 && (
-          <Card>
-            <Button onClick={this.createOrganization}>Finish</Button>
-          </Card>
-        )}
-      </Card>
+      <Spin spinning={this.state.loading}>
+        <Card>
+          <OrganizationSteps currentstep={this.state.currentstep} />
+          {currentstep === 0 && (
+            <Card>
+              <p>Please fill Organization Details</p>
+              <FormOrganization finishOrganizationDetails={this.finishOrganizationDetails} />
+            </Card>
+          )}
+          {currentstep === 1 && (
+            <Card>
+              <p>Please fill Organization Details</p>
+              <FormAdmin
+                finishOrganizationDetails={this.finishAdminDetails}
+                onPressBack={this.onPressBack}
+                type="Admin1"
+                tempinitialValues={this.state.admin1Details}
+              />
+            </Card>
+          )}
+          {currentstep === 2 && (
+            <Card>
+              <p>Please fill Organization Details</p>
+              <FormAdmin
+                finishOrganizationDetails={this.finishAdmin2Details}
+                onPressBack={this.onPressBack}
+                type="Admin2"
+                tempinitialValues={this.state.admin2Details}
+              />
+            </Card>
+          )}
+          {currentstep === 3 && (
+            <Card>
+              <p>Please fill Organization Details</p>
+              <FormAdmin
+                finishOrganizationDetails={this.finishApproverDetails}
+                onPressBack={this.onPressBack}
+                type="Approval1"
+                tempinitialValues={this.state.approverDetails}
+              />
+            </Card>
+          )}{' '}
+          {currentstep === 4 && (
+            <Card>
+              <p>Please fill Organization Details</p>
+              <FormAdmin
+                finishOrganizationDetails={this.finishApprover2Details}
+                onPressBack={this.onPressBack}
+                type="Approval2"
+                tempinitialValues={this.state.approver2Details}
+              />
+            </Card>
+          )}
+          {currentstep === 5 && (
+            <Card>
+              <Button onClick={this.createOrganization}>Finish</Button>
+            </Card>
+          )}
+        </Card>
+      </Spin>
     );
   }
 }
+export default connect(({ organization }) => ({
+  organization,
+}))(CreateOrganization);
