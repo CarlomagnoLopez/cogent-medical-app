@@ -41,6 +41,20 @@ class FormOrganization extends Component {
     console.log('Received values of form: ', values);
     this.props.finishOrganizationDetails();
   };
+  prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select
+        style={{
+          width: 70,
+        }}
+      >
+        <Option value="86">+86</Option>
+        <Option value="87">+87</Option>
+        <Option value="91">+91</Option>
+        <Option value="55">+55</Option>
+      </Select>
+    </Form.Item>
+  );
 
   render() {
     const validateMessages = {
@@ -74,7 +88,13 @@ class FormOrganization extends Component {
     };
 
     return (
-      <Form onFinish={this.onFinish} validateMessages={validateMessages}>
+      <Form
+        onFinish={this.onFinish}
+        validateMessages={validateMessages}
+        initialValues={{
+          prefix: '86',
+        }}
+      >
         <Form.Item label="Organization Name" name="orgname" rules={[{ required: true }]}>
           <Input placeholder="Organization Name" id="organizationname" />
         </Form.Item>
@@ -99,11 +119,29 @@ class FormOrganization extends Component {
         >
           <Input placeholder="Contact Email" id="contactemail" />
         </Form.Item>
-        <Form.Item label="Website" name="website" rules={[{ required: true }]}>
+        <Form.Item
+          label="Website"
+          name="website"
+          rules={[
+            { required: true },
+            {
+              //type: 'url',
+              pattern:
+                '^(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?$',
+
+              message: 'The website is in the wrong format!',
+            },
+          ]}
+        >
           <Input placeholder="Website" id="website" />
         </Form.Item>
         <Form.Item label="office phone" name="officephone" rules={[{ required: true }]}>
-          <Input placeholder="office phone" id="officephone" />
+          <Input
+            addonBefore={this.prefixSelector}
+            style={{
+              width: '100%',
+            }}
+          />
         </Form.Item>
         <Form.Item label="office fax" name="officefax" rules={[{ required: true }]}>
           <Input placeholder="office fax" id="faxnumber" />

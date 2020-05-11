@@ -40,7 +40,7 @@ export default class CreateOrganization extends Component {
 
   onPressBack = () => {
     const { currentstep } = this.state;
-
+    console.log('Back Pressed');
     if (currentstep > 0) {
       this.setState({ currentstep: currentstep - 1 });
     }
@@ -70,6 +70,7 @@ export default class CreateOrganization extends Component {
             <FormAdmin
               finishOrganizationDetails={this.finishAdminDetails}
               onPressBack={this.onPressBack}
+              prefixSelector={this.prefixSelector}
             />
           </Card>
         )}

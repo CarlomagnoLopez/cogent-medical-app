@@ -48,9 +48,24 @@ class FormAdmin extends Component {
     console.log('Received values of form: ', values);
     this.props.finishOrganizationDetails();
   };
+  prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select
+        style={{
+          width: 70,
+        }}
+      >
+        <Option value="86">+86</Option>
+        <Option value="87">+87</Option>
+        <Option value="91">+91</Option>
+        <Option value="55">+55</Option>
+      </Select>
+    </Form.Item>
+  );
 
-  goBack = () => {
-    this.props.onPressBack;
+  goBack = (e) => {
+    e.preventDefault();
+    this.props.onPressBack();
   };
   render() {
     const { Option } = Select;
@@ -101,7 +116,13 @@ class FormAdmin extends Component {
     };
     return (
       <Card>
-        <Form onFinish={this.onFinish} validateMessages={validateMessages}>
+        <Form
+          onFinish={this.onFinish}
+          validateMessages={validateMessages}
+          initialValues={{
+            prefix: '86',
+          }}
+        >
           <Form.Item label="Company Name" name="companyname" rules={[{ required: true }]}>
             <Input placeholder="Company Name" id="companyname" name="companyname" />
           </Form.Item>
@@ -112,7 +133,11 @@ class FormAdmin extends Component {
             <Input placeholder="Contact Name" id="contactname" />
           </Form.Item>
           <Form.Item label="Contact Number" name="contactnumber" rules={[{ required: true }]}>
-            <Input placeholder="Contact Number" id="contactnumber" />
+            <Input
+              addonBefore={this.prefixSelector}
+              placeholder="Contact Number"
+              id="contactnumber"
+            />
           </Form.Item>
           <Form.Item
             label="Contact Email"
