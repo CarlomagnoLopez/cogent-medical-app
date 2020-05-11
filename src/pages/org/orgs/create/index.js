@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import OrganizationSteps from './OrganizationSteps';
-import { Card } from 'antd';
+import { Card, Button } from 'antd';
 import FormOrganization from './FormOrganization';
 import FormAdmin from './FormAdmin';
 
@@ -45,6 +45,8 @@ export default class CreateOrganization extends Component {
       this.setState({ currentstep: currentstep - 1 });
     }
   };
+
+  createOrganization = () => {};
 
   finishOrganizationDetails = (values) => {
     const { currentstep, organizationDetails } = this.state;
@@ -99,6 +101,11 @@ export default class CreateOrganization extends Component {
               finishOrganizationDetails={this.finishApprover2Details}
               onPressBack={this.onPressBack}
             />
+          </Card>
+        )}
+        {currentstep === 5 && (
+          <Card>
+            <Button onClick={this.createOrganization}>Finish</Button>
           </Card>
         )}
       </Card>
