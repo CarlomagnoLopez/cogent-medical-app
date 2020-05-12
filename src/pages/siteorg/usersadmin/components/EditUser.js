@@ -36,7 +36,11 @@ const Dragger = Upload.Dragger;
 import { SmileOutlined } from '@ant-design/icons';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 
-class FormUser extends Component {
+class FormEditUser extends Component {
+  onFinish = (values) => {
+    console.log('Received values of form: ', values);
+    this.props.updateUser(values);
+  };
   render() {
     const { Option } = Select;
     const formItemLayout = {
@@ -57,37 +61,32 @@ class FormUser extends Component {
         },
       },
     };
-    const onFinish = (values) => {
-      console.log('Received values of form: ', values);
-    };
+
+    const { currentcandidate } = this.props;
     return (
       <Modal
         closable={true}
         visible={this.props.visible}
-        title="Create User"
-        cancelText="Cancel"
+        title="Edit User"
+        footer={null}
         onCancel={this.props.onCancel}
-        maskClosable={false}
-        onOk={this.props.onOk}
       >
         <Form onFinish={this.onFinish}>
-          <Form.Item label="Organization Name">
-            <Input placeholder="Organization Name" id="error" />
+          <Form.Item label="Organization Name" name="name" initialValue={'OrgName'}>
+            <Input placeholder="Organization Name" id="error" disabled />
           </Form.Item>
-          <Form.Item label="Org Admin Id">
-            <Input placeholder="Org admin Id" id="error" />
+          <Form.Item label="Org Admin Id" name="orgid" initialValue={'9a8hdua8a'}>
+            <Input placeholder="Org admin Id" id="error" disabled />
           </Form.Item>
-          <Form.Item label="Contact Name">
+          <Form.Item label="Contact Name" name="">
             <Input placeholder="Contact Name" id="error" />
           </Form.Item>
           <Form.Item label="Contact Email">
             <Input placeholder="Contact Email" id="error" />
           </Form.Item>
-
           <Form.Item label="Contact Number">
-            <Input />
+            <Input placeholder="Contact Number" />
           </Form.Item>
-
           <Form.Item
             wrapperCol={{
               span: 12,
@@ -104,4 +103,4 @@ class FormUser extends Component {
   }
 }
 
-export default FormUser;
+export default FormEditUser;

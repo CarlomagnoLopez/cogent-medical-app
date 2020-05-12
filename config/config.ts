@@ -45,31 +45,31 @@ export default defineConfig({
     {
       path: '/',
       layout: false,
-      component: './org/orgs',
+      component: './siteorg/orgs',
     },
     {
       path: '/welcome',
       name: 'Create an Organization',
       icon: 'smile',
-      component: './org/orgs',
+      component: './siteorg/orgs',
     },
     {
       path: '/admincreate',
       name: 'Create Organization Admin/Approver ',
       icon: 'smile',
-      component: './org/orgadmin',
+      component: './siteorg/orgadmin',
     },
     {
       path: '/adminusers',
       name: 'Manane Org Users',
       icon: 'smile',
-      component: './org/usersadmin',
+      component: './siteorg/usersadmin',
     },
     {
       path: '/org/create',
       hideInMenu: true,
 
-      component: './org/orgs/create',
+      component: './siteorg/orgs/create',
     },
 
     {
