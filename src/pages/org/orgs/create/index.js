@@ -3,7 +3,7 @@ import OrganizationSteps from './OrganizationSteps';
 import { Card, Button, Spin, message } from 'antd';
 import FormOrganization from './FormOrganization';
 import FormAdmin from './FormAdmin';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 
 class CreateOrganization extends Component {
   constructor(props) {
@@ -99,7 +99,12 @@ class CreateOrganization extends Component {
       payload: organizationData,
     });
 
+    const _Self = this;
     setTimeout(() => {
+      _Self.props.dispatch({
+        type: 'organization/resetOrganizationStatusA',
+        payload: [],
+      });
       this.setState({ loading: false });
     }, 3000);
   };
@@ -114,10 +119,18 @@ class CreateOrganization extends Component {
     const { currentstep } = this.state;
 
     const { status } = this.props;
+    if (status != undefined) {
+      console.log(JSON.stringify(status));
 
-    if (status != undefined && status.success) {
-      message.success('Organization Created!');
-      history.goBack();
+      console.log('Status ' + JSON.stringify(status));
+      if (status.success) {
+        message.success('Organization Created!');
+        history.goBack();
+      }
+      if (status.success != undefined && status.success === false) {
+        //history.goBack();
+        message.error(status.log.message);
+      }
     }
 
     return (
@@ -186,4 +199,5 @@ class CreateOrganization extends Component {
 }
 export default connect(({ organization }) => ({
   organization,
+  status: organization.status,
 }))(CreateOrganization);
