@@ -31,21 +31,65 @@ const ButtonGroup = Button.Group;
 const AutoCompleteOption = AutoComplete.Option;
 import TextArea from 'antd/lib/input/TextArea';
 const Option = Select.Option;
-
+import jsonp from 'fetch-jsonp';
+import axios from 'axios';
 const Dragger = Upload.Dragger;
 import { SmileOutlined } from '@ant-design/icons';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 
+let timeout;
+let currentValue;
+
+function fetch(value, callback) {
+  if (timeout) {
+    clearTimeout(timeout);
+    timeout = null;
+  }
+
+  function fake() {
+    axios
+      .get(REACT_APP_ENV + `/org/all`)
+      //   .then((response) => response.json())
+      .then((d) => {
+        console.log(JSON.stringify(d));
+        const { body } = d.data;
+        const data = [];
+        body.Items.forEach((r) => {
+          console.log(r);
+          data.push({
+            value: r['mcp-1-pk'],
+            text: r.orgname,
+          });
+        });
+        callback(data);
+      });
+  }
+
+  timeout = setTimeout(fake, 300);
+}
+
 class FormUser extends Component {
   constructor(props) {
     super(props);
+    this.state = { data: [], value: undefined };
   }
 
   onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    values.orgid = this.state.value;
+    console.log('Received values of form: ', JSON.stringify(values));
     this.props.createUser(values);
   };
+  handleSearch = (value) => {
+    if (value) {
+      fetch(value, (data) => this.setState({ data }));
+    } else {
+      this.setState({ data: [] });
+    }
+  };
 
+  handleChange = (value) => {
+    this.setState({ value });
+  };
   render() {
     const { Option } = Select;
     const formItemLayout = {
@@ -66,6 +110,7 @@ class FormUser extends Component {
         },
       },
     };
+    const options = this.state.data.map((d) => <Option key={d.value}>{d.text}</Option>);
 
     return (
       <Modal
@@ -77,12 +122,28 @@ class FormUser extends Component {
         onCancel={this.props.onCancel}
       >
         <Form onFinish={this.onFinish}>
-          <Form.Item label="Organization Name" name="orgName">
-            <Input placeholder="Organization Name" id="error" />
-          </Form.Item>
-          <Form.Item label="Org Admin Id" name="orgid">
-            <Input placeholder="Org admin Id" id="error" />
-          </Form.Item>
+          <Row>
+            <Col>
+              <span>Company Name: </span>
+            </Col>
+            <Col span={18}>
+              <Select
+                showSearch
+                value={this.state.value}
+                placeholder={'companyName'}
+                style={{ width: '80%' }}
+                defaultActiveFirstOption={false}
+                showArrow={false}
+                filterOption={false}
+                onSearch={this.handleSearch}
+                onChange={this.handleChange}
+                notFoundContent={null}
+              >
+                {options}
+              </Select>
+            </Col>
+          </Row>
+          <p></p>
           <Form.Item label="Contact Name" name="name">
             <Input placeholder="Contact Name" id="error" />
           </Form.Item>

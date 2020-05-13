@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Card, Table, Button, Tag, Space, Icon } from 'antd';
 import FormUser from './components/FormUser';
 import FormEditUser from './components/EditUser';
-export default class AdminUsers extends Component {
+import { connect } from 'umi';
+class AdminUsers extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +26,14 @@ export default class AdminUsers extends Component {
       ],
     };
   }
+
+  componentWillMount() {
+    this.props.dispatch({
+      type: 'organization/getAllOrgAdmins',
+      payload: [],
+    });
+  }
+
   onCancel = () => {
     this.setState({ visible: false, visibleedituser: false });
   };
@@ -39,11 +48,16 @@ export default class AdminUsers extends Component {
   };
 
   updateUser = (record) => {};
-
+  componentWillReceiveProps() {}
   createUser = (record) => {
     const { data } = this.state;
     let tempdata = data;
     //tempdata.push(data);
+    this.props.dispatch({
+      type: 'organization/generateOrgUser',
+      payload: record,
+    });
+
     record.key = '' + data.length + 1;
     tempdata.push(record);
     console.log('User ' + JSON.stringify(tempdata));
@@ -88,6 +102,8 @@ export default class AdminUsers extends Component {
       },
     ];
     const { currentcandidate } = this.state;
+    const { orgadmins } = this.props;
+    console.log(JSON.stringify(orgadmins));
     return (
       <Card
         title="Organization"
@@ -101,7 +117,7 @@ export default class AdminUsers extends Component {
           </Button>
         }
       >
-        <Table columns={columns} dataSource={this.state.data} />
+        <Table columns={columns} dataSource={orgadmins} />
 
         <FormEditUser
           visible={this.state.visibleedituser}
@@ -119,3 +135,8 @@ export default class AdminUsers extends Component {
     );
   }
 }
+export default connect(({ organization }) => ({
+  organization,
+  statusorgadmincreation: organization.statusorgadmincreation,
+  orgadmins: organization.orgadmins,
+}))(AdminUsers);

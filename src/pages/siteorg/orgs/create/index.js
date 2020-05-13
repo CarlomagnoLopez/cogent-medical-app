@@ -119,17 +119,17 @@ class CreateOrganization extends Component {
     const { currentstep } = this.state;
 
     const { status } = this.props;
-    if (status != undefined) {
+    if (status.logResponse != undefined) {
       console.log(JSON.stringify(status));
 
       console.log('Status ' + JSON.stringify(status));
-      if (status.success) {
+      if (status.logResponse[0].success) {
         message.success('Organization Created!');
         history.goBack();
       }
-      if (status.success != undefined && status.success === false) {
+      if (status.logResponse[0].success === false) {
         //history.goBack();
-        message.error(status.log.message);
+        message.error('Please check again!');
       }
     }
 
