@@ -76,6 +76,7 @@ class FormUser extends Component {
 
   onFinish = (values) => {
     values.orgid = this.state.value;
+    values.phoneNumber = '+' + values.prefix + values.phoneNumber;
     console.log('Received values of form: ', JSON.stringify(values));
     this.props.createUser(values);
   };
@@ -90,7 +91,33 @@ class FormUser extends Component {
   handleChange = (value) => {
     this.setState({ value });
   };
+  prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select
+        style={{
+          width: 70,
+        }}
+      >
+        <Option value="86">+86</Option>
+        <Option value="87">+87</Option>
+        <Option value="91">+91</Option>
+        <Option value="55">+55</Option>
+        <Option value="52">+52</Option>
+      </Select>
+    </Form.Item>
+  );
   render() {
+    const validateMessages = {
+      required: '${label} is required!',
+      types: {
+        email: '${label} is not validate email!',
+        number: '${label} is not a validate number!',
+      },
+      number: {
+        range: '${label} must be between ${min} and ${max}',
+      },
+    };
+
     const { Option } = Select;
     const formItemLayout = {
       labelCol: {
@@ -121,13 +148,18 @@ class FormUser extends Component {
         footer={null}
         onCancel={this.props.onCancel}
       >
-        <Form onFinish={this.onFinish}>
+        <Form
+          onFinish={this.onFinish}
+          validateMessages={validateMessages}
+          initialValues={{ prefix: '91' }}
+        >
           <Row>
-            <Col>
-              <span>Company Name: </span>
+            <Col span={6}>
+              <span>*Company Name: </span>
             </Col>
             <Col span={18}>
               <Select
+                required={true}
                 showSearch
                 value={this.state.value}
                 placeholder={'companyName'}
@@ -144,14 +176,15 @@ class FormUser extends Component {
             </Col>
           </Row>
           <p></p>
-          <Form.Item label="Contact Name" name="name">
+          <Form.Item label="Contact Name" name="name" rules={[{ required: true }]}>
             <Input placeholder="Contact Name" id="error" />
           </Form.Item>
-          <Form.Item label="Contact Email" name="email">
+          <Form.Item label="Contact Email" name="email" rules={[{ required: true, type: 'email' }]}>
             <Input placeholder="Contact Email" id="error" />
           </Form.Item>
-          <Form.Item label="Contact Number" name="phoneNumber">
-            <Input placeholder="Contact Number" />
+
+          <Form.Item label="Contact Number" name="phoneNumber" rules={[{ required: true }]}>
+            <Input addonBefore={this.prefixSelector} placeholder="Contact Number" />
           </Form.Item>
           <Form.Item
             wrapperCol={{

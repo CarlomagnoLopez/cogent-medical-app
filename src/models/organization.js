@@ -1,4 +1,9 @@
-import { generateOrgnization, generateOrgAdmin, getAllOrgAdmins } from '@/services/Organization';
+import {
+  generateOrgnization,
+  generateOrgAdmin,
+  getAllOrgAdmins,
+  getAllOrganizations,
+} from '@/services/Organization';
 
 import { router } from 'umi';
 import { getPageQuery } from '@/utils/utils';
@@ -11,6 +16,7 @@ export default {
     loading: false,
     statusorgadmincreation: [],
     orgadmins: [],
+    orgslist: [],
   },
   reducers: {
     organizationCreationStatus(state, action) {
@@ -28,6 +34,10 @@ export default {
     },
     getAllOrgAdminDetails(state, action) {
       return { ...state, orgadmins: action.payload.body.Items };
+    },
+    getAllOrganizationsData(state, action) {
+      console.log('Response ' + JSON.stringify(action));
+      return { ...state, orgslist: action.payload.body.Items };
     },
   },
   effects: {
@@ -74,6 +84,13 @@ export default {
       const response = yield call(getAllOrgAdmins, payload);
       yield put({
         type: 'getAllOrgAdminDetails',
+        payload: response,
+      });
+    },
+    *getAllOrgs({ payload }, { call, put }) {
+      const response = yield call(getAllOrganizations, payload);
+      yield put({
+        type: 'getAllOrganizationsData',
         payload: response,
       });
     },

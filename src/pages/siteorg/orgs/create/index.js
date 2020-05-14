@@ -54,32 +54,32 @@ class CreateOrganization extends Component {
     const { loading } = this.state;
     this.setState({ loading: true });
     let tempsummaryOrg = this.state.organizationDetails;
-    let tempprefix = tempsummaryOrg.prefix;
+    const tempprefix = tempsummaryOrg.prefix;
     tempsummaryOrg.phoneNumber = '+' + tempprefix + tempsummaryOrg.phoneNumber;
 
-    let tempadmin1Details = this.state.admin1Details;
-    tempprefix = tempadmin1Details.prefix;
-    tempadmin1Details.phoneNumber = '+' + tempprefix + tempadmin1Details.phoneNumber;
+    var tempadmin1Details = this.state.admin1Details;
+    var tempprefix1 = tempadmin1Details.prefix;
+    tempadmin1Details.phoneNumber = '+' + tempprefix1 + tempadmin1Details.phoneNumber;
     tempadmin1Details.role = 'OrgAdmin';
     console.log('Admin 1 Details ' + JSON.stringify(tempadmin1Details));
 
-    let tempadmin2Details = this.state.admin2Details;
-    tempprefix = tempadmin2Details.prefix;
-    tempadmin2Details.phoneNumber = '+' + tempprefix + tempadmin2Details.phoneNumber;
+    var tempadmin2Details = this.state.admin2Details;
+    var tempprefix2 = tempadmin2Details.prefix;
+    tempadmin2Details.phoneNumber = '+' + tempprefix2 + tempadmin2Details.phoneNumber;
     tempadmin2Details.role = 'OrgAdmin';
 
     console.log('Admin 2 Details ' + JSON.stringify(tempadmin2Details));
 
-    let tempapprovalDetails = this.state.approverDetails;
-    tempprefix = tempapprovalDetails.prefix;
-    tempapprovalDetails.phoneNumber = '+' + tempprefix + tempapprovalDetails.phoneNumber;
+    var tempapprovalDetails = this.state.approverDetails;
+    var tempprefix3 = tempapprovalDetails.prefix;
+    tempapprovalDetails.phoneNumber = '+' + tempprefix3 + tempapprovalDetails.phoneNumber;
     tempapprovalDetails.role = 'OrgApproval';
 
     console.log('Approval 1 Details ' + JSON.stringify(tempapprovalDetails));
 
-    let tempapproval2Details = this.state.approver2Details;
-    tempprefix = tempapproval2Details.prefix;
-    tempapproval2Details.phoneNumber = '+' + tempprefix + tempapproval2Details.phoneNumber;
+    var tempapproval2Details = this.state.approver2Details;
+    var tempprefix4 = tempapproval2Details.prefix;
+    tempapproval2Details.phoneNumber = '+' + tempprefix4 + tempapproval2Details.phoneNumber;
     tempapproval2Details.role = 'OrgApproval';
 
     console.log('Approval 2 Details ' + JSON.stringify(tempapproval2Details));
@@ -123,13 +123,13 @@ class CreateOrganization extends Component {
       console.log(JSON.stringify(status));
 
       console.log('Status ' + JSON.stringify(status));
-      if (status.logResponse[0].success) {
+      if (status.logResponse[0].success === true) {
         message.success('Organization Created!');
         history.goBack();
       }
       if (status.logResponse[0].success === false) {
         //history.goBack();
-        message.error('Please check again!');
+        message.error('Error while creating organization!');
       }
     }
 

@@ -10,8 +10,8 @@ export async function generateOrgnization(payload) {
   });
 }
 
-export async function getOrganizations() {
-  return request('/api/login/outLogin');
+export async function getAllOrganizations() {
+  return request(REACT_APP_ENV + '/org/all');
 }
 export async function generateOrgAdmin(payload) {
   return request(REACT_APP_ENV + '/org/orgadmin', {

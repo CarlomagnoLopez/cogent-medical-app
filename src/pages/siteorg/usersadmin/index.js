@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Table, Button, Tag, Space, Icon } from 'antd';
+import { Card, Table, Button, Tag, Space, Icon, Spin } from 'antd';
 import FormUser from './components/FormUser';
 import FormEditUser from './components/EditUser';
 import { connect } from 'umi';
@@ -8,6 +8,7 @@ class AdminUsers extends Component {
     super(props);
     this.state = {
       visible: false,
+      loading: false,
       visibleedituser: false,
       currentcandidate: null,
       updatedata: false,
@@ -27,7 +28,26 @@ class AdminUsers extends Component {
     };
   }
 
+  componentDidUpdate() {
+    console.log('Component will componentDidUpdate');
+  }
+  componentDidUpdate() {
+    console.log('Component will componentDidUpdate');
+  }
+
+  componentWillUpdate() {
+    console.log('Component will componentWillUpdate');
+  }
+
+  componentWillReceiveProps() {
+    console.log('Component will componentWillReceiveProps');
+  }
+  componentDidMount() {
+    console.log('Component componentWillReceiveProps mount');
+  }
   componentWillMount() {
+    console.log('Component will mount');
+
     this.props.dispatch({
       type: 'organization/getAllOrgAdmins',
       payload: [],
@@ -50,6 +70,7 @@ class AdminUsers extends Component {
   updateUser = (record) => {};
   componentWillReceiveProps() {}
   createUser = (record) => {
+    this.setState({ loading: true });
     const { data } = this.state;
     let tempdata = data;
     //tempdata.push(data);
@@ -60,9 +81,14 @@ class AdminUsers extends Component {
 
     record.key = '' + data.length + 1;
     tempdata.push(record);
-    console.log('User ' + JSON.stringify(tempdata));
+    // console.log('User ' + JSON.stringify(tempdata));
     this.setState({ data: tempdata, visible: false, updatedata: true });
-    console.log('User Data' + JSON.stringify(data));
+    // console.log('User Data' + JSON.stringify(data));
+
+    const _self = this;
+    setTimeout(() => {
+      _self.setState({ loading: false });
+    }, 3000);
   };
 
   render() {
@@ -105,33 +131,35 @@ class AdminUsers extends Component {
     const { orgadmins } = this.props;
     console.log(JSON.stringify(orgadmins));
     return (
-      <Card
-        title="Organization"
-        extra={
-          <Button
-            onClick={() => {
-              this.setState({ visible: true });
-            }}
-          >
-            Create User
-          </Button>
-        }
-      >
-        <Table columns={columns} dataSource={orgadmins} />
+      <Spin spinning={this.state.loading}>
+        <Card
+          title="Organization"
+          extra={
+            <Button
+              onClick={() => {
+                this.setState({ visible: true });
+              }}
+            >
+              Create User
+            </Button>
+          }
+        >
+          <Table columns={columns} dataSource={orgadmins} />
 
-        <FormEditUser
-          visible={this.state.visibleedituser}
-          onCancel={this.onCancel}
-          currentcandidate={currentcandidate}
-          updateUser={this.updateUser}
-        />
-        <FormUser
-          visible={this.state.visible}
-          onCancel={this.onCancel}
-          onOk={this.onOk}
-          createUser={this.createUser}
-        />
-      </Card>
+          <FormEditUser
+            visible={this.state.visibleedituser}
+            onCancel={this.onCancel}
+            currentcandidate={currentcandidate}
+            updateUser={this.updateUser}
+          />
+          <FormUser
+            visible={this.state.visible}
+            onCancel={this.onCancel}
+            onOk={this.onOk}
+            createUser={this.createUser}
+          />
+        </Card>
+      </Spin>
     );
   }
 }
