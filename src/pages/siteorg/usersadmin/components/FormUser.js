@@ -71,22 +71,33 @@ function fetch(value, callback) {
 class FormUser extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], value: undefined };
+    this.state = { data: [], value: 'hi', loadingcompanies: false };
+    console.log('Constructor Calling');
+  }
+
+  componentWillMount() {}
+
+  componentWillReceiveProps() {
+    console.log('Componenet Will Receive Props');
+    //this.handleSearch();
   }
 
   onFinish = (values) => {
-    values.orgid = this.state.value;
+    // values.orgid = this.state.value;
     values.phoneNumber = '+' + values.prefix + values.phoneNumber;
     console.log('Received values of form: ', JSON.stringify(values));
     this.props.createUser(values);
   };
   handleSearch = (value) => {
+    this.setState({ loadingcompanies: true });
     if (value) {
-      fetch(value, (data) => this.setState({ data }));
+      fetch(value, (data) => this.setState({ data, loadingcompanies: false }));
     } else {
       this.setState({ data: [] });
     }
   };
+
+  onRoleChange = (value) => {};
 
   handleChange = (value) => {
     this.setState({ value });
@@ -107,6 +118,12 @@ class FormUser extends Component {
     </Form.Item>
   );
   render() {
+    const { type, editformvalues } = this.props;
+    if (editformvalues) {
+      //this.setState({ value: editformvalues.orgid });
+    }
+    console.log(editformvalues);
+
     const validateMessages = {
       required: '${label} is required!',
       types: {
@@ -137,45 +154,57 @@ class FormUser extends Component {
         },
       },
     };
-    const options = this.state.data.map((d) => <Option key={d.value}>{d.text}</Option>);
-
+    const options = this.state.data.map((d) => (
+      <Option key={d.value} value={d.value}>
+        {d.text}
+      </Option>
+    ));
     return (
       <Modal
         closable={true}
         visible={this.props.visible}
-        title="Create User"
+        title={type === 'create' ? 'Create User' : 'Edit User'}
         cancelText="Cancel"
         footer={null}
         onCancel={this.props.onCancel}
       >
         <Form
+          ref={(form) => (this.formRef = form)}
           onFinish={this.onFinish}
           validateMessages={validateMessages}
           initialValues={{ prefix: '91' }}
         >
-          <Row>
-            <Col span={6}>
-              <span>*Company Name: </span>
-            </Col>
-            <Col span={18}>
-              <Select
-                required={true}
-                showSearch
-                value={this.state.value}
-                placeholder={'companyName'}
-                style={{ width: '80%' }}
-                defaultActiveFirstOption={false}
-                showArrow={false}
-                filterOption={false}
-                onSearch={this.handleSearch}
-                onChange={this.handleChange}
-                notFoundContent={null}
-              >
-                {options}
-              </Select>
-            </Col>
-          </Row>
+          <Form.Item
+            label="CompanyName"
+            name="orgid"
+            hasFeedback={this.state.loadingcompanies}
+            rules={[{ required: true }]}
+          >
+            <Select
+              required={true}
+              showSearch
+              value={this.state.value}
+              placeholder={'companyName'}
+              style={{ width: '80%' }}
+              defaultActiveFirstOption={false}
+              showArrow={false}
+              filterOption={false}
+              //     onSearch={this.handleSearch}
+              onChange={this.handleChange}
+              notFoundContent={null}
+            >
+              {options}
+            </Select>
+          </Form.Item>
+
           <p></p>
+          <Form.Item name="role" label="Gender" rules={[{ required: true }]}>
+            <Select placeholder="Select a role" onChange={this.onRoleChange} allowClear>
+              <Option value="User">User</Option>
+              <Option value="OrgAdmin">OrgAdmin</Option>
+              <Option value="OrgApprover">OrgApprover</Option>
+            </Select>
+          </Form.Item>
           <Form.Item label="Contact Name" name="name" rules={[{ required: true }]}>
             <Input placeholder="Contact Name" id="error" />
           </Form.Item>

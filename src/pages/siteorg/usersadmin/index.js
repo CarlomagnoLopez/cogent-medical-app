@@ -10,33 +10,11 @@ class AdminUsers extends Component {
       visible: false,
       loading: false,
       visibleedituser: false,
-      currentcandidate: null,
+      currentcandidate: [],
       updatedata: false,
-      data: [
-        { key: '1', name: 'Test User', orgid: '7adbabfa', email: 'mgiri@cogentibs.com' },
-        { key: '2', name: 'Test User 2', orgid: '7adbabfa', email: 'mgiri@cogentibs.com' },
-        { key: '3', name: 'Test User 3', orgid: '7adbabfa', email: 'mgiri@cogentibs.com' },
-        {
-          orgName: 'aada',
-          orgid: 'dadad',
-          name: 'adaad',
-          email: 'ada',
-          phoneNumber: 'adad',
-          key: '4',
-        },
-      ],
+      typeofuser: 'create',
+      formvalues: [],
     };
-  }
-
-  componentDidUpdate() {
-    console.log('Component will componentDidUpdate');
-  }
-  componentDidUpdate() {
-    console.log('Component will componentDidUpdate');
-  }
-
-  componentWillUpdate() {
-    console.log('Component will componentWillUpdate');
   }
 
   componentWillReceiveProps() {
@@ -55,7 +33,7 @@ class AdminUsers extends Component {
   }
 
   onCancel = () => {
-    this.setState({ visible: false, visibleedituser: false });
+    this.setState({ formvalues: [], type: '', visible: false, visibleedituser: false });
   };
 
   onOk = () => {
@@ -63,8 +41,14 @@ class AdminUsers extends Component {
   };
 
   editUser = (record) => {
-    console.log('Candiate ' + record);
-    this.setState({ visibleedituser: true, currentcandidate: record });
+    //console.log('Candiate ' + JSON.stringify(record));
+
+    this.setState({
+      formvalues: record,
+      typeofuser: 'edit',
+      visible: true,
+      currentcandidate: record,
+    });
   };
 
   updateUser = (record) => {};
@@ -113,23 +97,15 @@ class AdminUsers extends Component {
       {
         title: 'Action',
         key: 'action',
-        render: (text, record) => (
+        render: (record) => (
           <div style={{ textAlign: 'left' }}>
-            <Button
-              onClick={(record) => {
-                this.editUser(record);
-              }}
-            >
-              {' '}
-              Edit
-            </Button>
+            <Button onClick={() => this.editUser(record)}> Edit</Button>
           </div>
         ),
       },
     ];
     const { currentcandidate } = this.state;
     const { orgadmins } = this.props;
-    console.log(JSON.stringify(orgadmins));
     return (
       <Spin spinning={this.state.loading}>
         <Card
@@ -137,7 +113,7 @@ class AdminUsers extends Component {
           extra={
             <Button
               onClick={() => {
-                this.setState({ visible: true });
+                this.setState({ typeofuser: 'create', visible: true });
               }}
             >
               Create User
@@ -145,17 +121,12 @@ class AdminUsers extends Component {
           }
         >
           <Table columns={columns} dataSource={orgadmins} />
-
-          <FormEditUser
-            visible={this.state.visibleedituser}
-            onCancel={this.onCancel}
-            currentcandidate={currentcandidate}
-            updateUser={this.updateUser}
-          />
           <FormUser
             visible={this.state.visible}
             onCancel={this.onCancel}
             onOk={this.onOk}
+            type={this.state.typeofuser}
+            editformvalues={this.state.currentcandidate}
             createUser={this.createUser}
           />
         </Card>

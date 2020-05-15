@@ -123,8 +123,11 @@ class CreateOrganization extends Component {
       console.log(JSON.stringify(status));
 
       console.log('Status ' + JSON.stringify(status));
-      if (status.logResponse[0].success === true) {
-        message.success('Organization Created!');
+      if (status.logResponse.length > 0) {
+        status.logResponse.map((res) => {
+          if (res.createOrg) message.success('Organization Created!');
+        });
+        // message.success('Organization Created!');
         history.goBack();
       }
       if (status.logResponse[0].success === false) {

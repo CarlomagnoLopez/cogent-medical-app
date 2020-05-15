@@ -37,7 +37,9 @@ export default {
     },
     getAllOrganizationsData(state, action) {
       console.log('Response ' + JSON.stringify(action));
-      return { ...state, orgslist: action.payload.body.Items };
+      if (action.payload.body != undefined)
+        return { ...state, orgslist: action.payload.body.Items };
+      else return { ...state, orgslist: [] };
     },
   },
   effects: {
