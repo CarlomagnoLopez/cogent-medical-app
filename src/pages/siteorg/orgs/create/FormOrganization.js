@@ -39,8 +39,23 @@ import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 class FormOrganization extends Component {
   onFinish = (values) => {
     console.log('Received values of form: ', values);
-    this.props.finishOrganizationDetails();
+    this.props.finishOrganizationDetails(values);
   };
+  prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select
+        style={{
+          width: 70,
+        }}
+      >
+        <Option value="86">+86</Option>
+        <Option value="87">+87</Option>
+        <Option value="91">+91</Option>
+        <Option value="55">+55</Option>
+        <Option value="52">+52</Option>
+      </Select>
+    </Form.Item>
+  );
 
   render() {
     const validateMessages = {
@@ -74,8 +89,14 @@ class FormOrganization extends Component {
     };
 
     return (
-      <Form onFinish={this.onFinish} validateMessages={validateMessages}>
-        <Form.Item label="Organization Name" name="orgname" rules={[{ required: true }]}>
+      <Form
+        onFinish={this.onFinish}
+        validateMessages={validateMessages}
+        initialValues={{
+          prefix: '86',
+        }}
+      >
+        <Form.Item label="Organization Name" name="orgName" rules={[{ required: true }]}>
           <Input placeholder="Organization Name" id="organizationname" />
         </Form.Item>
         {/* <Form.Item label="Logo">
@@ -89,26 +110,44 @@ class FormOrganization extends Component {
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>*/}
-        <Form.Item label="Contact Name" name="contactname" rules={[{ required: true }]}>
+        <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
           <Input placeholder="Contact Name" id="contactname" />
         </Form.Item>
         <Form.Item
           label="Contact Email"
-          name="contactemail"
+          name="contactEmail"
           rules={[{ required: true, type: 'email' }]}
         >
           <Input placeholder="Contact Email" id="contactemail" />
         </Form.Item>
-        <Form.Item label="Website" name="website" rules={[{ required: true }]}>
+        <Form.Item
+          label="Website"
+          name="orgWesite"
+          rules={[
+            { required: true },
+            {
+              //type: 'url',
+              pattern:
+                '^(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?$',
+
+              message: 'The website is in the wrong format!',
+            },
+          ]}
+        >
           <Input placeholder="Website" id="website" />
         </Form.Item>
-        <Form.Item label="office phone" name="officephone" rules={[{ required: true }]}>
-          <Input placeholder="office phone" id="officephone" />
+        <Form.Item label="office phone" name="phoneNumber" rules={[{ required: true }]}>
+          <Input
+            addonBefore={this.prefixSelector}
+            style={{
+              width: '100%',
+            }}
+          />
         </Form.Item>
-        <Form.Item label="office fax" name="officefax" rules={[{ required: true }]}>
+        <Form.Item label="office fax" name="faxNumber" rules={[{ required: true }]}>
           <Input placeholder="office fax" id="faxnumber" />
         </Form.Item>
-        <Form.Item label="tax number" name="taxnumber" rules={[{ required: true }]}>
+        <Form.Item label="tax number" name="taxNumber" rules={[{ required: true }]}>
           <Input placeholder="tax number" id="taxnumber" />
         </Form.Item>
         <Form.Item label="field1">

@@ -7,8 +7,7 @@ import { routerRedux } from 'dva';
 import { connect } from 'dva';
 import { history } from 'umi';
 
-@connect(({ organization, loading }) => ({ organization }))
-export default class Org extends Component {
+class Org extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,10 +16,10 @@ export default class Org extends Component {
   }
 
   componentWillMount() {
-    console.log('Username ' + localStorage.getItem('userName'));
-    if (localStorage.getItem('userName') === null) {
-      history.push('/user/login');
-    }
+    this.props.dispatch({
+      type: 'organization/getAllOrgs',
+      payload: [],
+    });
   }
   showOrg = () => {
     history.push('/org/create');
@@ -37,7 +36,7 @@ export default class Org extends Component {
     const columns = [
       {
         title: 'Name',
-        dataIndex: 'name',
+        dataIndex: 'contactName',
         key: 'name',
         render: (text) => <a>{text}</a>,
       },
@@ -53,7 +52,7 @@ export default class Org extends Component {
       },
       {
         title: 'Email',
-        dataIndex: 'email',
+        dataIndex: 'contactEmail',
         key: 'email',
       },
       {
@@ -68,7 +67,8 @@ export default class Org extends Component {
         ),
       },
     ];
-
+    const { orgslist } = this.props;
+    console.log('Orgs Data ' + orgslist);
     const data = [
       {
         key: '1',
@@ -99,8 +99,12 @@ export default class Org extends Component {
       >
         {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
 
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={this.props.orgslist} />
       </Card>
     );
   }
 }
+export default connect(({ organization, loading }) => ({
+  organization,
+  orgslist: organization.orgslist,
+}))(Org);

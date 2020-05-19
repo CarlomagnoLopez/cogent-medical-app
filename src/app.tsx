@@ -13,6 +13,10 @@ export async function getInitialState(): Promise<{
   if (history.location.pathname !== '/user/login') {
     try {
       const currentUser = await queryCurrent();
+      console.log('Username ' + localStorage.getItem('userName'));
+      if (localStorage.getItem('userName') === null) {
+        history.push('/user/login');
+      }
       return {
         currentUser,
         settings: defaultSettings,
