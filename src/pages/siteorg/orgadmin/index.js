@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { Card, Table, Button, Tag, Space, Icon, Checkbox } from 'antd';
+import { Card, Table, Button, Tag, Space, Icon, Checkbox, Spin } from 'antd';
 import FormAdminOrganization from './components/FormAdminOrganization';
-export default class AdminPage extends Component {
+import { connect } from 'umi';
+class AdminPage extends Component {
   constructor(props) {
     super(props);
     this.state = { visible: false };
   }
 
+  componentWillMount() {
+    this.props.dispatch({
+      type: 'organization/getOrgsAdminApprovals',
+      payload: [],
+    });
+  }
   onCancel = () => {
     this.setState({ visible: false });
   };
@@ -19,8 +26,8 @@ export default class AdminPage extends Component {
     const columns = [
       {
         title: 'Org ID',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'orgid',
+        key: 'orgid',
         render: (text) => <a>{text}</a>,
       },
       {
@@ -53,49 +60,35 @@ export default class AdminPage extends Component {
       },
     ];
 
-    const data = [
-      {
-        key: '1',
-        name: 'Mahesh',
-        role: 'org admin',
-        id: 'ajdaj33jnadjn',
-        email: 'mgiri@cogentibs.com',
-      },
-      {
-        key: '2',
-        name: 'Carlo',
-        role: 'org admin',
-        id: 'ajdaj33jnadjn',
-        email: 'mgiri@cogentibs.com',
-      },
-      {
-        key: '3',
-        name: 'ABC Guy',
-        role: 'approver',
-        id: 'ajdaj33jnadjn',
-        email: 'mgiri@cogentibs.com',
-      },
-    ];
+    const { loading } = this.props;
+
     return (
-      <Card
-        title="Organization Admin List"
-        extra={
-          <Button
-            onClick={() => {
-              this.setState({ visible: true });
-            }}
-          >
-            Create Organization Admin
-          </Button>
-        }
-      >
-        <FormAdminOrganization
-          visible={this.state.visible}
-          onCancel={this.onCancel}
-          onOk={this.onOk}
-        />
-        <Table columns={columns} dataSource={data} />
-      </Card>
+      <Spin spinning={loading}>
+        <Card
+          title="Organization Admin List"
+          extra={
+            <Button
+              onClick={() => {
+                this.setState({ visible: true });
+              }}
+            >
+              Create Organization Admin
+            </Button>
+          }
+        >
+          <FormAdminOrganization
+            visible={this.state.visible}
+            onCancel={this.onCancel}
+            onOk={this.onOk}
+          />
+          <Table columns={columns} dataSource={this.props.orgadminsapprovalslist} />
+        </Card>
+      </Spin>
     );
   }
 }
+export default connect(({ organization, loading }) => ({
+  organization,
+  loading: loading.models.organization,
+  orgadminsapprovalslist: organization.orgadminsapprovalslist,
+}))(AdminPage);

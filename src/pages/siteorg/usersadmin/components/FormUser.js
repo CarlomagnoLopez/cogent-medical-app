@@ -40,34 +40,6 @@ import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 let timeout;
 let currentValue;
 
-function fetch(value, callback) {
-  if (timeout) {
-    clearTimeout(timeout);
-    timeout = null;
-  }
-
-  function fake() {
-    axios
-      .get(REACT_APP_ENV + `/org/all`)
-      //   .then((response) => response.json())
-      .then((d) => {
-        console.log(JSON.stringify(d));
-        const { body } = d.data;
-        const data = [];
-        body.Items.forEach((r) => {
-          console.log(r);
-          data.push({
-            value: r['mcp-1-pk'],
-            text: r.orgname,
-          });
-        });
-        callback(data);
-      });
-  }
-
-  timeout = setTimeout(fake, 300);
-}
-
 class FormUser extends Component {
   constructor(props) {
     super(props);
@@ -91,7 +63,7 @@ class FormUser extends Component {
   handleSearch = (value) => {
     this.setState({ loadingcompanies: true });
     if (value) {
-      fetch(value, (data) => this.setState({ data, loadingcompanies: false }));
+      //fetch(value, (data) => this.setState({ data, loadingcompanies: false }));
     } else {
       this.setState({ data: [] });
     }
@@ -118,12 +90,6 @@ class FormUser extends Component {
     </Form.Item>
   );
   render() {
-    const { type, editformvalues } = this.props;
-    if (editformvalues) {
-      //this.setState({ value: editformvalues.orgid });
-    }
-    console.log(editformvalues);
-
     const validateMessages = {
       required: '${label} is required!',
       types: {
@@ -154,18 +120,25 @@ class FormUser extends Component {
         },
       },
     };
-    const options = this.state.data.map((d) => (
-      <Option key={d.value} value={d.value}>
-        {d.text}
-      </Option>
-    ));
+    console.log(this.props.data);
+
+    const options =
+      this.props.data != undefined
+        ? this.props.data.map((d) => (
+            <Option key={d.orgname != null ? d.text : ''} value={d['mcp-1-pk']}>
+              {d.orgname}
+            </Option>
+          ))
+        : '';
+
     return (
       <Modal
         closable={true}
         visible={this.props.visible}
-        title={type === 'create' ? 'Create User' : 'Edit User'}
+        title="Create User"
         cancelText="Cancel"
         footer={null}
+        destroyOnClose
         onCancel={this.props.onCancel}
       >
         <Form
@@ -188,8 +161,10 @@ class FormUser extends Component {
               style={{ width: '80%' }}
               defaultActiveFirstOption={false}
               showArrow={false}
-              filterOption={false}
-              //     onSearch={this.handleSearch}
+              filterOption={(input, option) =>
+                option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              onSearch={this.handleSearch}
               onChange={this.handleChange}
               notFoundContent={null}
             >
@@ -198,7 +173,7 @@ class FormUser extends Component {
           </Form.Item>
 
           <p></p>
-          <Form.Item name="role" label="Gender" rules={[{ required: true }]}>
+          <Form.Item name="role" label="Role" rules={[{ required: true }]}>
             <Select placeholder="Select a role" onChange={this.onRoleChange} allowClear>
               <Option value="User">User</Option>
               <Option value="OrgAdmin">OrgAdmin</Option>

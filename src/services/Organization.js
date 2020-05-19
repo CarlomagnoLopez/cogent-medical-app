@@ -9,6 +9,22 @@ export async function generateOrgnization(payload) {
     body: JSON.stringify(payload),
   });
 }
+export async function deleteUser(payload) {
+  console.log('API Called');
+  return request(REACT_APP_ENV + `/users`, {
+    method: 'DELETE',
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function getAllOrgAdminApprovals(payload) {
+  console.log('API Called');
+  return request(REACT_APP_ENV + `/users/orgadminsapprovals`);
+}
+export async function getAllUsers(payload) {
+  console.log('API Called');
+  return request(REACT_APP_ENV + `/users/all`);
+}
 
 export async function getAllOrganizations() {
   return request(REACT_APP_ENV + '/org/all');
