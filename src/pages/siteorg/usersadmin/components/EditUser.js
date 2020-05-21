@@ -46,6 +46,7 @@ class FormEditUser extends Component {
   }
   onFinish = (values) => {
     console.log('Received values of form: ', values);
+    values.userName = this.props.current['mcp-1-sk'];
     this.props.updateUser(values);
   };
   prefixSelector = (
@@ -151,6 +152,7 @@ class FormEditUser extends Component {
             rules={[{ required: true }]}
           >
             <Select
+              disabled
               required={true}
               showSearch
               value={this.state.value}

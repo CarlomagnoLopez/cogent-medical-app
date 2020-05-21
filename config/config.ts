@@ -53,12 +53,14 @@ export default defineConfig({
       icon: 'smile',
       component: './siteorg/orgs',
     },
-    {
+    /* {
+      
       path: '/admincreate',
       name: 'Create Organization Admin/Approver ',
       icon: 'smile',
       component: './siteorg/orgadmin',
-    },
+    
+    },*/
     {
       path: '/adminusers',
       name: 'Manane Org Users',
