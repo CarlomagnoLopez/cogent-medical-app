@@ -63,7 +63,7 @@ export default defineConfig({
     },*/
     {
       path: '/adminusers',
-      name: 'Manane Org Users',
+      name: 'Manage Org Users',
       icon: 'smile',
       component: './siteorg/usersadmin',
     },

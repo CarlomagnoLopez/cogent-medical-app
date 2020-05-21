@@ -35,6 +35,18 @@ export async function generateOrgAdmin(payload) {
     body: JSON.stringify(payload),
   });
 }
+export async function updateOrgDetails(payload) {
+  return request(REACT_APP_ENV + '/org/update', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+export async function updateUserDetails(payload) {
+  return request(REACT_APP_ENV + '/org/orgadmin/update', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
 
 export async function getAllOrgAdmins() {
   return request(REACT_APP_ENV + '/org/orgadmin/all');

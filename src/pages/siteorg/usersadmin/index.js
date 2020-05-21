@@ -81,7 +81,14 @@ class AdminUsers extends Component {
 
   sendLogin = (record) => {};
 
-  updateUser = (record) => {};
+  updateUser = (values) => {
+    this.props.dispatch({
+      type: 'organization/updateUserDetails',
+      payload: values,
+    });
+
+    this.setState({ visibleedituser: false, current: '' });
+  };
   componentWillReceiveProps() {}
   createUser = (record) => {
     console.log('Create Data ' + JSON.stringify(record));
@@ -161,7 +168,27 @@ class AdminUsers extends Component {
     this.setState({ searchText: '' });
   };
   render() {
-    const { statusorgadmincreation, deleteuserstatus } = this.props;
+    const { statusorgadmincreation, deleteuserstatus, updateuserstatus } = this.props;
+
+    if (updateuserstatus.success == false) {
+      message.error(updateuserstatus.log.message);
+      this.props.dispatch({
+        type: 'organization/resetUpdateUserDetailsStatus',
+        payload: [],
+      });
+    }
+
+    if (updateuserstatus.success == true) {
+      message.success('User information updated!');
+      this.props.dispatch({
+        type: 'organization/resetUpdateUserDetailsStatus',
+        payload: [],
+      });
+      this.props.dispatch({
+        type: 'organization/getAllUser',
+        payload: [],
+      });
+    }
 
     if (deleteuserstatus) {
       if (deleteuserstatus.success == true) {
@@ -266,7 +293,7 @@ class AdminUsers extends Component {
             visible={this.state.visibleedituser}
             onCancel={this.onCancel}
             onOk={this.onOk}
-            editUser={this.editUser}
+            updateUser={this.updateUser}
             data={this.props.orgslist}
             current={this.state.currentcandidate}
           />
@@ -283,4 +310,5 @@ export default connect(({ organization, loading }) => ({
   loading: loading.models.organization,
   deleteuserstatus: organization.deleteuserstatus,
   statusorgadmincreation: organization.statusorgadmincreation,
+  updateuserstatus: organization.updateuserstatus,
 }))(AdminUsers);
