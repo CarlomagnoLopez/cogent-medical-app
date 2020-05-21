@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Card, Table, Button, Tag, Space, Icon, Spin, Modal, message } from 'antd';
+import { Card, Table, Button, Tag, Space, Icon, Spin, Modal, message, Input } from 'antd';
 import FormUser from './components/FormUser';
 import FormEditUser from './components/EditUser';
 import { connect } from 'umi';
 const { confirm } = Modal;
-
+import Highlighter from 'react-highlight-words';
+import { SearchOutlined } from '@ant-design/icons';
 class AdminUsers extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +17,8 @@ class AdminUsers extends Component {
       updatedata: false,
       typeofuser: 'create',
       formvalues: [],
+      searchText: '',
+      searchedColumn: '',
     };
   }
 
@@ -76,6 +79,8 @@ class AdminUsers extends Component {
     });
   };
 
+  sendLogin = (record) => {};
+
   updateUser = (record) => {};
   componentWillReceiveProps() {}
   createUser = (record) => {
@@ -91,7 +96,70 @@ class AdminUsers extends Component {
     this.setState({ data: tempdata, visible: false, updatedata: true });
     // console.log('User Data' + JSON.stringify(data));
   };
+  getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={(node) => {
+            this.searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: (text) =>
+      this.state.searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text.toString()}
+        />
+      ) : (
+        text
+      ),
+  });
 
+  handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    this.setState({
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
+    });
+  };
+
+  handleReset = (clearFilters) => {
+    clearFilters();
+    this.setState({ searchText: '' });
+  };
   render() {
     const { statusorgadmincreation, deleteuserstatus } = this.props;
 
@@ -139,11 +207,15 @@ class AdminUsers extends Component {
         title: 'OrgId',
         dataIndex: 'orgid',
         key: 'orgid',
+        ...this.getColumnSearchProps('orgid'),
       },
       {
         title: 'Role',
         dataIndex: 'role',
         key: 'role',
+        onFilter: (value, record) => record.role.indexOf(value) === 0,
+        sorter: (a, b) => a.role.length - b.role.length,
+        sortDirections: ['descend'],
       },
 
       {
@@ -158,7 +230,8 @@ class AdminUsers extends Component {
           <div style={{ textAlign: 'left' }}>
             <a onClick={() => this.editUser(record)}> Edit</a>
             <p></p>
-            <a onClick={() => this.deleteUser(record)}> Delete</a>
+            <a onClick={() => this.deleteUser(record)}> Enable</a>
+            <a onClick={() => this.sendLogin(record)}> Send login</a>
           </div>
         ),
       },
