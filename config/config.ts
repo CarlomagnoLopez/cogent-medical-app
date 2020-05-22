@@ -12,12 +12,12 @@ export default defineConfig({
     hmr: true,
   },
   layout: {
-    name: 'Ant Design Pro',
+    name: 'Cogent Medical',
     locale: true,
   },
   locale: {
     // default zh-CN
-    default: 'zh-CN',
+    default: 'us-EN',
     // default true, when it is true, will use `navigator.language` overwrite default
     antd: true,
     baseNavigator: true,
@@ -42,49 +42,64 @@ export default defineConfig({
         },
       ],
     },
-
-    {
-      path: '/welcome',
-      name: 'welcome',
-      icon: 'smile',
-      component: './Welcome',
-    },
-    {
-      path: '/admin',
-      name: 'admin',
-      icon: 'crown',
-      access: 'canAdmin',
-      component: './Admin',
-      routes: [
-        {
-          path: '/admin/sub-page',
-          name: 'sub-page',
-          icon: 'smile',
-          component: './Welcome',
-        },
-      ],
-    },
-    {
-      name: 'list.table-list',
-      icon: 'table',
-      path: '/list',
-      component: './ListTableList',
-    },
     {
       path: '/',
-      redirect: '/welcome',
+      layout: false,
+      component: './siteorg/orgs',
     },
+    {
+      path: '/welcome',
+      name: 'Create an Organization',
+      icon: 'smile',
+      component: './siteorg/orgs',
+    },
+    /* {
+      
+      path: '/admincreate',
+      name: 'Create Organization Admin/Approver ',
+      icon: 'smile',
+      component: './siteorg/orgadmin',
+    
+    },*/
+    {
+      path: '/adminusers',
+      name: 'Manage Org Users',
+      icon: 'smile',
+      component: './siteorg/usersadmin',
+    },
+    {
+      path: '/org/create',
+      hideInMenu: true,
+
+      component: './siteorg/orgs/create',
+    },
+
     {
       component: './404',
     },
   ],
+  define: {
+    ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_zgFW3AEob',
+    ANT_DESIGN_PRO_CLIENT_ID: '13pbrvceiogtq8ikiv1l9v89t4',
+    REACT_APP_ENV: 'https://c4ymficygk.execute-api.us-east-1.amazonaws.com/dev',
+    //REACT_APP_ENV: '/api',
+  },
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     // ...darkTheme,
     'primary-color': defaultSettings.primaryColor,
   },
   ignoreMomentLocale: true,
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy: {
+    '/api/': {
+      target: process.env.REACT_APP_ENV,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': '',
+      },
+    },
+  },
+  // proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {
     basePath: '/',
   },
