@@ -43,6 +43,7 @@ const Login: LoginType = (props) => {
   React.Children.forEach(
     props.children,
     (child: React.ReactComponentElement<typeof LoginTab> | React.ReactElement<unknown>) => {
+      console.log('Can you see this?');
       if (!child) {
         return;
       }
