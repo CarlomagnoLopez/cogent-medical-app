@@ -73,7 +73,11 @@ export default defineConfig({
 
       component: './siteorg/orgs/create',
     },
-
+    {
+      path: '/siteorg/userapprovals',
+      name: 'Manage User Approvals',
+      component: './siteorg/userapprovals',
+    },
     {
       component: './404',
     },

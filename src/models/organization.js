@@ -8,6 +8,7 @@ import {
   getAllOrgAdminApprovals,
   updateOrgDetails,
   updateUserDetails,
+  deleteOrg,
 } from '@/services/Organization';
 
 import { router } from 'umi';
@@ -27,6 +28,7 @@ export default {
     orgadminsapprovalslist: [],
     updateorgdetailsstatus: '',
     updateuserstatus: '',
+    deleteorgstatus: '',
   },
   reducers: {
     organizationCreationStatus(state, action) {
@@ -83,6 +85,12 @@ export default {
     },
     resetUpdateUserDetailsStatus(state, action) {
       return { ...state, updateuserstatus: '' };
+    },
+    deleteOrgStatus(state, action) {
+      return { ...state, deleteorgstatus: action.payload };
+    },
+    resetOrganizationStatus(state, action) {
+      return { ...state, deleteorgstatus: '' };
     },
   },
   effects: {
@@ -202,6 +210,19 @@ export default {
       yield put({
         type: 'resetUpdateUserDetailsStatus',
         payload: [],
+      });
+    },
+    *deleteOrganization({ payload }, { call, put }) {
+      const res = yield call(deleteOrg, payload);
+      yield put({
+        type: 'deleteOrgStatus',
+        payload: res,
+      });
+    },
+    *resetDelOrgStatus({ payload }, { call, put }) {
+      yield put({
+        type: 'resetOrganizationStatus',
+        payload: '',
       });
     },
   },

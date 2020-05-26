@@ -7,7 +7,7 @@ import { routerRedux } from 'dva';
 import { connect } from 'dva';
 import { history } from 'umi';
 import EditOrganization from './EditOrg';
-
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 class Org extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +34,13 @@ class Org extends Component {
     this.setState({ visible: false });
   };
 
+  deleteOrg = (record) => {
+    this.props.dispatch({
+      type: 'organization/deleteOrganization',
+      payload: { orgid: record['mcp-1-pk'] },
+    });
+  };
+
   onEditSubmit = (values) => {
     console.log('Values Received ' + values);
     this.props.dispatch({
@@ -50,7 +57,19 @@ class Org extends Component {
   createOrgAdmin = (record) => {};
 
   render() {
-    const { updateorgdetailsstatus } = this.props;
+    const { updateorgdetailsstatus, deleteorgstatus } = this.props;
+
+    if (deleteorgstatus.success == true) {
+      message.success('Organization Deleted Successfully!');
+      this.props.dispatch({
+        type: 'organization/resetDelOrgStatus',
+        payload: [],
+      });
+      this.props.dispatch({
+        type: 'organization/getAllOrgs',
+        payload: [],
+      });
+    }
 
     if (updateorgdetailsstatus.success == true) {
       message.success('Organization details updated!');
@@ -102,16 +121,16 @@ class Org extends Component {
                 this.onEdit(record);
               }}
             >
-              {' '}
-              Edit
+              <EditOutlined /> Edit
             </a>
             <p></p>
             <a
               onClick={() => {
-                this.createOrgAdmin(record);
+                this.deleteOrg(record);
               }}
             >
-              Create OrgAdmin
+              <DeleteOutlined />
+              Delete
             </a>
           </div>
         ),
@@ -167,4 +186,5 @@ export default connect(({ organization, loading }) => ({
   orgslist: organization.orgslist,
   loading: loading.models.organization,
   updateorgdetailsstatus: organization.updateorgdetailsstatus,
+  deleteorgstatus: organization.deleteorgstatus,
 }))(Org);
