@@ -53,6 +53,12 @@ export default defineConfig({
       icon: 'smile',
       component: './siteorg/orgs',
     },
+    {
+      path: '/signup',
+      name: 'Signup',
+      layout: false,
+      component: './users/signup',
+    },
     /* {
       
       path: '/admincreate',
