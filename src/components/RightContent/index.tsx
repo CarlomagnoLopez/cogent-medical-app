@@ -6,14 +6,15 @@ import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 import SelectLang from '../SelectLang';
 import styles from './index.less';
+import IdleTimerContainer from '../IdelTimerComponent';
 
 export type SiderTheme = 'light' | 'dark';
 
-const ENVTagColor = {
-  dev: 'orange',
-  test: 'green',
-  pre: '#87d068',
-};
+// const ENVTagColor = {
+//   dev: 'orange',
+//   test: 'green',
+//   pre: '#87d068',
+// };
 
 const GlobalHeaderRight: React.FC<{}> = () => {
   const { initialState } = useModel('@@initialState');
@@ -31,6 +32,7 @@ const GlobalHeaderRight: React.FC<{}> = () => {
 
   return (
     <div className={className}>
+
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
@@ -54,6 +56,7 @@ const GlobalHeaderRight: React.FC<{}> = () => {
         //   //console.log('input', value);
         // }}
       />
+      <IdleTimerContainer></IdleTimerContainer>
       <Tooltip title="使用文档">
         <a
           target="_blank"
