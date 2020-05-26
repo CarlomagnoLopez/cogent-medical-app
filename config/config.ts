@@ -57,6 +57,7 @@ export default defineConfig({
       path: '/signup',
       name: 'Signup',
       layout: false,
+      hideInMenu: true,
       component: './users/signup',
     },
     /* {
