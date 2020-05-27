@@ -58,7 +58,7 @@ const Model = {
         //localStorage.setItem('currentAuthority', response.custom_currentAuthority);
         // localStorage.setItem('company_website',  response.custom_company_website);
 
-        window.location.href = '/welcome';
+        window.location.href = '/';
       }
     },
 
