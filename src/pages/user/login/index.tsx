@@ -92,6 +92,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         Pool: userPool,
       };
       var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+      doLogin(values.userName);
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
           /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/

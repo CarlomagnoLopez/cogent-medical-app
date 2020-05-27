@@ -51,15 +51,10 @@ export default defineConfig({
       path: '/welcome',
       name: 'Create an Organization',
       icon: 'smile',
+      access: 'canAdmin',
       component: './siteorg/orgs',
     },
-    {
-      path: '/signup',
-      name: 'Signup',
-      layout: false,
-      hideInMenu: true,
-      component: './users/signup',
-    },
+
     /* {
       
       path: '/admincreate',
@@ -72,6 +67,7 @@ export default defineConfig({
       path: '/adminusers',
       name: 'Manage Org Users',
       icon: 'smile',
+      access: 'canAdmin',
       component: './siteorg/usersadmin',
     },
     {
@@ -84,6 +80,7 @@ export default defineConfig({
       path: '/siteorg/userapprovals',
       name: 'Manage User Approvals',
       component: './siteorg/userapprovals',
+      access: 'canAdmin',
     },
     {
       component: './404',
