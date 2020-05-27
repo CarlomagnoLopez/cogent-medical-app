@@ -5,7 +5,7 @@ import FormEditUser from './components/EditUser';
 import { connect } from 'umi';
 const { confirm } = Modal;
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, DeleteOutlined, RedoOutlined, EditOutlined } from '@ant-design/icons';
 class AdminUsers extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +52,10 @@ class AdminUsers extends Component {
         console.log('OK');
         _self.props.dispatch({
           type: 'organization/deleteUser',
-          payload: { userid: record['mcp-1-sk'].substring(5, record['mcp-1-sk'].length) },
+          payload: {
+            userid: record['mcp-1-sk'].substring(5, record['mcp-1-sk'].length),
+            orgid: record['mcp-1-pk'],
+          },
         });
       },
       onCancel() {
@@ -81,7 +84,14 @@ class AdminUsers extends Component {
 
   sendLogin = (record) => {};
 
-  updateUser = (record) => {};
+  updateUser = (values) => {
+    this.props.dispatch({
+      type: 'organization/updateUserDetails',
+      payload: values,
+    });
+
+    this.setState({ visibleedituser: false, current: '' });
+  };
   componentWillReceiveProps() {}
   createUser = (record) => {
     console.log('Create Data ' + JSON.stringify(record));
@@ -103,6 +113,7 @@ class AdminUsers extends Component {
           ref={(node) => {
             this.searchInput = node;
           }}
+          icon={<SearchOutlined />}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
@@ -161,7 +172,27 @@ class AdminUsers extends Component {
     this.setState({ searchText: '' });
   };
   render() {
-    const { statusorgadmincreation, deleteuserstatus } = this.props;
+    const { statusorgadmincreation, deleteuserstatus, updateuserstatus } = this.props;
+
+    if (updateuserstatus.success == false) {
+      message.error(updateuserstatus.log.message);
+      this.props.dispatch({
+        type: 'organization/resetUpdateUserDetailsStatus',
+        payload: [],
+      });
+    }
+
+    if (updateuserstatus.success == true) {
+      message.success('User information updated!');
+      this.props.dispatch({
+        type: 'organization/resetUpdateUserDetailsStatus',
+        payload: [],
+      });
+      this.props.dispatch({
+        type: 'organization/getAllUser',
+        payload: [],
+      });
+    }
 
     if (deleteuserstatus) {
       if (deleteuserstatus.success == true) {
@@ -228,10 +259,17 @@ class AdminUsers extends Component {
         key: 'action',
         render: (record) => (
           <div style={{ textAlign: 'left' }}>
-            <a onClick={() => this.editUser(record)}> Edit</a>
+            <a onClick={() => this.editUser(record)}>
+              <EditOutlined /> Edit
+            </a>
             <p></p>
-            <a onClick={() => this.deleteUser(record)}> Enable</a>
-            <a onClick={() => this.sendLogin(record)}> Send login</a>
+            <a onClick={() => this.deleteUser(record)}>
+              <DeleteOutlined /> Delete
+            </a>
+            <p></p>
+            <a onClick={() => this.sendLogin(record)}>
+              <RedoOutlined /> Send login
+            </a>
           </div>
         ),
       },
@@ -266,7 +304,7 @@ class AdminUsers extends Component {
             visible={this.state.visibleedituser}
             onCancel={this.onCancel}
             onOk={this.onOk}
-            editUser={this.editUser}
+            updateUser={this.updateUser}
             data={this.props.orgslist}
             current={this.state.currentcandidate}
           />
@@ -283,4 +321,5 @@ export default connect(({ organization, loading }) => ({
   loading: loading.models.organization,
   deleteuserstatus: organization.deleteuserstatus,
   statusorgadmincreation: organization.statusorgadmincreation,
+  updateuserstatus: organization.updateuserstatus,
 }))(AdminUsers);

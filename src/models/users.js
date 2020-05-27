@@ -1,10 +1,4 @@
-import {
-  generateOrgnization,
-  generateOrgAdmin,
-  getAllOrgAdmins,
-  getAllOrganizations,
-  getAllUsers,
-} from '@/services/Organization';
+import { getAllApprovalNeededUsers, approveUser } from '@/services/Organization';
 
 import { router } from 'umi';
 import { getPageQuery } from '@/utils/utils';
@@ -15,87 +9,39 @@ export default {
   state: {
     status: [],
     loading: false,
-    statusorgadmincreation: [],
-    orgadmins: [],
-    orgslist: [],
+    userslist: [],
+    approveuserstatus: '',
   },
   reducers: {
-    organizationCreationStatus(state, action) {
-      console.log(action);
-      //  setAuthority(payload.currentAuthority);
-      // setAuthority(payload.custom_currentAuthority);
-      console.log('Response ' + JSON.stringify(action));
-      return { ...state, status: action.payload };
+    getUsersList(state, action) {
+      return { ...state, userslist: action.payload, approveuserstatus: '' };
     },
-    resetOrganizationStatus(state, action) {
-      return { ...state, status: [] };
+    approveUserStatus(state, action) {
+      return { ...state, approveuserstatus: action.payload };
     },
-    generateOrgAdminStatus(state, action) {
-      return { ...state, statusorgadmincreation: action.payload };
-    },
-    getAllOrgAdminDetails(state, action) {
-      return { ...state, orgadmins: action.payload.body };
-    },
-    getAllOrganizationsData(state, action) {
-      console.log('Response ' + JSON.stringify(action));
-      if (action.payload.body != undefined)
-        return { ...state, orgslist: action.payload.body.Items };
-      else return { ...state, orgslist: [] };
+    resetApproveUserStatus(state, action) {
+      return { ...state, approveuserstatus: '' };
     },
   },
   effects: {
-    *createOrganization({ payload }, { call, put }) {
-      console.log(payload);
-      const response = yield call(generateOrgnization, payload);
-      console.log('***RESPONSE');
-      /*  const response = {
-          success: false,
-          sigUpUser: false,
-          log: {
-            message: 'Invalid phone number format.',
-            code: 'InvalidParameterException',
-            time: '2020-05-12T17:51:15.670Z',
-            requestId: '8ecfdd4f-8bc2-4eba-9db8-482a8d640ece',
-            statusCode: 400,
-            retryable: false,
-            retryDelay: 10.433583803727299,
-          },
-        };
-        */
-      console.log(JSON.stringify(response));
+    *getApprovalUsersList({ payload }, { call, put }) {
+      const res = yield call(getAllApprovalNeededUsers, payload);
 
-      yield put({
-        type: 'organizationCreationStatus',
-        payload: response,
-      }); // Login successfully
+      yield put(
+        {
+          type: 'getUsersList',
+          payload: res,
+        },
+        {
+          type: 'approveUserStatus',
+          payload: '',
+        },
+      );
     },
-    *generateOrgUser({ payload }, { call, put }) {
-      const response = yield call(generateOrgAdmin, payload);
 
-      yield put({
-        type: 'generateOrgAdminStatus',
-        payload: response,
-      });
-    },
-    *resetOrganizationStatusA({ payload }, { call, put }) {
-      yield put({
-        type: 'resetOrganizationStatus',
-        payload: payload,
-      });
-    },
-    *getAllOrgAdmins({ payload }, { call, put }) {
-      const response = yield call(getAllOrgAdmins, payload);
-      yield put({
-        type: 'getAllOrgAdminDetails',
-        payload: response,
-      });
-    },
-    *getAllOrgs({ payload }, { call, put }) {
-      const response = yield call(getAllOrganizations, payload);
-      yield put({
-        type: 'getAllOrganizationsData',
-        payload: response,
-      });
+    *approveUserS({ payload }, { call, put }) {
+      const res = yield call(approveUser, payload);
+      yield put({ type: 'approveUserStatus', payload: res });
     },
   },
 };

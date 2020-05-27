@@ -6,6 +6,9 @@ import {
   getAllUsers,
   deleteUser,
   getAllOrgAdminApprovals,
+  updateOrgDetails,
+  updateUserDetails,
+  deleteOrg,
 } from '@/services/Organization';
 
 import { router } from 'umi';
@@ -23,6 +26,9 @@ export default {
     userslist: [],
     deleteuserstatus: '',
     orgadminsapprovalslist: [],
+    updateorgdetailsstatus: '',
+    updateuserstatus: '',
+    deleteorgstatus: '',
   },
   reducers: {
     organizationCreationStatus(state, action) {
@@ -67,6 +73,24 @@ export default {
     getOrgsAdminApprovalsData(state, action) {
       console.log('Respins ' + JSON.stringify(action));
       return { ...state, orgadminsapprovalslist: action.payload.body };
+    },
+    updateOrgDeatailsStatus(state, action) {
+      return { ...state, updateorgdetailsstatus: action.payload };
+    },
+    resetUpdateOrgDeatailsStatus(state, action) {
+      return { ...state, updateorgdetailsstatus: '' };
+    },
+    updateUserDetailsStatus(state, action) {
+      return { ...state, updateuserstatus: action.payload };
+    },
+    resetUpdateUserDetailsStatus(state, action) {
+      return { ...state, updateuserstatus: '' };
+    },
+    deleteOrgStatus(state, action) {
+      return { ...state, deleteorgstatus: action.payload };
+    },
+    resetOrganizationStatus(state, action) {
+      return { ...state, deleteorgstatus: '' };
     },
   },
   effects: {
@@ -160,6 +184,45 @@ export default {
       yield put({
         type: 'getOrgsAdminApprovalsData',
         payload: res,
+      });
+    },
+    *updateOrgDetails({ payload }, { call, put }) {
+      const res = yield call(updateOrgDetails, payload);
+      yield put({
+        type: 'updateOrgDeatailsStatus',
+        payload: res,
+      });
+    },
+    *resetUpdateOrgDeatailsStat({ payload }, { call, put }) {
+      yield put({
+        type: 'resetUpdateOrgDeatailsStatus',
+        payload: [],
+      });
+    },
+    *updateUserDetails({ payload }, { put, call }) {
+      const res = yield call(updateUserDetails, payload);
+      yield put({
+        type: 'updateUserDetailsStatus',
+        payload: res,
+      });
+    },
+    *resetUserUpdateStat({ payload }, { call, put }) {
+      yield put({
+        type: 'resetUpdateUserDetailsStatus',
+        payload: [],
+      });
+    },
+    *deleteOrganization({ payload }, { call, put }) {
+      const res = yield call(deleteOrg, payload);
+      yield put({
+        type: 'deleteOrgStatus',
+        payload: res,
+      });
+    },
+    *resetDelOrgStatus({ payload }, { call, put }) {
+      yield put({
+        type: 'resetOrganizationStatus',
+        payload: '',
       });
     },
   },

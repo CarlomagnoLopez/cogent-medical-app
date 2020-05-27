@@ -143,7 +143,10 @@ class CreateOrganization extends Component {
           {currentstep === 0 && (
             <Card>
               <p>Please fill Organization Details</p>
-              <FormOrganization finishOrganizationDetails={this.finishOrganizationDetails} />
+              <FormOrganization
+                finishOrganizationDetails={this.finishOrganizationDetails}
+                orgdetails={this.state.organizationDetails}
+              />
             </Card>
           )}
           {currentstep === 1 && (
