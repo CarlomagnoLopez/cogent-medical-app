@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
-import { Card, Table, Button, Tag, Space, Icon, Spin, message } from 'antd';
+import { Card, Table, Button, Tag, Space, Icon, Spin, Modal, message, Input } from 'antd';
+// import { SearchOutlined, DeleteOutlined } from '@ant-design/icons';
+
 import { routerRedux } from 'dva';
 //import FormOrganization from './create/FormOrganization';
 //import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import { history } from 'umi';
 import EditOrganization from './EditOrg';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined,SearchOutlined } from '@ant-design/icons';
 class Org extends Component {
   constructor(props) {
     super(props);
@@ -53,8 +55,59 @@ class Org extends Component {
   onEdit = (record) => {
     this.setState({ current: record, visible: true });
   };
-
-  createOrgAdmin = (record) => {};
+  getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={(node) => {
+            this.searchInput = node;
+          }}
+          icon={<SearchOutlined />}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: (text) =>
+      this.state.searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text.toString()}
+        />
+      ) : (
+          text
+        ),
+  });
+  createOrgAdmin = (record) => { };
 
   render() {
     const { updateorgdetailsstatus, deleteorgstatus } = this.props;
@@ -91,16 +144,27 @@ class Org extends Component {
     }
     const columns = [
       {
-        title: 'Name',
+        title: 'Name of Contact',
         dataIndex: 'contactName',
         key: 'name',
         render: (text) => <a>{text}</a>,
+      },
+      {
+        title: 'Secret Code',
+        dataIndex: 'secretcode',
+        key: 'secretcode',
       },
       {
         title: 'Website',
         dataIndex: 'website',
         key: 'website',
       },
+      // {
+      //   title: 'Organiztion Key',
+      //   dataIndex: 'orgid',
+      //   key: 'orgid',
+      //   ...this.getColumnSearchProps('orgid'),
+      // },
       {
         title: 'logo',
         dataIndex: 'logo',

@@ -18,7 +18,7 @@ function IdleTimerContainer(){
   return(
     <div>
       <IdleTimer ref={idleTimerRef}
-      timeout={5*5000}
+      timeout={5*50000}
       onIdle={onIdle}></IdleTimer>
     </div>
   )

@@ -234,12 +234,12 @@ class AdminUsers extends Component {
         key: 'name',
         render: (text) => <a>{text != undefined ? text : ''}</a>,
       },
-      {
-        title: 'OrgId',
-        dataIndex: 'orgid',
-        key: 'orgid',
-        ...this.getColumnSearchProps('orgid'),
-      },
+      // {
+      //   title: 'OrgId',
+      //   dataIndex: 'orgid',
+      //   key: 'orgid',
+      //   ...this.getColumnSearchProps('orgid'),
+      // },
       {
         title: 'Role',
         dataIndex: 'role',
