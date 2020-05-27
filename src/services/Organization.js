@@ -9,6 +9,14 @@ export async function generateOrgnization(payload) {
     body: JSON.stringify(payload),
   });
 }
+export async function approveUser(payload) {
+  console.log('API Called');
+  return request(REACT_APP_ENV + `/users/approve`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
 export async function deleteUser(payload) {
   console.log('API Called');
   return request(REACT_APP_ENV + `/users`, {
@@ -16,7 +24,18 @@ export async function deleteUser(payload) {
     body: JSON.stringify(payload),
   });
 }
+export async function deleteOrg(payload) {
+  console.log('Del Orf API Called');
+  return request(REACT_APP_ENV + `/org`, {
+    method: 'DELETE',
+    body: JSON.stringify(payload),
+  });
+}
 
+export async function getAllApprovalNeededUsers(payload) {
+  console.log('API Called');
+  return request(REACT_APP_ENV + `/users/approvalneededusers`);
+}
 export async function getAllOrgAdminApprovals(payload) {
   console.log('API Called');
   return request(REACT_APP_ENV + `/users/orgadminsapprovals`);

@@ -20,7 +20,7 @@ export async function fakeAccountLogin(params: LoginParamsType) {
 }
 
 export async function loginUser(params: LoginUserType) {
-  return request(`/api/users/currentuser?email=${params.email}`);
+  return request(REACT_APP_ENV + `/users/currentuser?email=${params.email}`);
 }
 
 export async function getFakeCaptcha(mobile: string) {

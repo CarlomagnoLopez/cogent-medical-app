@@ -37,6 +37,21 @@ import { SmileOutlined } from '@ant-design/icons';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 
 class FormOrganization extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      orgName: '',
+      contactEmail: '',
+      contactName: '',
+      orgWesite: '',
+      phoneNumber: '',
+      prefix: '',
+    };
+  }
+  onChange = (e) => {
+    console.log('Org Name Changed' + e.target.value);
+    this.setState({ orgName: e.target.value });
+  };
   onFinish = (values) => {
     console.log('Received values of form: ', values);
     this.props.finishOrganizationDetails(values);
@@ -88,15 +103,30 @@ class FormOrganization extends Component {
       },
     };
 
+    const { orgdetails } = this.props;
+    console.log('OrgDetails ' + JSON.stringify(orgdetails));
     return (
       <Form
         onFinish={this.onFinish}
         validateMessages={validateMessages}
         initialValues={{
           prefix: '86',
+          contactName: orgdetails != undefined ? orgdetails.contactName : '',
+          faxNumber: orgdetails != undefined ? orgdetails.faxNumber : '',
+          orgName: orgdetails != undefined ? orgdetails.orgName : '',
+          contactEmail: orgdetails != undefined ? orgdetails.contactEmail : '',
+          orgWesite: orgdetails != undefined ? orgdetails.orgWesite : '',
+          taxNumber: orgdetails != undefined ? orgdetails.taxNumber : '',
+          phoneNumber: orgdetails != undefined ? orgdetails.phoneNumber : '',
+          prefix: orgdetails != undefined ? orgdetails.prefix : '86',
         }}
       >
-        <Form.Item label="Organization Name" name="orgName" rules={[{ required: true }]}>
+        <Form.Item
+          label="Organization Name"
+          name="orgName"
+          rules={[{ required: true }]}
+          value={orgdetails != undefined ? orgdetails.orgName : ''}
+        >
           <Input placeholder="Organization Name" id="organizationname" />
         </Form.Item>
         {/* <Form.Item label="Logo">
@@ -116,6 +146,7 @@ class FormOrganization extends Component {
         <Form.Item
           label="Contact Email"
           name="contactEmail"
+          value={orgdetails != undefined ? orgdetails.contactEmail : ''}
           rules={[{ required: true, type: 'email' }]}
         >
           <Input placeholder="Contact Email" id="contactemail" />
@@ -123,6 +154,7 @@ class FormOrganization extends Component {
         <Form.Item
           label="Website"
           name="orgWesite"
+          value={orgdetails != undefined ? orgdetails.orgWesite : ''}
           rules={[
             { required: true },
             {

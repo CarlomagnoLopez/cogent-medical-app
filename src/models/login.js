@@ -27,9 +27,9 @@ const Model = {
       console.log(response);
 
       if (response) {
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let { redirect } = params;
+        //   const urlParams = new URL(window.location.href);
+        // const params = getPageQuery();
+        //let { redirect } = params;
 
         // if (redirect) {
         //   const redirectUrlParams = new URL(redirect);
@@ -48,9 +48,10 @@ const Model = {
         // yield delay(3000);
         //yield put(routerRedux.replace( '/'));
         //yield put(routerRedux.push('/welcome'));
-
+        localStorage.setItem('user', JSON.stringify(response));
         localStorage.setItem('userId', response.Username);
         localStorage.setItem('userName', response.Username);
+        localStorage.setItem('email', response.email);
         // localStorage.setItem('companyId',        response.companies.companyId);
         //localStorage.setItem('companyName',      response.custom_company_name);
         // localStorage.setItem('group',            response.custom_group.split(' ').join('_'));
