@@ -9,6 +9,14 @@ export async function generateOrgnization(payload) {
     body: JSON.stringify(payload),
   });
 }
+export async function signUpDetails(payload) {
+  console.log('API Called');
+  return request(REACT_APP_ENV + `/users/signupdetails`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  });
+}
+
 export async function approveUser(payload) {
   console.log('API Called');
   return request(REACT_APP_ENV + `/users/approve`, {

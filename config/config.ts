@@ -31,6 +31,13 @@ export default defineConfig({
   // umi routes: https://umijs.org/docs/routing
   routes: [
     {
+      name: 'signup',
+      path: 'user/register',
+      layout: false,
+      component: './users/signup',
+    },
+
+    {
       path: '/user',
       layout: false,
       routes: [
