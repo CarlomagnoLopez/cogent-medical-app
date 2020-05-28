@@ -1,10 +1,10 @@
-import { Tooltip, Tag } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+// import { Tooltip, Tag } from 'antd';
+// import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useModel } from 'umi';
-import AvatarDropdown from './AvatarDropdown';
+// import AvatarDropdown from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
-import SelectLang from '../SelectLang';
+// import SelectLang from '../SelectLang';
 import styles from './index.less';
 import IdleTimerContainer from './IdelTimerComponent';
 import LogOutContainer from './LogOutComponent'
