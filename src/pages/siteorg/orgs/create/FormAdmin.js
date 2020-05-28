@@ -124,6 +124,10 @@ class FormAdmin extends Component {
           initialValues={{
             prefix: '86',
             tempinitialValues,
+            contactName: tempinitialValues != undefined ? tempinitialValues.contactName : '',
+            email: tempinitialValues != undefined ? tempinitialValues.email : '',
+            phoneNumber: tempinitialValues != undefined ? tempinitialValues.phoneNumber : '',
+            prefix: tempinitialValues != undefined ? tempinitialValues.prefix : '86',
           }}
         >
           {/*<Form.Item label="Company Name" name="companY" rules={[{ required: true }]}>

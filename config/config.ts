@@ -50,21 +50,24 @@ export default defineConfig({
     {
       path: '/welcome',
       name: 'Create an Organization',
-      icon: 'smile',
+      icon: 'PlusCircleOutlined',
+      access: 'canAdmin',
       component: './siteorg/orgs',
     },
+
     /* {
-      
+
       path: '/admincreate',
       name: 'Create Organization Admin/Approver ',
       icon: 'smile',
       component: './siteorg/orgadmin',
-    
+
     },*/
     {
       path: '/adminusers',
       name: 'Manage Org Users',
-      icon: 'smile',
+      icon: 'TeamOutlined',
+      access: 'canAdmin',
       component: './siteorg/usersadmin',
     },
     {
@@ -73,14 +76,21 @@ export default defineConfig({
 
       component: './siteorg/orgs/create',
     },
-
+    {
+      path: '/siteorg/userapprovals',
+      name: 'Manage User Approvals',
+      component: './siteorg/userapprovals',
+      access: 'canAdmin',
+    },
     {
       component: './404',
     },
   ],
   define: {
-    ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_zgFW3AEob',
-    ANT_DESIGN_PRO_CLIENT_ID: '13pbrvceiogtq8ikiv1l9v89t4',
+    // ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_zgFW3AEob',
+    // ANT_DESIGN_PRO_CLIENT_ID: '13pbrvceiogtq8ikiv1l9v89t4',
+    ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_4JmTxHDGX',
+    ANT_DESIGN_PRO_CLIENT_ID: '7s90an5ecff1blr3aej1d97p3q',
     REACT_APP_ENV: 'https://c4ymficygk.execute-api.us-east-1.amazonaws.com/dev',
     //REACT_APP_ENV: '/api',
   },
