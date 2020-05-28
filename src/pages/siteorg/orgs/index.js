@@ -9,7 +9,7 @@ import { routerRedux } from 'dva';
 import { connect } from 'dva';
 import { history } from 'umi';
 import EditOrganization from './EditOrg';
-import { EditOutlined, DeleteOutlined,SearchOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 class Org extends Component {
   constructor(props) {
     super(props);
@@ -229,7 +229,16 @@ class Org extends Component {
       <Spin spinning={this.props.loading}>
         <Card
           title="Organization"
-          extra={<Button onClick={this.showOrg}>Create Organization</Button>}
+          extra={
+
+            <div>
+              {localStorage.getItem("currentAuth") === "SiteAdmin" &&  
+                <Button onClick={this.showOrg}>Create Organization</Button>
+              }
+            </div>
+
+          }
+
         >
           {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
           <EditOrganization
@@ -238,10 +247,12 @@ class Org extends Component {
             onEditSubmit={this.onEditSubmit}
             current={this.state.current}
           />
+          {localStorage.getItem("currentAuth") === "SiteAdmin" &&
+            <Table columns={columns} dataSource={this.props.orgslist} />
+          }
 
-          <Table columns={columns} dataSource={this.props.orgslist} />
         </Card>
-      </Spin>
+      </Spin >
     );
   }
 }

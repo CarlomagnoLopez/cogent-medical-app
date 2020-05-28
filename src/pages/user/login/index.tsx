@@ -92,9 +92,12 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         Pool: userPool,
       };
       var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-      doLogin(values.userName);
+      // doLogin(values.userName);
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
+          
+
+          localStorage.setItem("currentAuth",result.idToken.payload["custom:role"]);
           /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/
           var accessToken = result.getAccessToken().getJwtToken();
           var idToken = result.idToken.jwtToken;
@@ -248,7 +251,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
                 ]}
               />
               </Tab>*/}
-            <div>
+            {/* <div>
               <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
                 Remember me
               </Checkbox>
@@ -259,13 +262,14 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
               >
                 forget password
               </a>
-            </div>
+            </div> */}
             <Submit loading={submitting}>Submit</Submit>
-            <div className={styles.other}>
+            {/* <div className={styles.other}>
               <Link className={styles.register} to="/user/register">
                 Register
               </Link>
-            </div>
+            </div> */}
+
           </LoginFrom>
         </div>
       </div>
