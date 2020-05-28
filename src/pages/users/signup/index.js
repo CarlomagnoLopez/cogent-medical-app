@@ -1,17 +1,38 @@
 import React, { Component } from 'react';
-import { Form, Input, InputNumber, Button, Card, Select, DatePicker } from 'antd';
+import { Form, Input, InputNumber, Button, Card, Select, DatePicker, message, Spin } from 'antd';
 import styles from './style.less';
-import { Link, history, useModel } from 'umi';
+import { Link, history, useModel, connect } from 'umi';
 import logo from '@/assets/logo.svg';
 const { Option } = Select;
 
-export default class SignUpUser extends Component {
+class SignUpUser extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      verifylink: 'ia7suJvF',
+    };
+  }
+
+  getUrlParam = (param) => {
+    var results = new RegExp('[?&]' + param + '=([^&#]*)').exec(window.location.href);
+    if (results == null) {
+      return null;
+    } else {
+      return decodeURI(results[1]) || 0;
+    }
+  };
+
+  componentWillMount() {
+    const link = this.getUrlParam('verifylink');
+    // this.setState({ verifylink: link });
   }
 
   onFinish = (values) => {
+    values.verifylink = this.state.verifylink;
+    this.props.dispatch({
+      type: 'users/signUpDetail',
+      payload: values,
+    });
     console.log(values);
   };
 
@@ -35,6 +56,24 @@ export default class SignUpUser extends Component {
       },
     };
 
+    const { signupdetailstatus } = this.props;
+
+    if (signupdetailstatus.success === true) {
+      if (signupdetailstatus.approved != undefined && signupdetailstatus.approved === true) {
+        message.success('User Updated and Approved!');
+      } else {
+        message.success('User Updated and you have to wait till you get approved by admin!');
+      }
+      this.props.dispatch({ type: 'users/resetsignUpDetail', payload: '' });
+
+      history.go('/user/login');
+    }
+
+    if (signupdetailstatus.success === false) {
+      message.error(signupdetailstatus.err.message);
+      this.props.dispatch({ type: 'users/resetsignUpDetail', payload: '' });
+    }
+
     return (
       <Card>
         <div className={styles.content}>
@@ -54,15 +93,8 @@ export default class SignUpUser extends Component {
             onFinish={this.onFinish}
             validateMessages={validateMessages}
           >
-            {/*<Form.Item name="role" label="Select Role" rules={[{ required: true }]}>
-              <Select placeholder="Select a role" allowClear>
-                <Option value="patient">patient</Option>
-                <Option value="doctor">doctor</Option>
-                <Option value="nurse">nurse</Option>
-              </Select>
-            </Form.Item>*/}
             <Form.Item
-              name={['user', 'name']}
+              name={'name'}
               label="Name"
               rules={[
                 {
@@ -73,7 +105,7 @@ export default class SignUpUser extends Component {
               <Input />
             </Form.Item>
             <Form.Item
-              name={['user', 'lastname']}
+              name={'lname'}
               label="Last Name"
               rules={[
                 {
@@ -83,18 +115,11 @@ export default class SignUpUser extends Component {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input.Password />
-            </Form.Item>
             <Form.Item label="DOB" name="dob" rules={[{ required: true }]}>
               <DatePicker />
             </Form.Item>
             <Form.Item
-              name={['user', 'email']}
+              name={'email'}
               label="Email"
               rules={[
                 {
@@ -106,7 +131,7 @@ export default class SignUpUser extends Component {
               <Input />
             </Form.Item>
             <Form.Item
-              name={['user', 'phoneNumber']}
+              name={'phoneNumber'}
               label="phoneNumber"
               rules={[
                 {
@@ -116,10 +141,10 @@ export default class SignUpUser extends Component {
             >
               <Input />
             </Form.Item>
-            <Form.Item name={['user', 'address']} label="Address">
+            <Form.Item name={'address'} label="Address">
               <Input.TextArea />
             </Form.Item>
-            <Form.Item name={'zipcode'} label="Zip Code">
+            <Form.Item name={'pincode'} label="Zip Code">
               <Input />
             </Form.Item>
 
@@ -138,3 +163,8 @@ export default class SignUpUser extends Component {
     );
   }
 }
+export default connect(({ users, loading }) => ({
+  users,
+  signupdetailstatus: users.signupdetailstatus,
+  loading: loading.models.users,
+}))(SignUpUser);

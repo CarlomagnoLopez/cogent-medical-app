@@ -51,7 +51,14 @@ export default {
       console.log('Response ' + JSON.stringify(action));
       if (action.payload.body != undefined)
         return { ...state, orgslist: action.payload.body.Items };
-      else return { ...state, orgslist: [] };
+      else
+        return {
+          ...state,
+          orgslist: [],
+          statusorgadmincreation: '',
+          deleteorgstatus: '',
+          status: '',
+        };
     },
     getAllUsersData(state, action) {
       return {

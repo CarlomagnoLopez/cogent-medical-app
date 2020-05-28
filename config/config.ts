@@ -31,6 +31,13 @@ export default defineConfig({
   // umi routes: https://umijs.org/docs/routing
   routes: [
     {
+      name: 'signup',
+      path: 'user/register',
+      layout: false,
+      component: './users/signup',
+    },
+
+    {
       path: '/user',
       layout: false,
       routes: [
@@ -42,13 +49,43 @@ export default defineConfig({
         },
       ],
     },
+
+    {
+      path: '/manageusers',
+      name: 'Manage Org Users',
+      icon: 'smile',
+      access: 'canOrgAdmin',
+      component: './OrganizationAdmin/usersadmin',
+    },
+    {
+      path: '/manageuserapprovals',
+      name: 'Manage User Approvals',
+      component: './OrganizationAdmin/userapprovals',
+      access: 'canOrgAdmin',
+    },
+    {
+      path: '/manageuserapprovals',
+      name: 'Manage User Approvals',
+      component: './OrganizationAdmin/userapprovals',
+      access: 'canApproval',
+    },
+    {
+      /*
+      path: '/notifications',
+      component: './OrganizationAdmin/Notifications',
+      name: 'Notifications',
+      access: 'canOrgAdmin',
+    */
+    },
+
     {
       path: '/',
       layout: false,
       component: './siteorg/orgs',
+      access: 'canAdmin',
     },
     {
-      path: '/welcome',
+      path: '/',
       name: 'Create an Organization',
       icon: 'smile',
       access: 'canAdmin',
@@ -63,6 +100,11 @@ export default defineConfig({
       component: './siteorg/orgadmin',
     
     },*/
+
+    {
+      path: '/welcome',
+    },
+
     {
       path: '/adminusers',
       name: 'Manage Org Users',
@@ -70,10 +112,10 @@ export default defineConfig({
       access: 'canAdmin',
       component: './siteorg/usersadmin',
     },
+
     {
       path: '/org/create',
       hideInMenu: true,
-
       component: './siteorg/orgs/create',
     },
     {
