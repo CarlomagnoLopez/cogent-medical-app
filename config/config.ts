@@ -54,7 +54,7 @@ export default defineConfig({
     /*    {
       path: '/manageusers',
       name: 'Manage Org Users',
-      icon: 'smile',
+      icon: 'TeamOutlined',
       access: 'canOrgAdmin',
       component: './OrganizationAdmin/usersadmin',
     },*/
@@ -62,6 +62,7 @@ export default defineConfig({
     /* {
       path: '/manageuserapprovals',
       name: 'Manage User Approvals',
+      icon: 'TeamOutlined',
       component: './OrganizationAdmin/userapprovals',
       access: 'canBoth',
     },
@@ -85,7 +86,7 @@ export default defineConfig({
     {
       path: '/',
       name: 'Create an Organization',
-      icon: 'smile',
+      icon: 'PlusCircleOutlined',
       access: 'canAdmin',
       component: './siteorg/orgs',
     },
@@ -94,7 +95,7 @@ export default defineConfig({
       
       path: '/admincreate',
       name: 'Create Organization Admin/Approver ',
-      icon: 'smile',
+      icon: 'PlusCircleOutlined',
       component: './siteorg/orgadmin',
     
     },*/
@@ -106,8 +107,13 @@ export default defineConfig({
     {
       path: '/adminusers',
       name: 'Manage Org Users',
+<<<<<<< HEAD
       icon: 'smile',
       access: 'canBothUsers',
+=======
+      icon: 'TeamOutlined',
+      access: 'canAdmin',
+>>>>>>> b02f41527b0b6a58b6a730d3a208faa36866afb2
       component: './siteorg/usersadmin',
     },
 
@@ -119,6 +125,7 @@ export default defineConfig({
     {
       path: '/siteorg/userapprovals',
       name: 'Manage User Approvals',
+      icon: 'TeamOutlined',
       component: './siteorg/userapprovals',
       access: 'CanAll',
     },
@@ -131,8 +138,8 @@ export default defineConfig({
     ANT_DESIGN_PRO_CLIENT_ID: '13pbrvceiogtq8ikiv1l9v89t4',
     // ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_4JmTxHDGX',
     // ANT_DESIGN_PRO_CLIENT_ID: '7s90an5ecff1blr3aej1d97p3q',
-    REACT_APP_ENV: 'https://c4ymficygk.execute-api.us-east-1.amazonaws.com/dev',
-    //REACT_APP_ENV: '/api',
+    // REACT_APP_ENV: 'https://c4ymficygk.execute-api.us-east-1.amazonaws.com/dev',
+    REACT_APP_ENV: '/api',
   },
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
