@@ -43,6 +43,10 @@ export async function getOrgByUser(payload) {
   console.log('API Called');
   return request(REACT_APP_ENV + `/orgbyuser?userid=${payload.userid}`);
 }
+export async function getUsersByOrgId(payload) {
+  console.log('API Called');
+  return request(REACT_APP_ENV + `/users/userbyorg?orgid=${payload.orgid}&role=${payload.role}`);
+}
 
 export async function getAllApprovalNeededUsers(payload) {
   console.log('API Called');

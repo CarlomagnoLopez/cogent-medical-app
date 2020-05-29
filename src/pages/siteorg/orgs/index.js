@@ -26,7 +26,10 @@ class Org extends Component {
         payload: [],
       });
     }
-    if (localStorage.getItem('currentAuth') === 'orgadmin') {
+    if (
+      localStorage.getItem('currentAuth') === 'orgadmin' ||
+      localStorage.getItem('currentAuth') === 'orgapproval'
+    ) {
       this.props.dispatch({
         type: 'organization/getOrganizationByUserId',
         payload: { userid: localStorage.getItem('userName') },

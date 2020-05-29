@@ -30,12 +30,21 @@ class AdminUsers extends Component {
   }
   componentWillMount() {
     console.log('Component will mount');
-
-    this.props.dispatch({
-      type: 'organization/getAllUser',
-      payload: [],
-    });
-
+    if (localStorage.getItem('currentAuth') === 'orgadmin') {
+      this.props.dispatch({
+        type: 'organization/getUsersByOrgs',
+        payload: {
+          orgid: localStorage.getItem('orgid'),
+          role: localStorage.getItem('currentAuth'),
+        },
+      });
+    }
+    if (localStorage.getItem('currentAuth') === 'siteadmin') {
+      this.props.dispatch({
+        type: 'organization/getAllUser',
+        payload: [],
+      });
+    }
     this.props.dispatch({
       type: 'organization/getAllOrgs',
       payload: [],
@@ -189,19 +198,41 @@ class AdminUsers extends Component {
         type: 'organization/resetUpdateUserDetailsStatus',
         payload: [],
       });
-      this.props.dispatch({
-        type: 'organization/getAllUser',
-        payload: [],
-      });
+      if (localStorage.getItem('currentAuth') === 'orgadmin') {
+        this.props.dispatch({
+          type: 'organization/getUsersByOrgs',
+          payload: {
+            orgid: localStorage.getItem('orgid'),
+            role: localStorage.getItem('currentAuth'),
+          },
+        });
+      }
+      if (localStorage.getItem('currentAuth') === 'siteadmin') {
+        this.props.dispatch({
+          type: 'organization/getAllUser',
+          payload: [],
+        });
+      }
     }
 
     if (deleteuserstatus) {
       if (deleteuserstatus.success == true) {
         message.success('User Deleted Successfully!');
-        this.props.dispatch({
-          type: 'organization/getAllUser',
-          payload: [],
-        });
+        if (localStorage.getItem('currentAuth') === 'orgadmin') {
+          this.props.dispatch({
+            type: 'organization/getUsersByOrgs',
+            payload: {
+              orgid: localStorage.getItem('orgid'),
+              role: localStorage.getItem('currentAuth'),
+            },
+          });
+        }
+        if (localStorage.getItem('currentAuth') === 'siteadmin') {
+          this.props.dispatch({
+            type: 'organization/getAllUser',
+            payload: [],
+          });
+        }
       }
       if (deleteuserstatus.success == false) {
         message.error('Error while deleting the user,please try again!');
@@ -215,10 +246,21 @@ class AdminUsers extends Component {
     if (statusorgadmincreation) {
       if (statusorgadmincreation.success == true) {
         message.success('User Created Successfully!');
-        this.props.dispatch({
-          type: 'organization/getAllUser',
-          payload: [],
-        });
+        if (localStorage.getItem('currentAuth') === 'orgadmin') {
+          this.props.dispatch({
+            type: 'organization/getUsersByOrgs',
+            payload: {
+              orgid: localStorage.getItem('orgid'),
+              role: localStorage.getItem('currentAuth'),
+            },
+          });
+        }
+        if (localStorage.getItem('currentAuth') === 'siteadmin') {
+          this.props.dispatch({
+            type: 'organization/getAllUser',
+            payload: [],
+          });
+        }
       }
       if (statusorgadmincreation.success == false) {
         message.error(statusorgadmincreation.log.message);
@@ -292,7 +334,13 @@ class AdminUsers extends Component {
             </Button>
           }
         >
-          <Table columns={columns} dataSource={userslist} />
+          {localStorage.getItem('currentAuth') === 'siteadmin' && (
+            <Table columns={columns} dataSource={userslist} />
+          )}
+          {localStorage.getItem('currentAuth') === 'orgadmin' && (
+            <Table columns={columns} dataSource={this.props.orgsusers} />
+          )}
+
           <FormUser
             visible={this.state.visible}
             onCancel={this.onCancel}
@@ -323,4 +371,5 @@ export default connect(({ organization, loading }) => ({
   deleteuserstatus: organization.deleteuserstatus,
   statusorgadmincreation: organization.statusorgadmincreation,
   updateuserstatus: organization.updateuserstatus,
+  orgsusers: organization.orgsusers,
 }))(AdminUsers);

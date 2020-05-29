@@ -10,5 +10,13 @@ export default function (initialState: { currentUser?: API.CurrentUser | undefin
     canBoth:
       currentUser &&
       (currentUser.custom_role === 'orgadmin' || currentUser.custom_role === 'orgapproval'),
+    canBothUsers:
+      currentUser &&
+      (currentUser.custom_role === 'orgadmin' || currentUser.custom_role === 'siteadmin'),
+    canAll:
+      currentUser &&
+      (currentUser.custom_role === 'orgadmin' ||
+        currentUser.custom_role === 'siteadmin' ||
+        currentUser.custom_role === 'orgapproval'),
   };
 }

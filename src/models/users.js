@@ -1,4 +1,9 @@
-import { getAllApprovalNeededUsers, approveUser, signUpDetails } from '@/services/Organization';
+import {
+  getAllApprovalNeededUsers,
+  approveUser,
+  signUpDetails,
+  getUsersByOrgId,
+} from '@/services/Organization';
 
 import { router } from 'umi';
 import { getPageQuery } from '@/utils/utils';
@@ -12,6 +17,7 @@ export default {
     userslist: [],
     approveuserstatus: '',
     signupdetailstatus: '',
+    orgsusers: [],
   },
   reducers: {
     getUsersList(state, action) {
@@ -28,6 +34,13 @@ export default {
     },
     resetsignUpDetailsStatus(state, action) {
       return { ...state, signupdetailstatus: '' };
+    },
+    getUsersByOrg(state, action) {
+      if (action.payload.body != undefined) {
+        return { ...state, orgsusers: action.payload.body };
+      } else {
+        return { ...state, orgsusers: action.payload };
+      }
     },
   },
   effects: {
@@ -60,6 +73,13 @@ export default {
     *resetsignUpDetail({ payload }, { call, put }) {
       yield put({
         type: 'resetsignUpDetailsStatus',
+        payload: res,
+      });
+    },
+    *getUsersByOrgs({ payload }, { call, put }) {
+      const res = yield call(getUsersByOrgId, payload);
+      yield put({
+        type: 'getUsersByOrg',
         payload: res,
       });
     },

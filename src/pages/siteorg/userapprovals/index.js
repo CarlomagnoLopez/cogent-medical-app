@@ -9,10 +9,24 @@ class ManageUserApprovals extends Component {
   }
 
   componentWillMount() {
-    this.props.dispatch({
-      type: 'users/getApprovalUsersList',
-      payload: [],
-    });
+    if (localStorage.getItem('currentAuth') === 'siteadmin') {
+      this.props.dispatch({
+        type: 'users/getApprovalUsersList',
+        payload: [],
+      });
+    }
+    if (
+      localStorage.getItem('currentAuth') === 'orgadmin' ||
+      localStorage.getItem('currentAuth') === 'orgapproval'
+    ) {
+      this.props.dispatch({
+        type: 'users/getUsersByOrgs',
+        payload: {
+          orgid: localStorage.getItem('orgid'),
+          role: localStorage.getItem('currentAuth'),
+        },
+      });
+    }
   }
 
   approveUser = (record) => {
@@ -27,7 +41,27 @@ class ManageUserApprovals extends Component {
 
     if (approveuserstatus != undefined && approveuserstatus.success === true) {
       message.success('User Approved!');
-      this.props.dispatch({ type: 'users/getApprovalUsersList', payload: [] });
+      if (localStorage.getItem('currentAuth') === 'siteadmin') {
+        this.props.dispatch({
+          type: 'users/getApprovalUsersList',
+          payload: {
+            orgid: localStorage.getItem('orgid'),
+            role: localStorage.getItem('currentAuth'),
+          },
+        });
+      }
+      if (
+        localStorage.getItem('currentAuth') === 'orgadmin' ||
+        localStorage.getItem('currentAuth') === 'orgapproval'
+      ) {
+        this.props.dispatch({
+          type: 'users/getUsersByOrgs',
+          payload: {
+            orgid: localStorage.getItem('orgid'),
+            role: localStorage.getItem('currentAuth'),
+          },
+        });
+      }
     }
 
     if (approveuserstatus != undefined && approveuserstatus.success === false) {
@@ -82,4 +116,5 @@ export default connect(({ users, loading }) => ({
   userslist: users.userslist,
   loading: loading.models.users,
   approveuserstatus: users.approveuserstatus,
+  orgsusers: users.orgsusers,
 }))(ManageUserApprovals);
