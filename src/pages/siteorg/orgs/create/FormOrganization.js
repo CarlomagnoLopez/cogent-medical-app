@@ -164,6 +164,22 @@ class FormOrganization extends Component {
     console.log('OrgDetails ' + JSON.stringify(orgdetails));
     return (
       <Form
+         labelCol={ {
+                xs: {
+                  span: 24,
+                },
+                sm: {
+                  span: 4,
+                },
+              }}
+              wrapperCol={{
+                xs: {
+                  span: 24,
+                },
+                sm: {
+                  span: 16,
+                },
+              }}
         onFinish={this.onFinish}
         validateMessages={validateMessages}
         initialValues={{
