@@ -16,6 +16,7 @@ class Org extends Component {
     this.state = {
       visible: false,
       current: '',
+      visiblePopOver: false
     };
   }
 
@@ -44,12 +45,38 @@ class Org extends Component {
     this.setState({ visible: false });
   };
 
+  showWarningDelete = (record) => {
+
+    this.setState({
+      visiblePopOver: true,
+      recordOrg:record
+    })
+
+
+  };
+
+  proceedToDelete = () => {
+    this.setState({
+      visiblePopOver: true
+    })
+
+    this.deleteOrg(this.state.deleteOrg);
+  }
+
+
+  hideWarningDelete = () => {
+    this.setState({
+      visiblePopOver: false,
+      recordOrg:""
+    })
+  }
+
   deleteOrg = (record) => {
     this.props.dispatch({
       type: 'organization/deleteOrganization',
       payload: { orgid: record['mcp-1-pk'] },
     });
-  };
+  }
 
   onEditSubmit = (values) => {
     console.log('Values Received ' + values);
@@ -189,18 +216,20 @@ class Org extends Component {
       },
     ];
 
+    
     const columns = [
-      {
-        title: '',
-        dataIndex: '',
-        key: '',
-        render: (record) => {
-          // console.log(record );
-          cont++;
-          return cont;
-          // console.log(cont );
-        },
-      },
+      // {
+      //   title: '',
+      //   dataIndex: '',
+      //   key: '',
+      //   render: (record) => { 
+      //     // console.log(record ); 
+      //     cont++
+      //     return cont
+      //     // console.log(cont ); 
+
+      //   }
+      // },
       {
         title: 'Name of Contact',
         dataIndex: 'contactName',
@@ -263,6 +292,7 @@ class Org extends Component {
                 </a>
               </div>
             )}
+
           </div>
         ),
       },
@@ -315,8 +345,8 @@ class Org extends Component {
                 <div>
                   <Button onClick={this.showOrg}>Create Organization</Button>
                 </div>
-              }
-            >
+
+     
               {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
               <EditOrganization
                 visible={this.state.visible}
