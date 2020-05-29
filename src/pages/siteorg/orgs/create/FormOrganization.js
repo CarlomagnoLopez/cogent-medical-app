@@ -58,7 +58,7 @@ class FormOrganization extends Component {
   };
   onFinish = (values) => {
     console.log('Received values of form: ', values);
-    //  this.uploadFile(values.orgName, this.state.fileToUpload);
+    // this.uploadFile(values.orgName, this.state.fileToUpload);
     this.props.finishOrganizationDetails(values);
   };
   prefixSelector = (
@@ -68,6 +68,8 @@ class FormOrganization extends Component {
           width: 70,
         }}
       >
+        <Option value="1">+1</Option>
+
         <Option value="86">+86</Option>
         <Option value="87">+87</Option>
         <Option value="91">+91</Option>
@@ -96,12 +98,13 @@ class FormOrganization extends Component {
       console.log('Response ' + this.state.fileToUpload);
 
       // Initiating the PUT request to upload file
-      axios({
-        method: 'PUT',
-        url: temp,
-        data: this.state.fileToUpload,
-        headers: { 'Content-Type': 'image/jpeg', 'x-amz-acl': 'authenticated-read' },
-      })
+      var options = {
+        headers: {
+          'Content-Type': 'image/jpeg',
+        },
+      };
+      axios
+        .put(temp, this.state.fileToUpload, options)
         .then((res) => {
           console.log('Res2 ' + JSON.stringify(res));
           this.setState({
