@@ -21,10 +21,18 @@ class Org extends Component {
   }
 
   componentWillMount() {
-    this.props.dispatch({
-      type: 'organization/getAllOrgs',
-      payload: [],
-    });
+    if (localStorage.getItem('currentAuth') === 'siteadmin') {
+      this.props.dispatch({
+        type: 'organization/getAllOrgs',
+        payload: [],
+      });
+    }
+    if (localStorage.getItem('currentAuth') === 'orgadmin') {
+      this.props.dispatch({
+        type: 'organization/getOrganizationByUserId',
+        payload: { userid: localStorage.getItem('userName') },
+      });
+    }
   }
   showOrg = () => {
     history.push('/org/create');
@@ -123,7 +131,7 @@ class Org extends Component {
       }
     },
     render: (text) => {
-      console.log(text)
+      console.log(text);
       this.state.searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
@@ -132,11 +140,11 @@ class Org extends Component {
           textToHighlight={text.toString()}
         />
       ) : (
-          text
-        )
-    }
+        text
+      );
+    },
   });
-  createOrgAdmin = (record) => { };
+  createOrgAdmin = (record) => {};
 
   render() {
     const { updateorgdetailsstatus, deleteorgstatus } = this.props;
@@ -173,6 +181,42 @@ class Org extends Component {
     }
 
     let cont = 0;
+
+    const columns1 = [
+      {
+        title: 'Name of Contact',
+        dataIndex: 'contactName',
+        key: 'name',
+        // render: (text) => {text,
+      },
+      {
+        title: 'Secret Code',
+        dataIndex: 'secretcode',
+        key: 'secretcode',
+      },
+      {
+        title: 'Website',
+        dataIndex: 'website',
+        key: 'website',
+      },
+
+      {
+        title: 'logo',
+        dataIndex: 'logo',
+        key: 'logo',
+      },
+      {
+        title: 'Email',
+        dataIndex: 'contactEmail',
+        key: 'email',
+      },
+      {
+        title: 'Action',
+        key: 'action',
+      },
+    ];
+
+    
     const columns = [
       // {
       //   title: '',
@@ -206,10 +250,10 @@ class Org extends Component {
         title: 'Organiztion Key',
         dataIndex: 'mcp-1-sk',
         key: 'mcp-1-sk',
-        render: ((record) => {
-          return record.replace("org-", "")
+        render: (record) => {
+          return record.replace('org-', '');
           // console.log(record)
-        })
+        },
         // ...this.getColumnSearchProps('contactName'),
       },
       {
@@ -227,22 +271,28 @@ class Org extends Component {
         key: 'action',
         render: (text, record) => (
           <div style={{ textAlign: 'left' }}>
-            <a
-              onClick={() => {
-                this.onEdit(record);
-              }}
-            >
-              <EditOutlined /> Edit
-            </a>
-            <p></p>
-            <a
-              onClick={() => {
-                this.showWarningDelete(record);
-              }}
-            >
-              <DeleteOutlined />
-              Delete
-            </a>
+            {localStorage.getItem('currentAuth') === 'siteadmin' && (
+              <div style={{ textAlign: 'left' }}>
+                {' '}
+                <a
+                  onClick={() => {
+                    this.onEdit(record);
+                  }}
+                >
+                  <EditOutlined /> Edit
+                </a>
+                <p></p>
+                <a
+                  onClick={() => {
+                    this.deleteOrg(record);
+                  }}
+                >
+                  <DeleteOutlined />
+                  Delete
+                </a>
+              </div>
+            )}
+
           </div>
         ),
       },
@@ -273,47 +323,42 @@ class Org extends Component {
       },
     ];
 
-    console.log("-->")
-    console.log(this.props.orgslist)
+    console.log('-->');
+    console.log(this.props.orgslist);
+    const { orgdetail } = this.props;
+    console.log('Org Details ' + JSON.stringify(orgdetail));
     return (
+      <div>
+        {' '}
+        {localStorage.getItem('currentAuth') === 'orgadmin' && (
+          <div>
+            <Card title="Organization Details">
+              <Table columns={columns1} dataSource={[orgdetail]} />
+            </Card>
+          </div>
+        )}
+        {localStorage.getItem('currentAuth') === 'siteadmin' && (
+          <Spin spinning={this.props.loading}>
+            <Card
+              title="Organization"
+              extra={
+                <div>
+                  <Button onClick={this.showOrg}>Create Organization</Button>
+                </div>
 
-      <Spin spinning={this.props.loading}>
-        <Modal
-          title="Are you sure to delete an organization?"
-          visible={this.state.visiblePopOver}
-          onOk={this.proceedToDelete}
-          onCancel={this.hideWarningDelete}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
-        <Card
-          title="Organization"
-          extra={
-
-            <div>
-              {localStorage.getItem("currentAuth") === "SiteAdmin" &&
-                <Button onClick={this.showOrg}>Create Organization</Button>
-              }
-            </div>
-
-          }
-
-        >
-          {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
-          <EditOrganization
-            visible={this.state.visible}
-            onCancel={this.onCancel}
-            onEditSubmit={this.onEditSubmit}
-            current={this.state.current}
-          />
-          {localStorage.getItem("currentAuth") === "SiteAdmin" &&
-            <Table columns={columns} dataSource={this.props.orgslist} />
-          }
-
-        </Card>
-      </Spin >
+     
+              {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
+              <EditOrganization
+                visible={this.state.visible}
+                onCancel={this.onCancel}
+                onEditSubmit={this.onEditSubmit}
+                current={this.state.current}
+              />
+              <Table columns={columns} dataSource={this.props.orgslist} />
+            </Card>{' '}
+          </Spin>
+        )}
+      </div>
     );
   }
 }
@@ -323,4 +368,5 @@ export default connect(({ organization, loading }) => ({
   loading: loading.models.organization,
   updateorgdetailsstatus: organization.updateorgdetailsstatus,
   deleteorgstatus: organization.deleteorgstatus,
+  orgdetail: organization.orgdetail,
 }))(Org);
