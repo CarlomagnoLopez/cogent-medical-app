@@ -9,24 +9,12 @@ class ManageUserApprovals extends Component {
   }
 
   componentWillMount() {
-    if (localStorage.getItem('currentAuth') === 'siteadmin') {
-      this.props.dispatch({
-        type: 'users/getApprovalUsersList',
-        payload: [],
-      });
-    }
-    if (
-      localStorage.getItem('currentAuth') === 'orgadmin' ||
-      localStorage.getItem('currentAuth') === 'orgapproval'
-    ) {
-      this.props.dispatch({
-        type: 'users/getUsersByOrgs',
-        payload: {
-          orgid: localStorage.getItem('orgid'),
-          role: localStorage.getItem('currentAuth'),
-        },
-      });
-    }
+    // if (localStorage.getItem('currentAuth') === 'siteadmin') {
+    this.props.dispatch({
+      type: 'users/getApprovalUsersList',
+      payload: [],
+    });
+    //}
   }
 
   approveUser = (record) => {
@@ -41,27 +29,13 @@ class ManageUserApprovals extends Component {
 
     if (approveuserstatus != undefined && approveuserstatus.success === true) {
       message.success('User Approved!');
-      if (localStorage.getItem('currentAuth') === 'siteadmin') {
-        this.props.dispatch({
-          type: 'users/getApprovalUsersList',
-          payload: {
-            orgid: localStorage.getItem('orgid'),
-            role: localStorage.getItem('currentAuth'),
-          },
-        });
-      }
-      if (
-        localStorage.getItem('currentAuth') === 'orgadmin' ||
-        localStorage.getItem('currentAuth') === 'orgapproval'
-      ) {
-        this.props.dispatch({
-          type: 'users/getUsersByOrgs',
-          payload: {
-            orgid: localStorage.getItem('orgid'),
-            role: localStorage.getItem('currentAuth'),
-          },
-        });
-      }
+      this.props.dispatch({
+        type: 'users/getApprovalUsersList',
+        payload: {
+          orgid: localStorage.getItem('orgid'),
+          role: localStorage.getItem('currentAuth'),
+        },
+      });
     }
 
     if (approveuserstatus != undefined && approveuserstatus.success === false) {

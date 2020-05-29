@@ -113,9 +113,19 @@ export default {
     },
     getUsersByOrg(state, action) {
       if (action.payload.body != undefined) {
-        return { ...state, orgsusers: action.payload.body };
+        return {
+          ...state,
+          orgsusers: action.payload.body,
+          statusorgadmincreation: '',
+          deleteorgstatus: '',
+        };
       } else {
-        return { ...state, orgsusers: action.payload };
+        return {
+          ...state,
+          orgsusers: action.payload,
+          statusorgadmincreation: '',
+          deleteorgstatus: '',
+        };
       }
     },
   },
