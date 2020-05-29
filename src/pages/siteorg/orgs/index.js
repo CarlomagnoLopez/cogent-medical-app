@@ -284,9 +284,6 @@ class Org extends Component {
           onOk={this.proceedToDelete}
           onCancel={this.hideWarningDelete}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
         </Modal>
         <Card
           title="Organization"
