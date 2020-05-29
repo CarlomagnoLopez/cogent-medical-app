@@ -17,6 +17,8 @@ export async function getInitialState(): Promise<{
       if (localStorage.getItem('userName') === null) {
         history.push('/user/login');
       }
+      localStorage.setItem('currentAuth', currentUser.custom_role);
+
       return {
         currentUser,
         settings: defaultSettings,

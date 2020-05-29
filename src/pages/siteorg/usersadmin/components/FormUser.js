@@ -177,7 +177,7 @@ class FormUser extends Component {
             <Select placeholder="Select a role" onChange={this.onRoleChange} allowClear>
               <Option value="User">User</Option>
               <Option value="OrgAdmin">OrgAdmin</Option>
-              <Option value="OrgApprover">OrgApprover</Option>
+              <Option value="OrgApproval">OrgApprover</Option>
             </Select>
           </Form.Item>
           <Form.Item label="Contact Name" name="name" rules={[{ required: true }]}>

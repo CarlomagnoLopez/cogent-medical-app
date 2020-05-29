@@ -35,6 +35,7 @@ const Option = Select.Option;
 const Dragger = Upload.Dragger;
 import { SmileOutlined } from '@ant-design/icons';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 class FormOrganization extends Component {
   constructor(props) {
@@ -46,6 +47,9 @@ class FormOrganization extends Component {
       orgWesite: '',
       phoneNumber: '',
       prefix: '',
+      fileToUpload: undefined,
+      uploadSuccess: undefined,
+      error: undefined,
     };
   }
   onChange = (e) => {
@@ -54,7 +58,8 @@ class FormOrganization extends Component {
   };
   onFinish = (values) => {
     console.log('Received values of form: ', values);
-    this.props.finishOrganizationDetails(values);
+    this.uploadFile(values.orgName, this.state.fileToUpload);
+    //this.props.finishOrganizationDetails(values);
   };
   prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -71,7 +76,49 @@ class FormOrganization extends Component {
       </Select>
     </Form.Item>
   );
+  handleChange = ({ fileList }) => {
+    console.log('files list ' + JSON.stringify(fileList));
+  };
+  beforeUpload = (file) => {
+    console.log('File Data ' + JSON.stringify(file));
+    this.setState({ fileToUpload: file });
+  };
+  uploadFile = (name, file) => {
+    // When the upload file button is clicked,
+    // first we need to get the presigned URL
+    // URL is the one you get from AWS API Gateway
+    console.log('Upload file data ' + this.state.fileToUpload);
+    axios(REACT_APP_ENV + '/org/upload?fileName=' + name).then((response) => {
+      // Getting the url from response
+      console.log('Response ' + JSON.stringify(response));
+      const temp = JSON.parse(response.data.body);
+      const url = response.data.body.fileUploadURL;
+      console.log('Response ' + temp['fileUploadURL'] + ' ' + response.data.body + ' ');
 
+      // Initiating the PUT request to upload file
+      axios({
+        method: 'PUT',
+        url: temp,
+        data: this.state.fileToUpload,
+        headers: { 'Content-Type': 'image/jpeg' },
+      })
+        .then((res) => {
+          console.log('Res2 ' + JSON.stringify(res));
+          this.setState({
+            uploadSuccess: 'File upload successfull',
+            error: undefined,
+          });
+        })
+        .catch((err) => {
+          console.log('Res2 Error ' + JSON.stringify(err));
+
+          this.setState({
+            error: 'Error Occured while uploading the file',
+            uploadSuccess: undefined,
+          });
+        });
+    });
+  };
   render() {
     const validateMessages = {
       required: '${label} is required!',
@@ -102,7 +149,14 @@ class FormOrganization extends Component {
         },
       },
     };
-
+    const normFile = (e) => {
+      console.log('Upload event:', JSON.stringify(e.file));
+      this.setState({ fileToUpload: e.file.originFileObj });
+      if (Array.isArray(e)) {
+        return e;
+      }
+      return e && e.fileList;
+    };
     const { orgdetails } = this.props;
     console.log('OrgDetails ' + JSON.stringify(orgdetails));
     return (
@@ -168,6 +222,17 @@ class FormOrganization extends Component {
         >
           <Input placeholder="Website" id="website" />
         </Form.Item>
+        <Form.Item
+          name="upload"
+          label="Upload"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          extra="longgggggggggggggggggggggggggggggggggg"
+        >
+          <Upload name="logo">
+            <Button>Upload</Button>
+          </Upload>
+        </Form.Item>{' '}
         <Form.Item label="office phone" name="phoneNumber" rules={[{ required: true }]}>
           <Input
             addonBefore={this.prefixSelector}
