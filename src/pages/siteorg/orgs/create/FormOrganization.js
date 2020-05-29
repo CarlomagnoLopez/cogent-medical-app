@@ -93,14 +93,14 @@ class FormOrganization extends Component {
       console.log('Response ' + JSON.stringify(response));
       const temp = JSON.parse(response.data.body);
       const url = response.data.body.fileUploadURL;
-      console.log('Response ' + temp['fileUploadURL'] + ' ' + response.data.body + ' ');
+      console.log('Response ' + this.state.fileToUpload);
 
       // Initiating the PUT request to upload file
       axios({
         method: 'PUT',
         url: temp,
         data: this.state.fileToUpload,
-        headers: { 'Content-Type': 'image/jpeg' },
+        headers: { 'Content-Type': 'image/jpeg', 'x-amz-acl': 'authenticated-read' },
       })
         .then((res) => {
           console.log('Res2 ' + JSON.stringify(res));

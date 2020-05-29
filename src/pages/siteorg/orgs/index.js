@@ -313,9 +313,7 @@ class Org extends Component {
               title="Organization"
               extra={
                 <div>
-                  {localStorage.getItem('currentAuth') === 'SiteAdmin' && (
-                    <Button onClick={this.showOrg}>Create Organization</Button>
-                  )}
+                  <Button onClick={this.showOrg}>Create Organization</Button>
                 </div>
               }
             >
