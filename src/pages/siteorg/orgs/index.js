@@ -49,7 +49,7 @@ class Org extends Component {
 
     this.setState({
       visiblePopOver: true,
-      recordOrg:record
+      recordOrg: record
     })
 
 
@@ -57,17 +57,17 @@ class Org extends Component {
 
   proceedToDelete = () => {
     this.setState({
-      visiblePopOver: true
+      visiblePopOver: false
     })
 
-    this.deleteOrg(this.state.deleteOrg);
+    this.deleteOrg(this.state.recordOrg);
   }
 
 
   hideWarningDelete = () => {
     this.setState({
       visiblePopOver: false,
-      recordOrg:""
+      recordOrg: ""
     })
   }
 
@@ -140,11 +140,11 @@ class Org extends Component {
           textToHighlight={text.toString()}
         />
       ) : (
-        text
-      );
+          text
+        );
     },
   });
-  createOrgAdmin = (record) => {};
+  createOrgAdmin = (record) => { };
 
   render() {
     const { updateorgdetailsstatus, deleteorgstatus } = this.props;
@@ -216,7 +216,7 @@ class Org extends Component {
       },
     ];
 
-    
+
     const columns = [
       // {
       //   title: '',
@@ -284,7 +284,7 @@ class Org extends Component {
                 <p></p>
                 <a
                   onClick={() => {
-                    this.deleteOrg(record);
+                    this.showWarningDelete(record);
                   }}
                 >
                   <DeleteOutlined />
@@ -338,38 +338,32 @@ class Org extends Component {
           </div>
         )}
         {localStorage.getItem('currentAuth') === 'siteadmin' && (
+
+
+
           <Spin spinning={this.props.loading}>
+            <Modal
+              title="Are you sure to delete an organization?"
+              visible={this.state.visiblePopOver}
+              onOk={this.proceedToDelete}
+              onCancel={this.hideWarningDelete}
+            >
+            </Modal>
             <Card
               title="Organization"
               extra={
+
                 <div>
-                  <Button onClick={this.showOrg}>Create Organization</Button>
+                  {localStorage.getItem("currentAuth") === "SiteAdmin" &&
+                    <Button onClick={this.showOrg}>Create Organization</Button>
+                  }
                 </div>
 
-
-      <Spin spinning={this.props.loading}>
-        <Modal
-          title="Are you sure to delete an organization?"
-          visible={this.state.visiblePopOver}
-          onOk={this.proceedToDelete}
-          onCancel={this.hideWarningDelete}
-        >
-        </Modal>
-        <Card
-          title="Organization"
-          extra={
-
-            <div>
-              {localStorage.getItem("currentAuth") === "SiteAdmin" &&
-                <Button onClick={this.showOrg}>Create Organization</Button>
               }
-            </div>
 
-          }
+            >
 
-        >
 
-     
               {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
               <EditOrganization
                 visible={this.state.visible}
