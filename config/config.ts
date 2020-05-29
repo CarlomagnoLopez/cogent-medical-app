@@ -107,13 +107,8 @@ export default defineConfig({
     {
       path: '/adminusers',
       name: 'Manage Org Users',
-<<<<<<< HEAD
-      icon: 'smile',
       access: 'canBothUsers',
-=======
       icon: 'TeamOutlined',
-      access: 'canAdmin',
->>>>>>> b02f41527b0b6a58b6a730d3a208faa36866afb2
       component: './siteorg/usersadmin',
     },
 
