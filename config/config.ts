@@ -51,14 +51,15 @@ export default defineConfig({
       ],
     },
 
-    {
+    /*    {
       path: '/manageusers',
       name: 'Manage Org Users',
       icon: 'smile',
       access: 'canOrgAdmin',
       component: './OrganizationAdmin/usersadmin',
-    },
-    {
+    },*/
+
+    /* {
       path: '/manageuserapprovals',
       name: 'Manage User Approvals',
       component: './OrganizationAdmin/userapprovals',
@@ -106,7 +107,7 @@ export default defineConfig({
       path: '/adminusers',
       name: 'Manage Org Users',
       icon: 'smile',
-      access: 'canAdmin',
+      access: 'canBothUsers',
       component: './siteorg/usersadmin',
     },
 
@@ -119,7 +120,7 @@ export default defineConfig({
       path: '/siteorg/userapprovals',
       name: 'Manage User Approvals',
       component: './siteorg/userapprovals',
-      access: 'canAdmin',
+      access: 'CanAll',
     },
     {
       component: './404',
