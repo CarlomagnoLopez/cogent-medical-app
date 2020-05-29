@@ -162,9 +162,9 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.lang}>
+      {/* <div className={styles.lang}>
         <SelectLang />
-      </div>
+      </div> */}
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
@@ -173,12 +173,12 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
               <span className={styles.title}>Login</span>
             </Link>
           </div>
-          <div className={styles.desc}>Login</div>
+          <div className={styles.desc}></div>
         </div>
 
         <div className={styles.main}>
           <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-            <Tab key="account" tab="Account">
+            <Tab key="account" tab="">
               {status === 'error' && loginType === 'account' && !submitting && (
                 <LoginMessage content="Account" />
               )}

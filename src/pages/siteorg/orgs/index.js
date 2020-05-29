@@ -95,7 +95,8 @@ class Org extends Component {
         setTimeout(() => this.searchInput.select());
       }
     },
-    render: (text) =>
+    render: (text) => {
+      console.log(text)
       this.state.searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
@@ -105,7 +106,8 @@ class Org extends Component {
         />
       ) : (
           text
-        ),
+        )
+    }
   });
   createOrgAdmin = (record) => { };
 
@@ -142,12 +144,26 @@ class Org extends Component {
         payload: [],
       });
     }
+
+    let cont = 0 ;
     const columns = [
+      {
+        title: '',
+        dataIndex: '',
+        key: '',
+        render: (record) => { 
+          // console.log(record ); 
+          cont++
+          return cont
+          // console.log(cont ); 
+
+        }
+      },
       {
         title: 'Name of Contact',
         dataIndex: 'contactName',
         key: 'name',
-        render: (text) => <a>{text}</a>,
+        // render: (text) => {text,
       },
       {
         title: 'Secret Code',
@@ -159,12 +175,16 @@ class Org extends Component {
         dataIndex: 'website',
         key: 'website',
       },
-      // {
-      //   title: 'Organiztion Key',
-      //   dataIndex: 'orgid',
-      //   key: 'orgid',
-      //   ...this.getColumnSearchProps('orgid'),
-      // },
+      {
+        title: 'Organiztion Key',
+        dataIndex: 'mcp-1-sk',
+        key: 'mcp-1-sk',
+        render: ((record) => {
+          return record.replace("org-", "")
+          // console.log(record)
+        })
+        // ...this.getColumnSearchProps('contactName'),
+      },
       {
         title: 'logo',
         dataIndex: 'logo',
@@ -225,14 +245,18 @@ class Org extends Component {
         email: 'mgiri@cogentibs.com',
       },
     ];
+
+    console.log("-->")
+    console.log(this.props.orgslist)
     return (
+
       <Spin spinning={this.props.loading}>
         <Card
           title="Organization"
           extra={
 
             <div>
-              {localStorage.getItem("currentAuth") === "SiteAdmin" &&  
+              {localStorage.getItem("currentAuth") === "SiteAdmin" &&
                 <Button onClick={this.showOrg}>Create Organization</Button>
               }
             </div>
