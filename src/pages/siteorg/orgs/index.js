@@ -354,7 +354,7 @@ class Org extends Component {
               extra={
 
                 <div>
-                  {localStorage.getItem("currentAuth") === "SiteAdmin" &&
+                  {localStorage.getItem("currentAuth") !== "SiteAdmin" &&
                     <Button onClick={this.showOrg}>Create Organization</Button>
                   }
                 </div>
