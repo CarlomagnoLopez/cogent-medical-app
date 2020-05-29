@@ -5,7 +5,7 @@ import { LogoutOutlined } from "@ant-design/icons";
 
 import {Button} from 'antd';
 function handleLogOut(){
-  axios.delete("http://localhost:8000",{ withCredentials :true}).then(
+  axios.delete("https://master.ddzfdvg3qoxoo.amplifyapp.com",{ withCredentials :true}).then(
     response => {
      window.localStorage.clear();
      history.push("user/login");
