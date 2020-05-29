@@ -7,13 +7,14 @@ function IdleTimerContainer(){
   const onIdle = () => {
     alert("User On Idle Login Again");
     console.log(" User On Idle");
-    axios.delete("http://localhost:8000",{ withCredentials :true}).then(
-     response => {
+    // axios.delete("http://localhost:8000",{ withCredentials :true}).then(
+//       axios.delete("https://master.ddzfdvg3qoxoo.amplifyapp.com",{ withCredentials :true}).then(
+//      response => {
       window.localStorage.clear();
       history.push("user/login");
-  }).catch(error => {
-    console.log("Logout Error",error);
-  });
+//   }).catch(error => {
+//     console.log("Logout Error",error);
+//   });
   }
   return(
     <div>
