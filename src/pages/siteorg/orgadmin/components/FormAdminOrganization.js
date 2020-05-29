@@ -124,7 +124,24 @@ class FormAdminOrganization extends Component {
           //  onSearch={this.onSearchRole}
           placeholder="Role"
         />
-        <Form onFinish={this.onFinish}>
+        <Form
+         labelCol={ {
+                xs: {
+                  span: 24,
+                },
+                sm: {
+                  span: 4,
+                },
+              }}
+              wrapperCol={{
+                xs: {
+                  span: 24,
+                },
+                sm: {
+                  span: 16,
+                },
+              }}
+      onFinish={this.onFinish}>
           <Form.Item label="Contact Name">
             <Input placeholder="Contact Name" id="error" />
           </Form.Item>
