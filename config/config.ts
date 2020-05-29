@@ -97,7 +97,7 @@ export default defineConfig({
       
       path: '/admincreate',
       name: 'Create Organization Admin/Approver ',
-      icon: 'smile',
+      icon: 'PlusCircleOutlined',
       component: './siteorg/orgadmin',
     
     },*/
