@@ -35,6 +35,7 @@ class AdminUsers extends Component {
       type: 'organization/getAllUser',
       payload: [],
     });
+
     this.props.dispatch({
       type: 'organization/getAllOrgs',
       payload: [],

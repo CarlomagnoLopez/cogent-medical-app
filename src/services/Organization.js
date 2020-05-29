@@ -39,6 +39,10 @@ export async function deleteOrg(payload) {
     body: JSON.stringify(payload),
   });
 }
+export async function getOrgByUser(payload) {
+  console.log('API Called');
+  return request(REACT_APP_ENV + `/orgbyuser?userid=${payload.userid}`);
+}
 
 export async function getAllApprovalNeededUsers(payload) {
   console.log('API Called');

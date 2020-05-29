@@ -9,6 +9,7 @@ import {
   updateOrgDetails,
   updateUserDetails,
   deleteOrg,
+  getOrgByUser,
 } from '@/services/Organization';
 
 import { router } from 'umi';
@@ -66,6 +67,7 @@ export default {
         userslist: action.payload.body,
         statusorgadmincreation: '',
         deleteuserstatus: '',
+        orgdetail: '',
       };
     },
     resetStatusInfo(state, action) {
@@ -98,6 +100,10 @@ export default {
     },
     resetOrganizationStatus(state, action) {
       return { ...state, deleteorgstatus: '' };
+    },
+    getOrgDetails(state, action) {
+      if (action.payload.success) return { ...state, orgdetail: action.payload.data.Item };
+      else return { ...state, orgdetail: '' };
     },
   },
   effects: {
@@ -230,6 +236,13 @@ export default {
       yield put({
         type: 'resetOrganizationStatus',
         payload: '',
+      });
+    },
+    *getOrganizationByUserId({ payload }, { call, put }) {
+      const res = yield call(getOrgByUser, payload);
+      yield put({
+        type: 'getOrgDetails',
+        payload: res,
       });
     },
   },

@@ -34,7 +34,7 @@ export default defineConfig({
       // name: 'signup',
       path: 'user/register',
       layout: false,
-      hideInMenu:true,
+      hideInMenu: true,
       component: './users/signup',
     },
 
@@ -63,17 +63,11 @@ export default defineConfig({
       name: 'Manage User Approvals',
       icon: 'TeamOutlined',
       component: './OrganizationAdmin/userapprovals',
-      access: 'canOrgAdmin',
+      access: 'canBoth',
     },
-    {
-      path: '/manageuserapprovals',
-      name: 'Manage User Approvals',
-      icon: 'TeamOutlined',
-      component: './OrganizationAdmin/userapprovals',
-      access: 'canApproval',
-    },
+
     // {
-      /*
+    /*
       path: '/notifications',
       component: './OrganizationAdmin/Notifications',
       name: 'Notifications',
@@ -85,7 +79,8 @@ export default defineConfig({
       path: '/',
       layout: false,
       component: './siteorg/orgs',
-      access: 'canAdmin',
+      access: 'canOrgAdmin',
+      name: 'Organization',
     },
     {
       path: '/',
