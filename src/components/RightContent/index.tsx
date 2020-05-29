@@ -33,7 +33,7 @@ const GlobalHeaderRight: React.FC<{}> = () => {
   return (
     <div className={className}>
 
-      <HeaderSearch
+<!--       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
         defaultValue="umi ui"
@@ -51,7 +51,7 @@ const GlobalHeaderRight: React.FC<{}> = () => {
             label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
             value: 'Pro Layout',
           },
-        ]}
+        ]} -->
         // onSearch={value => {
         //   //console.log('input', value);
         // }}
