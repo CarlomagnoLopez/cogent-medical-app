@@ -61,12 +61,14 @@ export default defineConfig({
     {
       path: '/manageuserapprovals',
       name: 'Manage User Approvals',
+      icon: 'TeamOutlined',
       component: './OrganizationAdmin/userapprovals',
       access: 'canOrgAdmin',
     },
     {
       path: '/manageuserapprovals',
       name: 'Manage User Approvals',
+      icon: 'TeamOutlined',
       component: './OrganizationAdmin/userapprovals',
       access: 'canApproval',
     },
@@ -122,6 +124,7 @@ export default defineConfig({
     {
       path: '/siteorg/userapprovals',
       name: 'Manage User Approvals',
+      icon: 'TeamOutlined',
       component: './siteorg/userapprovals',
       access: 'canAdmin',
     },
