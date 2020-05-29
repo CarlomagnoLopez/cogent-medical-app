@@ -1,6 +1,7 @@
 import React,{ useRef } from 'react';
 import axios from "axios";
 import { history } from 'umi';
+import { LogoutOutlined } from "@ant-design/icons";
 
 import {Button} from 'antd';
 function handleLogOut(){
@@ -15,8 +16,8 @@ function handleLogOut(){
 function LogOutContainer(){
   return(
     <div>
-     <Button
-      onClick ={handleLogOut}>Log Out</Button>
+     <LogoutOutlined
+      onClick ={handleLogOut} style={{ fontSize: '20px' ,padding : '20px' }}  />
     </div>
   )
 }
