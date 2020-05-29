@@ -60,6 +60,8 @@ class FormEditUser extends Component {
         <Option value="87">+87</Option>
         <Option value="91">+91</Option>
         <Option value="55">+55</Option>
+        <Option value="1">+1</Option>
+
         <Option value="52">+52</Option>
       </Select>
     </Form.Item>

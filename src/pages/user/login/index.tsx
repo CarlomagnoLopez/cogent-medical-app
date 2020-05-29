@@ -95,9 +95,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
       // doLogin(values.userName);
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
-          
-
-          localStorage.setItem("currentAuth",result.idToken.payload["custom:role"]);
+          // localStorage.setItem("currentAuth",result.idToken.payload["custom:role"]);
           /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/
           var accessToken = result.getAccessToken().getJwtToken();
           var idToken = result.idToken.jwtToken;
@@ -269,7 +267,6 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
                 Register
               </Link>
             </div> */}
-
           </LoginFrom>
         </div>
       </div>

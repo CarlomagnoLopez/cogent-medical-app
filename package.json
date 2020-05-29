@@ -64,6 +64,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-highlight-words": "^0.16.0",
+    "react-idle-timer": "^4.2.12",
     "umi": "^3.1.0",
     "umi-request": "^1.0.8",
     "use-merge-value": "^1.0.1"
@@ -84,7 +85,6 @@
     "@umijs/preset-ant-design-pro": "^1.2.0",
     "@umijs/preset-react": "^1.4.16",
     "@umijs/preset-ui": "^2.1.11",
-    "carlo": "^0.9.46",
     "cross-env": "^7.0.0",
     "cross-port-killer": "^1.1.1",
     "detect-installer": "^1.0.1",

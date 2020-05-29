@@ -5,13 +5,13 @@ import { LogoutOutlined } from "@ant-design/icons";
 
 import {Button} from 'antd';
 function handleLogOut(){
-  axios.delete("https://master.ddzfdvg3qoxoo.amplifyapp.com",{ withCredentials :true}).then(
-    response => {
+//   axios.delete("https://master.ddzfdvg3qoxoo.amplifyapp.com",{ withCredentials :true}).then(
+//     response => {
      window.localStorage.clear();
      history.push("user/login");
- }).catch(error => {
-   console.log("Logout Error",error);
- });
+//  }).catch(error => {
+//    console.log("Logout Error",error);
+//  });
 }
 function LogOutContainer(){
   return(
