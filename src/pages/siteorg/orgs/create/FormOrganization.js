@@ -58,8 +58,8 @@ class FormOrganization extends Component {
   };
   onFinish = (values) => {
     console.log('Received values of form: ', values);
-    this.uploadFile(values.orgName, this.state.fileToUpload);
-    //this.props.finishOrganizationDetails(values);
+    //  this.uploadFile(values.orgName, this.state.fileToUpload);
+    this.props.finishOrganizationDetails(values);
   };
   prefixSelector = (
     <Form.Item name="prefix" noStyle>
