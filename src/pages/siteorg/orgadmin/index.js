@@ -67,13 +67,19 @@ class AdminPage extends Component {
         <Card
           title="Organization Admin List"
           extra={
-            <Button
-              onClick={() => {
-                this.setState({ visible: true });
-              }}
-            >
-              Create Organization Admin
-            </Button>
+
+            // <div>
+            //   {localStorage.getItem("currentAuth") === "SiteAdmin" &&
+                <Button
+                  onClick={() => {
+                    this.setState({ visible: true });
+                  }}
+                >
+                  Create Organization Admin
+                    </Button>
+            //   }
+            // </div>
+
           }
         >
           <FormAdminOrganization
@@ -83,7 +89,7 @@ class AdminPage extends Component {
           />
           <Table columns={columns} dataSource={this.props.orgadminsapprovalslist} />
         </Card>
-      </Spin>
+      </Spin >
     );
   }
 }

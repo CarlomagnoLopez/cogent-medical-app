@@ -41,6 +41,13 @@ class AdminUsers extends Component {
     });
   }
   deleteUser = (record) => {
+    let currentuser = localStorage.getItem('userName');
+    let tempuser = record['mcp-1-sk'].substring(5, record['mcp-1-sk'].length);
+    if (currentuser === tempuser) {
+      message.error('Can not delete this user!');
+      return;
+    }
+    console.log('Current User ' + currentuser + ' Temp User ' + tempuser);
     const _self = this;
     confirm({
       title: 'Confirm',

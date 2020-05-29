@@ -1,19 +1,20 @@
-import { Tooltip, Tag } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+// import { Tooltip, Tag } from 'antd';
+// import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useModel } from 'umi';
-import Avatar from './AvatarDropdown';
+// import AvatarDropdown from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
-import SelectLang from '../SelectLang';
+// import SelectLang from '../SelectLang';
 import styles from './index.less';
-
+import IdleTimerContainer from './IdelTimerComponent';
+import LogOutContainer from './LogOutComponent'
 export type SiderTheme = 'light' | 'dark';
 
-const ENVTagColor = {
-  dev: 'orange',
-  test: 'green',
-  pre: '#87d068',
-};
+// const ENVTagColor = {
+//   dev: 'orange',
+//   test: 'green',
+//   pre: '#87d068',
+// };
 
 const GlobalHeaderRight: React.FC<{}> = () => {
   const { initialState } = useModel('@@initialState');
@@ -31,6 +32,7 @@ const GlobalHeaderRight: React.FC<{}> = () => {
 
   return (
     <div className={className}>
+
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
@@ -54,7 +56,8 @@ const GlobalHeaderRight: React.FC<{}> = () => {
         //   //console.log('input', value);
         // }}
       />
-      <Tooltip title="使用文档">
+      <IdleTimerContainer></IdleTimerContainer>
+      {/* <Tooltip title="使用文档">
         <a
           target="_blank"
           href="https://pro.ant.design/docs/getting-started"
@@ -63,14 +66,16 @@ const GlobalHeaderRight: React.FC<{}> = () => {
         >
           <QuestionCircleOutlined />
         </a>
-      </Tooltip>
-      <Avatar />
+      </Tooltip> */}
+      {/* <AvatarDropdown /> */}
+      <LogOutContainer />
+
       {/*REACT_APP_ENV && (
         <span>
           <Tag color={ENVTagColor[REACT_APP_ENV]}>{REACT_APP_ENV}</Tag>
         </span>
       )*/}
-      <SelectLang className={styles.action} />
+      {/* <SelectLang className={styles.action} /> */}
     </div>
   );
 };

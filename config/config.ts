@@ -31,6 +31,14 @@ export default defineConfig({
   // umi routes: https://umijs.org/docs/routing
   routes: [
     {
+      // name: 'signup',
+      path: 'user/register',
+      layout: false,
+      hideInMenu:true,
+      component: './users/signup',
+    },
+
+    {
       path: '/user',
       layout: false,
       routes: [
@@ -42,13 +50,43 @@ export default defineConfig({
         },
       ],
     },
+
+    {
+      path: '/manageusers',
+      name: 'Manage Org Users',
+      icon: 'smile',
+      access: 'canOrgAdmin',
+      component: './OrganizationAdmin/usersadmin',
+    },
+    {
+      path: '/manageuserapprovals',
+      name: 'Manage User Approvals',
+      component: './OrganizationAdmin/userapprovals',
+      access: 'canOrgAdmin',
+    },
+    {
+      path: '/manageuserapprovals',
+      name: 'Manage User Approvals',
+      component: './OrganizationAdmin/userapprovals',
+      access: 'canApproval',
+    },
+    // {
+      /*
+      path: '/notifications',
+      component: './OrganizationAdmin/Notifications',
+      name: 'Notifications',
+      access: 'canOrgAdmin',
+    */
+    // },
+
     {
       path: '/',
       layout: false,
       component: './siteorg/orgs',
+      access: 'canAdmin',
     },
     {
-      path: '/welcome',
+      path: '/',
       name: 'Create an Organization',
       icon: 'smile',
       access: 'canAdmin',
@@ -63,6 +101,11 @@ export default defineConfig({
       component: './siteorg/orgadmin',
     
     },*/
+
+    {
+      path: '/welcome',
+    },
+
     {
       path: '/adminusers',
       name: 'Manage Org Users',
@@ -70,10 +113,10 @@ export default defineConfig({
       access: 'canAdmin',
       component: './siteorg/usersadmin',
     },
+
     {
       path: '/org/create',
       hideInMenu: true,
-
       component: './siteorg/orgs/create',
     },
     {
@@ -89,6 +132,8 @@ export default defineConfig({
   define: {
     ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_zgFW3AEob',
     ANT_DESIGN_PRO_CLIENT_ID: '13pbrvceiogtq8ikiv1l9v89t4',
+    // ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_4JmTxHDGX',
+    // ANT_DESIGN_PRO_CLIENT_ID: '7s90an5ecff1blr3aej1d97p3q',
     REACT_APP_ENV: 'https://c4ymficygk.execute-api.us-east-1.amazonaws.com/dev',
     //REACT_APP_ENV: '/api',
   },

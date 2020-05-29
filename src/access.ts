@@ -5,6 +5,6 @@ export default function (initialState: { currentUser?: API.CurrentUser | undefin
   return {
     canAdmin: currentUser && currentUser.custom_role === 'siteadmin',
     canOrgAdmin: currentUser && currentUser.custom_role === 'orgadmin',
-    canApproval: currentUser && currentUser.current_role === 'orgapproval',
+    canApproval: currentUser && currentUser.custom_role === 'orgapproval',
   };
 }
