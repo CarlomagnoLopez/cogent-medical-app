@@ -346,6 +346,29 @@ class Org extends Component {
                   <Button onClick={this.showOrg}>Create Organization</Button>
                 </div>
 
+
+      <Spin spinning={this.props.loading}>
+        <Modal
+          title="Are you sure to delete an organization?"
+          visible={this.state.visiblePopOver}
+          onOk={this.proceedToDelete}
+          onCancel={this.hideWarningDelete}
+        >
+        </Modal>
+        <Card
+          title="Organization"
+          extra={
+
+            <div>
+              {localStorage.getItem("currentAuth") === "SiteAdmin" &&
+                <Button onClick={this.showOrg}>Create Organization</Button>
+              }
+            </div>
+
+          }
+
+        >
+
      
               {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
               <EditOrganization
