@@ -16,6 +16,7 @@ class Org extends Component {
     this.state = {
       visible: false,
       current: '',
+      visiblePopOver: false
     };
   }
 
@@ -36,12 +37,38 @@ class Org extends Component {
     this.setState({ visible: false });
   };
 
+  showWarningDelete = (record) => {
+
+    this.setState({
+      visiblePopOver: true,
+      recordOrg:record
+    })
+
+
+  };
+
+  proceedToDelete = () => {
+    this.setState({
+      visiblePopOver: true
+    })
+
+    this.deleteOrg(this.state.deleteOrg);
+  }
+
+
+  hideWarningDelete = () => {
+    this.setState({
+      visiblePopOver: false,
+      recordOrg:""
+    })
+  }
+
   deleteOrg = (record) => {
     this.props.dispatch({
       type: 'organization/deleteOrganization',
       payload: { orgid: record['mcp-1-pk'] },
     });
-  };
+  }
 
   onEditSubmit = (values) => {
     console.log('Values Received ' + values);
@@ -145,20 +172,20 @@ class Org extends Component {
       });
     }
 
-    let cont = 0 ;
+    let cont = 0;
     const columns = [
-      {
-        title: '',
-        dataIndex: '',
-        key: '',
-        render: (record) => { 
-          // console.log(record ); 
-          cont++
-          return cont
-          // console.log(cont ); 
+      // {
+      //   title: '',
+      //   dataIndex: '',
+      //   key: '',
+      //   render: (record) => { 
+      //     // console.log(record ); 
+      //     cont++
+      //     return cont
+      //     // console.log(cont ); 
 
-        }
-      },
+      //   }
+      // },
       {
         title: 'Name of Contact',
         dataIndex: 'contactName',
@@ -210,7 +237,7 @@ class Org extends Component {
             <p></p>
             <a
               onClick={() => {
-                this.deleteOrg(record);
+                this.showWarningDelete(record);
               }}
             >
               <DeleteOutlined />
@@ -251,6 +278,16 @@ class Org extends Component {
     return (
 
       <Spin spinning={this.props.loading}>
+        <Modal
+          title="Are you sure to delete an organization?"
+          visible={this.state.visiblePopOver}
+          onOk={this.proceedToDelete}
+          onCancel={this.hideWarningDelete}
+        >
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
         <Card
           title="Organization"
           extra={
