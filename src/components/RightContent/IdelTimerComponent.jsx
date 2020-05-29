@@ -7,7 +7,8 @@ function IdleTimerContainer(){
   const onIdle = () => {
     alert("User On Idle Login Again");
     console.log(" User On Idle");
-    axios.delete("http://localhost:8000",{ withCredentials :true}).then(
+    // axios.delete("http://localhost:8000",{ withCredentials :true}).then(
+      axios.delete("https://master.ddzfdvg3qoxoo.amplifyapp.com",{ withCredentials :true}).then(
      response => {
       window.localStorage.clear();
       history.push("user/login");
