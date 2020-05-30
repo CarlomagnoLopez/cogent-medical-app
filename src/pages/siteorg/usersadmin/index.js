@@ -30,18 +30,34 @@ class AdminUsers extends Component {
   }
   componentWillMount() {
     console.log('Component will mount');
-
-    this.props.dispatch({
-      type: 'organization/getAllUser',
-      payload: [],
-    });
-
+    if (localStorage.getItem('currentAuth') === 'orgadmin') {
+      this.props.dispatch({
+        type: 'organization/getUsersByOrgs',
+        payload: {
+          orgid: localStorage.getItem('orgid'),
+          role: localStorage.getItem('currentAuth'),
+        },
+      });
+    }
+    if (localStorage.getItem('currentAuth') === 'siteadmin') {
+      this.props.dispatch({
+        type: 'organization/getAllUser',
+        payload: [],
+      });
+    }
     this.props.dispatch({
       type: 'organization/getAllOrgs',
       payload: [],
     });
   }
   deleteUser = (record) => {
+    let currentuser = localStorage.getItem('userName');
+    let tempuser = record['mcp-1-sk'].substring(5, record['mcp-1-sk'].length);
+    if (currentuser === tempuser) {
+      message.error('Can not delete this user!');
+      return;
+    }
+
     const _self = this;
     confirm({
       title: 'Confirm',
@@ -56,6 +72,7 @@ class AdminUsers extends Component {
           payload: {
             userid: record['mcp-1-sk'].substring(5, record['mcp-1-sk'].length),
             orgid: record['mcp-1-pk'],
+            role: record.role,
           },
         });
       },
@@ -102,6 +119,7 @@ class AdminUsers extends Component {
     this.props.dispatch({
       type: 'organization/generateOrgUser',
       payload: record,
+      role: record.role,
     });
 
     this.setState({ data: tempdata, visible: false, updatedata: true });
@@ -189,22 +207,44 @@ class AdminUsers extends Component {
         type: 'organization/resetUpdateUserDetailsStatus',
         payload: [],
       });
-      this.props.dispatch({
-        type: 'organization/getAllUser',
-        payload: [],
-      });
-    }
-
-    if (deleteuserstatus) {
-      if (deleteuserstatus.success == true) {
-        message.success('User Deleted Successfully!');
+      if (localStorage.getItem('currentAuth') === 'orgadmin') {
+        this.props.dispatch({
+          type: 'organization/getUsersByOrgs',
+          payload: {
+            orgid: localStorage.getItem('orgid'),
+            role: localStorage.getItem('currentAuth'),
+          },
+        });
+      }
+      if (localStorage.getItem('currentAuth') === 'siteadmin') {
         this.props.dispatch({
           type: 'organization/getAllUser',
           payload: [],
         });
       }
+    }
+
+    if (deleteuserstatus) {
+      if (deleteuserstatus.success == true) {
+        message.success('User Deleted Successfully!');
+        if (localStorage.getItem('currentAuth') === 'orgadmin') {
+          this.props.dispatch({
+            type: 'organization/getUsersByOrgs',
+            payload: {
+              orgid: localStorage.getItem('orgid'),
+              role: localStorage.getItem('currentAuth'),
+            },
+          });
+        }
+        if (localStorage.getItem('currentAuth') === 'siteadmin') {
+          this.props.dispatch({
+            type: 'organization/getAllUser',
+            payload: [],
+          });
+        }
+      }
       if (deleteuserstatus.success == false) {
-        message.error('Error while deleting the user,please try again!');
+        message.error(deleteuserstatus.log.message);
         this.props.dispatch({
           type: 'organization/resetDeleteUserStatus',
           payload: [],
@@ -215,10 +255,21 @@ class AdminUsers extends Component {
     if (statusorgadmincreation) {
       if (statusorgadmincreation.success == true) {
         message.success('User Created Successfully!');
-        this.props.dispatch({
-          type: 'organization/getAllUser',
-          payload: [],
-        });
+        if (localStorage.getItem('currentAuth') === 'orgadmin') {
+          this.props.dispatch({
+            type: 'organization/getUsersByOrgs',
+            payload: {
+              orgid: localStorage.getItem('orgid'),
+              role: localStorage.getItem('currentAuth'),
+            },
+          });
+        }
+        if (localStorage.getItem('currentAuth') === 'siteadmin') {
+          this.props.dispatch({
+            type: 'organization/getAllUser',
+            payload: [],
+          });
+        }
       }
       if (statusorgadmincreation.success == false) {
         message.error(statusorgadmincreation.log.message);
@@ -292,7 +343,13 @@ class AdminUsers extends Component {
             </Button>
           }
         >
-          <Table columns={columns} dataSource={userslist} />
+          {localStorage.getItem('currentAuth') === 'siteadmin' && (
+            <Table columns={columns} dataSource={userslist} />
+          )}
+          {localStorage.getItem('currentAuth') === 'orgadmin' && (
+            <Table columns={columns} dataSource={this.props.orgsusers} />
+          )}
+
           <FormUser
             visible={this.state.visible}
             onCancel={this.onCancel}
@@ -323,4 +380,5 @@ export default connect(({ organization, loading }) => ({
   deleteuserstatus: organization.deleteuserstatus,
   statusorgadmincreation: organization.statusorgadmincreation,
   updateuserstatus: organization.updateuserstatus,
+  orgsusers: organization.orgsusers,
 }))(AdminUsers);

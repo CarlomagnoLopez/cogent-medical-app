@@ -128,7 +128,7 @@ class CreateOrganization extends Component {
           if (res.createOrg) message.success('Organization Created!');
         });
         // message.success('Organization Created!');
-        history.goBack();
+        history.push('/');
       }
       if (status.logResponse[0].success === false) {
         //history.goBack();

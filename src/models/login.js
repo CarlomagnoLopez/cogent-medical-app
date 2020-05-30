@@ -53,6 +53,7 @@ const Model = {
         localStorage.setItem('userName', response.Username);
         localStorage.setItem('email', response.email);
         localStorage.setItem('currentAuth', response.custom_role);
+        localStorage.setItem('orgid', response.custom_pk != undefined ? response.custom_pk : '');
         // localStorage.setItem('companyId',        response.companies.companyId);
         //localStorage.setItem('companyName',      response.custom_company_name);
         // localStorage.setItem('group',            response.custom_group.split(' ').join('_'));
