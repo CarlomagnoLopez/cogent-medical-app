@@ -241,17 +241,18 @@ class FormOrganization extends Component {
         >
           <Input placeholder="Website" id="website" />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="upload"
           label="Upload"
           valuePropName="fileList"
           getValueFromEvent={normFile}
-          extra="longgggggggggggggggggggggggggggggggggg"
+          // extra=""
+
         >
           <Upload name="logo">
             <Button>Upload</Button>
           </Upload>
-        </Form.Item>{' '}
+        </Form.Item>{' '} */}
         <Form.Item label="office phone" name="phoneNumber" rules={[{ required: true }]}>
           <Input
             addonBefore={this.prefixSelector}
