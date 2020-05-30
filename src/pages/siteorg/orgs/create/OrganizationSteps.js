@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Icon, Steps, Card } from 'antd';
 import styles from './css/Org.less';
 const { Step } = Steps;
+import { ScheduleOutlined, SolutionOutlined, QuestionCircleOutlined,SmileOutlined   } from '@ant-design/icons';
+
 const orgsteps = [
   {
     key: 0,
@@ -55,15 +57,13 @@ export default class OrganizationSteps extends Component {
   render() {
     return (
       <Card className={styles.containerStep}>
-        <Steps current={this.props.currentstep}>
-          {orgsteps.map((item) => (
-            <Step
-              key={item.key}
-              description={item.description}
-              title={item.title}
-              icon={<Icon type={item.icon} />}
-            />
-          ))}
+         <Steps current={this.props.currentstep}>
+            <Step description={""} title={'Organization'}icon= {<ScheduleOutlined />} />
+            <Step description={""} title={'Org Admin1'}icon= {<SolutionOutlined />} />
+            <Step description={""} title={'Org Admin2'}icon= {<SolutionOutlined />} />
+            <Step description={""} title={'Approver1'}icon= {<QuestionCircleOutlined />} />
+            <Step description={""} title={'Approver2'}icon= {<QuestionCircleOutlined />} />
+            <Step description={""} title={'Finish'}icon= {<SmileOutlined />} />
         </Steps>
       </Card>
     );

@@ -10,6 +10,7 @@ import {
   updateUserDetails,
   deleteOrg,
   getOrgByUser,
+  getUsersByOrgId,
 } from '@/services/Organization';
 
 import { router } from 'umi';
@@ -30,6 +31,7 @@ export default {
     updateorgdetailsstatus: '',
     updateuserstatus: '',
     deleteorgstatus: '',
+    orgdetail: '',
   },
   reducers: {
     organizationCreationStatus(state, action) {
@@ -68,6 +70,7 @@ export default {
         statusorgadmincreation: '',
         deleteuserstatus: '',
         orgdetail: '',
+        orgsusers: [],
       };
     },
     resetStatusInfo(state, action) {
@@ -104,6 +107,24 @@ export default {
     getOrgDetails(state, action) {
       if (action.payload.success) return { ...state, orgdetail: action.payload.data.Item };
       else return { ...state, orgdetail: '' };
+    },
+
+    getUsersByOrg(state, action) {
+      if (action.payload.body != undefined) {
+        return {
+          ...state,
+          orgsusers: action.payload.body,
+          statusorgadmincreation: '',
+          deleteorgstatus: '',
+        };
+      } else {
+        return {
+          ...state,
+          orgsusers: action.payload,
+          statusorgadmincreation: '',
+          deleteorgstatus: '',
+        };
+      }
     },
   },
   effects: {
@@ -242,6 +263,14 @@ export default {
       const res = yield call(getOrgByUser, payload);
       yield put({
         type: 'getOrgDetails',
+        payload: res,
+      });
+    },
+
+    *getUsersByOrgs({ payload }, { call, put }) {
+      const res = yield call(getUsersByOrgId, payload);
+      yield put({
+        type: 'getUsersByOrg',
         payload: res,
       });
     },
