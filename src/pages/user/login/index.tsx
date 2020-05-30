@@ -7,6 +7,7 @@ import SelectLang from '@/components/SelectLang';
 import logo from '@/assets/logo.svg';
 import { LoginParamsType, fakeAccountLogin } from '@/services/login';
 import LoginFrom from './components/Login';
+import Signup from '../../users/signup';
 import styles from './style.less';
 import { connect } from 'umi';
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
@@ -157,7 +158,16 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
   };
 
   const { status, type: loginType } = userLoginState;
-
+  const link = () => {
+    // var verifylink = 
+    var results = new RegExp('[?&]verifylink=([^&#]*)').exec(window.location.href);
+    if (results == null) {
+      return null;
+    } else {
+      return decodeURI(results[1]) || 0;
+    }
+  }
+  // console.log(link())
   return (
     <div className={styles.container}>
       {/* <div className={styles.lang}>
@@ -168,107 +178,129 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
           <div className={styles.header}>
             <Link to="/">
               <img alt="logo" className={styles.logo} src={logo} />
-              <span className={styles.title}>Login</span>
+
+              {!link() &&
+                <span className={styles.title}>Login</span>
+
+              }
+
+              {link() &&
+                <span className={styles.title}>Signup</span>
+
+              }
+
+
+
+              {/* <span className={styles.title}>Login</span> */}
             </Link>
           </div>
           <div className={styles.desc}></div>
         </div>
 
-        <div className={styles.main}>
-          <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-            <Tab key="account" tab="">
-              {status === 'error' && loginType === 'account' && !submitting && (
-                <LoginMessage content="Account" />
-              )}
+        {!link() &&
+          <div className={styles.main}>
 
-              <UserName
-                name="userName"
-                placeholder="username"
-                rules={[
-                  {
-                    required: true,
-                    message: 'please enter valid username!',
-                  },
-                ]}
-              />
-              <Password
-                name="password"
-                placeholder="password"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter valid password!',
-                  },
-                ]}
-              />
-            </Tab>
-            <Tab key="verify" tab="">
-              <Captcha
-                name="captcha"
-                placeholder="qqq4"
-                countDown={120}
-                getCaptchaButtonText=""
-                getCaptchaSecondText="秒"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter valid capcha',
-                  },
-                ]}
-              />
-            </Tab>
-            {/*   <Tab key="mobile" tab="Mobile">
-              {status === 'error' && loginType === 'mobile' && !submitting && (
-                <LoginMessage content="Mobile" />
-              )}
-              <Mobile
-                name="mobile"
-                placeholder="Mobile no"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter valid mobile number!',
-                  },
-                  {
-                    pattern: /^1\d{10}$/,
-                    message: 'Please enter 10 digit mobile number!',
-                  },
-                ]}
-              />
-              <Captcha
-                name="captcha"
-                placeholder="qqq4"
-                countDown={120}
-                getCaptchaButtonText=""
-                getCaptchaSecondText="秒"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter valid capcha',
-                  },
-                ]}
-              />
-              </Tab>*/}
-            {/* <div>
-              <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
-                Remember me
-              </Checkbox>
-              <a
-                style={{
-                  float: 'right',
-                }}
-              >
-                forget password
-              </a>
-            </div> */}
-            <Submit loading={submitting}>Submit</Submit>
-            {/* <div className={styles.other}>
-              <Link className={styles.register} to="/user/register">
-                Register
-              </Link>
-            </div> */}
-          </LoginFrom>
-        </div>
+            <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
+              <Tab key="account" tab="">
+                {status === 'error' && loginType === 'account' && !submitting && (
+                  <LoginMessage content="Account" />
+                )}
+
+                <UserName
+                  name="userName"
+                  placeholder="username"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'please enter valid username!',
+                    },
+                  ]}
+                />
+                <Password
+                  name="password"
+                  placeholder="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please enter valid password!',
+                    },
+                  ]}
+                />
+              </Tab>
+              <Tab key="verify" tab="">
+                <Captcha
+                  name="captcha"
+                  placeholder="qqq4"
+                  countDown={120}
+                  getCaptchaButtonText=""
+                  getCaptchaSecondText="秒"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please enter valid capcha',
+                    },
+                  ]}
+                />
+              </Tab>
+              {/*   <Tab key="mobile" tab="Mobile">
+            {status === 'error' && loginType === 'mobile' && !submitting && (
+              <LoginMessage content="Mobile" />
+            )}
+            <Mobile
+              name="mobile"
+              placeholder="Mobile no"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter valid mobile number!',
+                },
+                {
+                  pattern: /^1\d{10}$/,
+                  message: 'Please enter 10 digit mobile number!',
+                },
+              ]}
+            />
+            <Captcha
+              name="captcha"
+              placeholder="qqq4"
+              countDown={120}
+              getCaptchaButtonText=""
+              getCaptchaSecondText="秒"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter valid capcha',
+                },
+              ]}
+            />
+            </Tab>*/}
+              {/* <div>
+            <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
+              Remember me
+            </Checkbox>
+            <a
+              style={{
+                float: 'right',
+              }}
+            >
+              forget password
+            </a>
+          </div> */}
+              <Submit loading={submitting}>Submit</Submit>
+              {/* <div className={styles.other}>
+            <Link className={styles.register} to="/user/register">
+              Register
+            </Link>
+          </div> */}
+            </LoginFrom>
+          </div>
+        }
+
+        {link() &&
+          <Signup></Signup>
+        }
+
+
       </div>
     </div>
   );

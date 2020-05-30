@@ -5,7 +5,7 @@ import { history } from 'umi';
 function IdleTimerContainer(){
   const idleTimerRef = useRef(null);
   const onIdle = () => {
-    alert("User On Idle Login Again");
+    alert("You session has ednded.");
     console.log(" User On Idle");
     // axios.delete("http://localhost:8000",{ withCredentials :true}).then(
 //       axios.delete("https://master.ddzfdvg3qoxoo.amplifyapp.com",{ withCredentials :true}).then(

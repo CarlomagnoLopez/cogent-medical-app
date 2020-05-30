@@ -35,7 +35,7 @@ class SignUpUser extends Component {
 
   onFinish = (values) => {
     // if(values)
-    
+
     // this.setState({ loading: true });
 
 
@@ -97,17 +97,17 @@ class SignUpUser extends Component {
 
 
         } */}
-        <Card>
+        {/* <Card> */}
           <div className={styles.content}>
-            <div className={styles.top}>
+            {/*  <div className={styles.top}>
               <div className={styles.header}>
                 <Link to="/">
                   <img alt="logo" className={styles.logo} src={logo} />
                   <span className={styles.title}>Signup</span>
                 </Link>
               </div>
-              {/* <div className={styles.desc}>Signup</div> */}
-            </div>
+              <div className={styles.desc}>Signup</div>
+            </div> */}
 
             <Form
               {...layout}
@@ -161,6 +161,17 @@ class SignUpUser extends Component {
               >
                 <Input.Password />
               </Form.Item>
+              <Form.Item
+                name={'verifypassword'}
+                label="Verify Password"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
               <Form.Item label="DOB" name="dob" rules={[{ required: true }]}>
                 <DatePicker />
               </Form.Item>
@@ -206,7 +217,7 @@ class SignUpUser extends Component {
               </Form.Item>
             </Form>
           </div>
-        </Card>
+        {/* </Card> */}
       </Spin>
     );
   }
