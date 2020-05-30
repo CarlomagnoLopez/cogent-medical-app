@@ -16,7 +16,7 @@ class Org extends Component {
     this.state = {
       visible: false,
       current: '',
-      visiblePopOver: false
+      visiblePopOver: false,
     };
   }
 
@@ -46,37 +46,33 @@ class Org extends Component {
   };
 
   showWarningDelete = (record) => {
-
     this.setState({
       visiblePopOver: true,
-      recordOrg: record
-    })
-
-
+      recordOrg: record,
+    });
   };
 
   proceedToDelete = () => {
     this.setState({
-      visiblePopOver: false
-    })
+      visiblePopOver: false,
+    });
 
     this.deleteOrg(this.state.recordOrg);
-  }
-
+  };
 
   hideWarningDelete = () => {
     this.setState({
       visiblePopOver: false,
-      recordOrg: ""
-    })
-  }
+      recordOrg: '',
+    });
+  };
 
   deleteOrg = (record) => {
     this.props.dispatch({
       type: 'organization/deleteOrganization',
       payload: { orgid: record['mcp-1-pk'] },
     });
-  }
+  };
 
   onEditSubmit = (values) => {
     console.log('Values Received ' + values);
@@ -140,11 +136,11 @@ class Org extends Component {
           textToHighlight={text.toString()}
         />
       ) : (
-          text
-        );
+        text
+      );
     },
   });
-  createOrgAdmin = (record) => { };
+  createOrgAdmin = (record) => {};
 
   render() {
     const { updateorgdetailsstatus, deleteorgstatus } = this.props;
@@ -216,17 +212,16 @@ class Org extends Component {
       },
     ];
 
-
     const columns = [
       // {
       //   title: '',
       //   dataIndex: '',
       //   key: '',
-      //   render: (record) => { 
-      //     // console.log(record ); 
+      //   render: (record) => {
+      //     // console.log(record );
       //     cont++
       //     return cont
-      //     // console.log(cont ); 
+      //     // console.log(cont );
 
       //   }
       // },
@@ -292,7 +287,6 @@ class Org extends Component {
                 </a>
               </div>
             )}
-
           </div>
         ),
       },
@@ -338,32 +332,23 @@ class Org extends Component {
           </div>
         )}
         {localStorage.getItem('currentAuth') === 'siteadmin' && (
-
-
-
           <Spin spinning={this.props.loading}>
             <Modal
               title="Are you sure to delete an organization?"
               visible={this.state.visiblePopOver}
               onOk={this.proceedToDelete}
               onCancel={this.hideWarningDelete}
-            >
-            </Modal>
+            ></Modal>
             <Card
               title="Organization"
               extra={
-
                 <div>
-                  {localStorage.getItem("currentAuth") !== "SiteAdmin" &&
+                  {localStorage.getItem('currentAuth') !== 'SiteAdmin' && (
                     <Button onClick={this.showOrg}>Create Organization</Button>
-                  }
+                  )}
                 </div>
-
               }
-
             >
-
-
               {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
               <EditOrganization
                 visible={this.state.visible}

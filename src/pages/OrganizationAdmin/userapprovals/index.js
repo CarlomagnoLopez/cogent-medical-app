@@ -11,7 +11,7 @@ class ManageUserApprovals extends Component {
   componentWillMount() {
     this.props.dispatch({
       type: 'users/getApprovalUsersList',
-      payload: [],
+      payload: { orgid: localStorage.getItem('orgid') },
     });
   }
 
