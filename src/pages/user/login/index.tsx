@@ -160,12 +160,40 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
   const { status, type: loginType } = userLoginState;
   const link = () => {
     // var verifylink = 
-    var results = new RegExp('[?&]verifylink=([^&#]*)').exec(window.location.href);
+    var results = new RegExp('[?&]v=([^&#]*)').exec(window.location.href);
     if (results == null) {
       return null;
     } else {
       return decodeURI(results[1]) || 0;
     }
+  }
+
+  const requestVerify = (_scope, payload) => {
+    _scope.dispatch({
+      type: 'users/signUpDetail',
+      payload: payload,
+    });
+
+  }
+
+  const requestVerifyReset = (_scope, next) => {
+    // _scope.dispatch({
+    //   type: 'users/signUpDetail',
+    //   payload: payload,
+    // });
+
+    // if(_scope.props.signupdetailstatus.data){
+    //   _scope.setState({
+    //     userid:_scope.props.signupdetailstatus.data.Items[0]["mcp-1-sk"].replace("user-", "")
+    //   })
+    // }
+    let payload = ""
+    if (next) {
+      payload = next
+    }
+
+    _scope.dispatch({ type: 'users/resetsignUpDetail', payload: payload });
+
   }
   // console.log(link())
   return (
@@ -297,7 +325,10 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         }
 
         {link() &&
-          <Signup></Signup>
+          <Signup
+            sendRequest={requestVerify}
+            requestVerifyReset={requestVerifyReset}
+          > </Signup>
         }
 
 
