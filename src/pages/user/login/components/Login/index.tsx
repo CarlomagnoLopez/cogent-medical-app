@@ -53,7 +53,7 @@ const Login: LoginType = (props) => {
       }
     },
   );
-
+  
   return (
     <LoginContext.Provider
       value={{
@@ -100,8 +100,8 @@ const Login: LoginType = (props) => {
               {otherChildren}
             </React.Fragment>
           ) : (
-            props.children
-          )}
+              props.children
+            )}
         </Form>
       </div>
     </LoginContext.Provider>

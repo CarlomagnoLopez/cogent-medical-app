@@ -11,7 +11,10 @@ export default {
     loading: false,
     userslist: [],
     approveuserstatus: '',
-    signupdetailstatus: '',
+    signupdetailstatus: {
+      next:false,
+      loading:false
+    },
   },
   reducers: {
     getUsersList(state, action) {
@@ -27,7 +30,7 @@ export default {
       return { ...state, signupdetailstatus: action.payload.body };
     },
     resetsignUpDetailsStatus(state, action) {
-      return { ...state, signupdetailstatus: '' };
+      return { ...state, signupdetailstatus: action.payload };
     },
   },
   effects: {
@@ -60,7 +63,7 @@ export default {
     *resetsignUpDetail({ payload }, { call, put }) {
       yield put({
         type: 'resetsignUpDetailsStatus',
-        payload: res,
+        payload: payload,
       });
     },
   },
