@@ -36,7 +36,8 @@ const Dragger = Upload.Dragger;
 import { SmileOutlined } from '@ant-design/icons';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import axios from 'axios';
-
+import * as AWS from 'aws-sdk';
+let s3 = '';
 class FormOrganization extends Component {
   constructor(props) {
     super(props);
