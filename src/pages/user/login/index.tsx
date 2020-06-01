@@ -93,7 +93,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         Pool: userPool,
       };
       var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-      // doLogin(values.userName);
+      doLogin(values.userName);
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
           // localStorage.setItem("currentAuth",result.idToken.payload["custom:role"]);
@@ -159,22 +159,21 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
 
   const { status, type: loginType } = userLoginState;
   const link = () => {
-    // var verifylink = 
+    // var verifylink =
     var results = new RegExp('[?&]v=([^&#]*)').exec(window.location.href);
     if (results == null) {
       return null;
     } else {
       return decodeURI(results[1]) || 0;
     }
-  }
+  };
 
   const requestVerify = (_scope, payload) => {
     _scope.dispatch({
       type: 'users/signUpDetail',
       payload: payload,
     });
-
-  }
+  };
 
   const requestVerifyReset = (_scope, next) => {
     // _scope.dispatch({
@@ -187,15 +186,15 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
     //     userid:_scope.props.signupdetailstatus.data.Items[0]["mcp-1-sk"].replace("user-", "")
     //   })
     // }
-    let payload = ""
+    let payload = '';
     if (next) {
-      payload = next
+      payload = next;
     }
 
     _scope.dispatch({ type: 'users/resetsignUpDetail', payload: payload });
+  };
 
-  }
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
   // console.log(link())
   return (
@@ -207,29 +206,19 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         <div className={styles.top}>
           <div className={styles.header}>
             {/* <Link to="/"> */}
-              <img alt="logo" className={styles.logo} src={logo} />
+            <img alt="logo" className={styles.logo} src={logo} />
 
-              {!link() &&
-                <span className={styles.title}>Login</span>
+            {!link() && <span className={styles.title}>Login</span>}
 
-              }
+            {link() && <span className={styles.title}>Signup</span>}
 
-              {link() &&
-                <span className={styles.title}>Signup</span>
-
-              }
-
-
-
-              {/* <span className={styles.title}>Login</span> */}
+            {/* <span className={styles.title}>Login</span> */}
             {/* </Link> */}
           </div>
           <div className={styles.desc}></div>
         </div>
-
-        {!link() &&
+        {!link() && (
           <div className={styles.main}>
-
             <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
               <Tab key="account" tab="">
                 {status === 'error' && loginType === 'account' && !submitting && (
@@ -324,17 +313,13 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
           </div> */}
             </LoginFrom>
           </div>
+        )}
         }
-
-        {link() &&
-          <Signup
-            form={form}
-            sendRequest={requestVerify}
-            requestVerifyReset={requestVerifyReset}
-          > </Signup>
-        }
-
-
+        {link() && (
+          <Signup sendRequest={requestVerify} requestVerifyReset={requestVerifyReset}>
+            {' '}
+          </Signup>
+        )}
       </div>
     </div>
   );

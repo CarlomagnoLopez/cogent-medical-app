@@ -4,6 +4,8 @@ import { Card, Button, Spin, message } from 'antd';
 import FormOrganization from './FormOrganization';
 import FormAdmin from './FormAdmin';
 import { connect, history } from 'umi';
+import * as AWS from 'aws-sdk';
+let s3 = '';
 
 class CreateOrganization extends Component {
   constructor(props) {
@@ -18,7 +20,31 @@ class CreateOrganization extends Component {
       approver2Details: [],
       loading: false,
     };
+
+    const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+
+    var albumBucketName = 'medicalprojectlogos';
+    var bucketRegion = 'us-east-1'; // Region;
+    var IdentityPoolId = 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1';
+
+    AWS.config.update({
+      region: bucketRegion,
+      credentials: new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1',
+      }),
+    });
+
+    s3 = new AWS.S3({
+      apiVersion: '2006-03-01',
+      params: { Bucket: 'medicalprojectlogos' },
+    });
   }
+
+  //const awssdk = require('aws-sdk');
+
+  uploadLogo = (albumName) => {
+    console.log(albumName);
+  };
 
   finishAdminDetails = (values) => {
     const { currentstep } = this.state;
@@ -53,6 +79,28 @@ class CreateOrganization extends Component {
     e.preventDefault();
     const { loading } = this.state;
     this.setState({ loading: true });
+
+    const reader = new FileReader();
+
+    // const buffer = reader.readAsBinaryString(this.state.file);
+    //reader.readAsText(file);
+    const { organizationDetails } = this.state;
+    let params = {
+      Body: organizationDetails.file,
+      Key: organizationDetails.orgName.trim() + '.jpeg',
+      //ACL: 'public-read',
+    };
+
+    s3.putObject(params, function (err, data) {
+      console.log('Data ' + JSON.stringify(data) + ' Error ' + JSON.stringify(err));
+
+      if (err) {
+        message.error('There was an error creating your album: ' + err.message);
+      }
+      message.success('Successfully uploaded logo.');
+      //    console.log(albumName);
+    });
+
     let tempsummaryOrg = this.state.organizationDetails;
     const tempprefix = tempsummaryOrg.prefix;
     tempsummaryOrg.phoneNumber = '+' + tempprefix + tempsummaryOrg.phoneNumber;
