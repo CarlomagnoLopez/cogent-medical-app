@@ -39,6 +39,7 @@ import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 
 let timeout;
 let currentValue;
+let orginfo = '';
 
 class FormUser extends Component {
   constructor(props) {
@@ -123,6 +124,13 @@ class FormUser extends Component {
       },
     };
     console.log(this.props.data);
+    if (localStorage.getItem('currentAuth') === 'orgadmin') {
+      orginfo = this.props.data.filter(
+        (item) => item['mcp-1-pk'] === localStorage.getItem('orgid'),
+      );
+
+      console.log('Org Name . ' + JSON.stringify(orginfo));
+    }
 
     const options =
       this.props.data != undefined
@@ -170,7 +178,16 @@ class FormUser extends Component {
               onChange={this.handleChange}
               notFoundContent={null}
             >
-              {options}
+              {localStorage.getItem('currentAuth') === 'siteadmin' ? (
+                options
+              ) : (
+                <Option
+                  key={orginfo[0].orgname != null ? orginfo[0].text : ''}
+                  value={orginfo[0]['mcp-1-pk']}
+                >
+                  {orginfo[0].orgname}
+                </Option>
+              )}
             </Select>
           </Form.Item>
 
