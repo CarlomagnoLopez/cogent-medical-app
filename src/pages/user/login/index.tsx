@@ -1,5 +1,5 @@
 import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
-import { Alert, Checkbox, message } from 'antd';
+import { Form, Alert, Checkbox, message } from 'antd';
 import React, { useState } from 'react';
 import { Link, history, useModel } from 'umi';
 import { getPageQuery } from '@/utils/utils';
@@ -195,6 +195,8 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
     _scope.dispatch({ type: 'users/resetsignUpDetail', payload: payload });
 
   }
+  const [form] = Form.useForm()
+
   // console.log(link())
   return (
     <div className={styles.container}>
@@ -204,7 +206,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
-            <Link to="/">
+            {/* <Link to="/"> */}
               <img alt="logo" className={styles.logo} src={logo} />
 
               {!link() &&
@@ -220,7 +222,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
 
 
               {/* <span className={styles.title}>Login</span> */}
-            </Link>
+            {/* </Link> */}
           </div>
           <div className={styles.desc}></div>
         </div>
@@ -326,6 +328,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
 
         {link() &&
           <Signup
+            form={form}
             sendRequest={requestVerify}
             requestVerifyReset={requestVerifyReset}
           > </Signup>
