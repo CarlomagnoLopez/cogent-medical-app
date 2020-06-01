@@ -35,7 +35,7 @@ const Option = Select.Option;
 const Dragger = Upload.Dragger;
 import { SmileOutlined } from '@ant-design/icons';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
-
+import { getInputClassName } from 'antd/lib/input/Input';
 class FormEditUser extends Component {
   constructor(props) {
     super(props);
@@ -115,6 +115,7 @@ class FormEditUser extends Component {
         },
       },
     };
+
     const options =
       this.props.data != undefined
         ? this.props.data.map((d) => (
