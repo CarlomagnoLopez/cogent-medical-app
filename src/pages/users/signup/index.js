@@ -7,6 +7,7 @@ import logo from '@/assets/logo.svg';
 const { Option } = Select;
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 const { Step } = Steps;
+// const [form] = Form.useForm()
 class SignUpUser extends Component {
   constructor(props) {
     super(props);
@@ -144,6 +145,17 @@ class SignUpUser extends Component {
   }
 
 
+  validatePassword = (rule, value) => {
+    let psw = this.props.form.getFieldValue("password");
+
+    // console.log(form)
+    if (psw === value) {
+      return false
+    } else {
+      return true
+    }
+  };
+
   render() {
     // let { current } = this.state;
 
@@ -155,6 +167,8 @@ class SignUpUser extends Component {
         span: 12,
       },
     };
+
+    const { form } = this.props
 
     const validateMessages = {
       required: '${label} is required!',
@@ -171,6 +185,8 @@ class SignUpUser extends Component {
       {
         title: 'User Verification',
         content: (< Form
+          // form={this.props.form}
+
           {...layout}
           name="nest-messages"
           onFinish={this.onValidate}
@@ -203,6 +219,7 @@ class SignUpUser extends Component {
         content: (
           <Form
             {...layout}
+            form={form}
             name="nest-messages"
             onFinish={this.onFinish}
             validateMessages={validateMessages}
@@ -235,6 +252,11 @@ class SignUpUser extends Component {
               rules={[
                 {
                   required: true,
+                  // type: "regexp",
+                  // validator:this.validatePsw,
+                  pattern: /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})+$/,
+                  message: "Wrong format!"
+
                 },
               ]}
             >
@@ -246,7 +268,17 @@ class SignUpUser extends Component {
               rules={[
                 {
                   required: true,
+                  message: 'Please confirm your password!',
                 },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject('The two passwords that you entered do not match!');
+                  },
+                }),
+                // { validator: this.validatePassword }
               ]}
             >
               <Input.Password />
@@ -276,7 +308,7 @@ class SignUpUser extends Component {
           </Form>),
       },
       {
-        title: 'Verify phone',
+        title: 'Complete!',
         content:
           (<Result
             icon={<SmileOutlined />}
@@ -356,6 +388,7 @@ class SignUpUser extends Component {
               </Steps>
 
               <Card bordered={false}>
+                {/* <div className={styles.stepsContent}>{steps[1].content}</div> */}
                 <div className={styles.stepsContent}>{steps[localStorage.getItem("current")].content}</div>
               </Card>
 
