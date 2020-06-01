@@ -93,7 +93,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         Pool: userPool,
       };
       var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-      doLogin(values.userName);
+      // doLogin(values.userName);
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
           // localStorage.setItem("currentAuth",result.idToken.payload["custom:role"]);
