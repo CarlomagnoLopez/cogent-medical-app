@@ -388,8 +388,8 @@ class SignUpUser extends Component {
               </Steps>
 
               <Card bordered={false}>
-                <div className={styles.stepsContent}>{steps[1].content}</div>
-                {/* <div className={styles.stepsContent}>{steps[localStorage.getItem("current")].content}</div> */}
+                {/* <div className={styles.stepsContent}>{steps[1].content}</div> */}
+                <div className={styles.stepsContent}>{steps[localStorage.getItem("current")].content}</div>
               </Card>
 
               {/* <div className={styles.stepsAction}>
