@@ -52,6 +52,23 @@ class FormOrganization extends Component {
       error: undefined,
       filename: '',
     };
+    const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+
+    var albumBucketName = 'medicalprojectlogos';
+    var bucketRegion = 'us-east-1'; // Region;
+    var IdentityPoolId = 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1';
+
+    AWS.config.update({
+      region: bucketRegion,
+      credentials: new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1',
+      }),
+    });
+
+    s3 = new AWS.S3({
+      apiVersion: '2006-03-01',
+      params: { Bucket: 'medicalprojectlogos' },
+    });
   }
 
   onChange = (e) => {
@@ -195,7 +212,7 @@ class FormOrganization extends Component {
               }}
             >
               <Button type="primary">Upload File</Button>
-              {this.state.filename}
+              {this.state.filename != undefined ? this.state.filename : ''}
             </Upload>
           </Form.Item>
         </Form.Item>

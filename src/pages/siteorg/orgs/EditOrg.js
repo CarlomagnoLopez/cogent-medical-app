@@ -37,9 +37,18 @@ import { SmileOutlined } from '@ant-design/icons';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 
 class EditOrganization extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      file: '',
+      filename: '',
+    };
+  }
+
   onFinish = (values) => {
     console.log('Received values of form: ', values);
     values.orgid = this.props.current['mcp-1-pk'];
+    values.file = this.state.file;
     this.props.onEditSubmit(values);
   };
   prefixSelector = (
@@ -58,6 +67,14 @@ class EditOrganization extends Component {
       </Select>
     </Form.Item>
   );
+  handleChange = (info) => {
+    console.log(JSON.stringify(info));
+    let name = info.file.uid;
+    let list = info.fileList.filter((item) => item.uid === name);
+    console.log(JSON.stringify(list) + ' FIle Name ' + list[0].name);
+
+    this.setState({ filename: list[0].name });
+  };
 
   render() {
     const validateMessages = {
@@ -115,7 +132,7 @@ class EditOrganization extends Component {
             }}
           >
             <Form.Item label="Organization Name" name="orgName" rules={[{ required: true }]}>
-              <Input placeholder="Organization Name" id="organizationname" />
+              <Input placeholder="Organization Name" id="organizationname" disabled />
             </Form.Item>
             {/* <Form.Item label="Logo">
           <Form.Item name="logo" valuePropName="fileList" noStyle>
@@ -128,6 +145,28 @@ class EditOrganization extends Component {
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>*/}
+            <Form.Item label="Logo">
+              <Form.Item name="logo">
+                <Upload
+                  name="files"
+                  accept=".jpeg,.png"
+                  multiple={false}
+                  showUploadList={false}
+                  onChange={this.handleChange}
+                  beforeUpload={(file, fileList) => {
+                    console.log(JSON.stringify(fileList));
+                    const reader = new FileReader();
+                    reader.readAsText(file);
+                    this.setState({ file: file });
+                    // Prevent upload
+                    return false;
+                  }}
+                >
+                  <Button type="primary">Upload File</Button>
+                  {this.state.filename != undefined ? this.state.filename : ''}
+                </Upload>
+              </Form.Item>
+            </Form.Item>
             <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
               <Input placeholder="Contact Name" id="contactname" />
             </Form.Item>

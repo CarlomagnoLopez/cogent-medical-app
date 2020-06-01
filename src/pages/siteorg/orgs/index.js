@@ -10,6 +10,9 @@ import { connect } from 'dva';
 import { history } from 'umi';
 import EditOrganization from './EditOrg';
 import { EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
+import * as AWS from 'aws-sdk';
+let s3 = '';
+
 class Org extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +21,23 @@ class Org extends Component {
       current: '',
       visiblePopOver: false,
     };
+    const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+
+    var albumBucketName = 'medicalprojectlogos';
+    var bucketRegion = 'us-east-1'; // Region;
+    var IdentityPoolId = 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1';
+
+    AWS.config.update({
+      region: bucketRegion,
+      credentials: new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1',
+      }),
+    });
+
+    s3 = new AWS.S3({
+      apiVersion: '2006-03-01',
+      params: { Bucket: 'medicalprojectlogos' },
+    });
   }
 
   componentWillMount() {
@@ -75,6 +95,22 @@ class Org extends Component {
   };
 
   onEditSubmit = (values) => {
+    let params = {
+      Body: values.file,
+      Key: values.orgName.trim() + '.jpeg',
+      //ACL: 'public-read',
+    };
+
+    s3.putObject(params, function (err, data) {
+      console.log('Data ' + JSON.stringify(data) + ' Error ' + JSON.stringify(err));
+
+      if (err) {
+        message.error('There was an error creating your album: ' + err.message);
+      }
+      message.success('Successfully uploaded logo.');
+      //    console.log(albumName);
+    });
+
     console.log('Values Received ' + values);
     this.props.dispatch({
       type: 'organization/updateOrgDetails',
