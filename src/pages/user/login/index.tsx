@@ -206,7 +206,9 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         <div className={styles.top}>
           <div className={styles.header}>
             {/* <Link to="/"> */}
-            <img alt="logo" className={styles.logo} src={logo} />
+            <p>
+              <img alt="logo" className={styles.logo} src={logo} />
+            </p>
 
             {!link() && <span className={styles.title}>Login</span>}
 
