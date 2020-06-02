@@ -190,7 +190,7 @@ class CreateOrganization extends Component {
           <OrganizationSteps currentstep={this.state.currentstep} />
           {currentstep === 0 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormOrganization
                 finishOrganizationDetails={this.finishOrganizationDetails}
                 orgdetails={this.state.organizationDetails}
@@ -199,7 +199,7 @@ class CreateOrganization extends Component {
           )}
           {currentstep === 1 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormAdmin
                 finishOrganizationDetails={this.finishAdminDetails}
                 onPressBack={this.onPressBack}
@@ -210,7 +210,7 @@ class CreateOrganization extends Component {
           )}
           {currentstep === 2 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormAdmin
                 finishOrganizationDetails={this.finishAdmin2Details}
                 onPressBack={this.onPressBack}
@@ -221,7 +221,7 @@ class CreateOrganization extends Component {
           )}
           {currentstep === 3 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormAdmin
                 finishOrganizationDetails={this.finishApproverDetails}
                 onPressBack={this.onPressBack}
@@ -232,7 +232,7 @@ class CreateOrganization extends Component {
           )}{' '}
           {currentstep === 4 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormAdmin
                 finishOrganizationDetails={this.finishApprover2Details}
                 onPressBack={this.onPressBack}
