@@ -19,6 +19,7 @@ class AdminUsers extends Component {
       formvalues: [],
       searchText: '',
       searchedColumn: '',
+      loadedUsers: false
     };
   }
 
@@ -100,7 +101,7 @@ class AdminUsers extends Component {
     });
   };
 
-  sendLogin = (record) => {};
+  sendLogin = (record) => { };
 
   updateUser = (values) => {
     this.props.dispatch({
@@ -110,7 +111,7 @@ class AdminUsers extends Component {
 
     this.setState({ visibleedituser: false, current: '' });
   };
-  componentWillReceiveProps() {}
+  componentWillReceiveProps() { }
   createUser = (record) => {
     console.log('Create Data ' + JSON.stringify(record));
     const { data } = this.state;
@@ -174,8 +175,8 @@ class AdminUsers extends Component {
           textToHighlight={text.toString()}
         />
       ) : (
-        text
-      ),
+          text
+        ),
   });
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -190,6 +191,23 @@ class AdminUsers extends Component {
     clearFilters();
     this.setState({ searchText: '' });
   };
+
+  deleteSiteAdmin = () => {
+    const { userslist } = this.props;
+
+    let arrUsers = [];
+    userslist.map((item) => {
+      if (item.role !== "SiteAdmin") {
+        arrUsers.push(item)
+      }
+    })
+
+    console.log(arrUsers)
+
+    this.setState({
+      userslist: arrUsers
+    })
+  }
   render() {
     const { statusorgadmincreation, deleteuserstatus, updateuserstatus } = this.props;
 
@@ -326,8 +344,18 @@ class AdminUsers extends Component {
         ),
       },
     ];
-    const { currentcandidate } = this.state;
+    const { currentcandidate, loadedUsers } = this.state;
     const { orgadmins, userslist } = this.props;
+
+    if (userslist && !loadedUsers) {
+      this.setState({
+        loadedUsers: true,
+
+      }, (props, state) => {
+        console.log("org")
+        this.deleteSiteAdmin();
+      })
+    }
     console.log('Orgs list ' + this.props.orgslist);
     return (
       <Spin spinning={this.props.loading} message={'loading please wait'}>
@@ -344,7 +372,7 @@ class AdminUsers extends Component {
           }
         >
           {localStorage.getItem('currentAuth') === 'siteadmin' && (
-            <Table columns={columns} dataSource={userslist} />
+            <Table columns={columns} dataSource={this.state.userslist} />
           )}
           {localStorage.getItem('currentAuth') === 'orgadmin' && (
             <Table columns={columns} dataSource={this.props.orgsusers} />
