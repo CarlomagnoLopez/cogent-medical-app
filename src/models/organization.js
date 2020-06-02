@@ -42,7 +42,7 @@ export default {
       return { ...state, status: action.payload };
     },
     resetOrganizationStatus(state, action) {
-      return { ...state, status: {} };
+      return { ...state, status: {}, deleteorgstatus: '' };
     },
     generateOrgAdminStatus(state, action) {
       return { ...state, statusorgadmincreation: action.payload };
@@ -98,12 +98,8 @@ export default {
     resetUpdateUserDetailsStatus(state, action) {
       return { ...state, updateuserstatus: '' };
     },
-    deleteOrgStatus(state, action) {
+    deleteOrgStatusU(state, action) {
       return { ...state, deleteorgstatus: action.payload };
-    },
-    resetOrganizationStatus(state, action) {
-      // return { ...state, deleteorgstatus: '' };
-      return { ...state, status: {} };
     },
     getOrgDetails(state, action) {
       if (action.payload.success) {
@@ -239,7 +235,7 @@ export default {
     *deleteOrganization({ payload }, { call, put }) {
       const res = yield call(deleteOrg, payload);
       yield put({
-        type: 'deleteOrgStatus',
+        type: 'deleteOrgStatusU',
         payload: res,
       });
     },
