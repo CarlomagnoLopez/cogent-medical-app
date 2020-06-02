@@ -28,13 +28,16 @@ class Org extends Component {
     var bucketRegion = 'us-east-1'; // Region;
     var IdentityPoolId = 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1';
 
-    AWS.config.update({
+    /* AWS.config.update({
       region: bucketRegion,
       credentials: new AWS.CognitoIdentityCredentials({
         IdentityPoolId: 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1',
       }),
+    });*/
+    AWS.config.update({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     });
-
     s3 = new AWS.S3({
       apiVersion: '2006-03-01',
       params: { Bucket: 'medicalprojectlogos' },
@@ -98,8 +101,8 @@ class Org extends Component {
   onEditSubmit = (values) => {
     let params = {
       Body: values.file,
-      Key: values.orgName.trim() + '.jpeg',
-      //ACL: 'public-read',
+      Key: values.orgName.trim().split(' ').join('') + '.jpeg',
+      ACL: 'public-read',
     };
 
     s3.putObject(params, function (err, data) {
@@ -323,6 +326,22 @@ class Org extends Component {
       {
         title: 'Action',
         key: 'action',
+        render: (text, record) => (
+          <div style={{ textAlign: 'left' }}>
+            {localStorage.getItem('currentAuth') === 'orgadmin' && (
+              <div style={{ textAlign: 'left' }}>
+                {' '}
+                <a
+                  onClick={() => {
+                    this.onEdit(record);
+                  }}
+                >
+                  <EditOutlined /> Edit
+                </a>
+              </div>
+            )}
+          </div>
+        ),
       },
     ];
 

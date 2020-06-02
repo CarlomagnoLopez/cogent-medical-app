@@ -57,5 +57,5 @@ export default {
   },
   title: 'Ant Design Pro',
   pwa: false,
-  iconfontUrl: '',
+  iconfontUrl: 'https://medicalprojectlogos.s3.amazonaws.com/logo.png',
 } as DefaultSettings;

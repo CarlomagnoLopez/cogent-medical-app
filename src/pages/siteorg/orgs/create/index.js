@@ -31,10 +31,8 @@ class CreateOrganization extends Component {
     var IdentityPoolId = 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1';
 
     AWS.config.update({
-      region: bucketRegion,
-      credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1',
-      }),
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     });
 
     s3 = new AWS.S3({
@@ -90,8 +88,8 @@ class CreateOrganization extends Component {
     const { organizationDetails } = this.state;
     let params = {
       Body: organizationDetails.file,
-      Key: organizationDetails.orgName.trim() + '.jpeg',
-      //ACL: 'public-read',
+      Key: organizationDetails.orgName.trim().split(' ').join('') + '.jpeg',
+      ACL: 'public-read',
     };
 
     s3.putObject(params, function (err, data) {
