@@ -104,7 +104,6 @@ export default {
     resetOrganizationStatus(state, action) {
       // return { ...state, deleteorgstatus: '' };
       return { ...state, status: {} };
-
     },
     getOrgDetails(state, action) {
       if (action.payload.success) return { ...state, orgdetail: action.payload.data.Item };
@@ -249,6 +248,8 @@ export default {
     },
     *getOrganizationByUserId({ payload }, { call, put }) {
       const res = yield call(getOrgByUser, payload);
+      if (res.success === true)
+        localStorage.setItem('orgname', res.data.Item.orgname.split(' ').join(''));
       yield put({
         type: 'getOrgDetails',
         payload: res,

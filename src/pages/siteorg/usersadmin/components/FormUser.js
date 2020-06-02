@@ -182,10 +182,10 @@ class FormUser extends Component {
                 options
               ) : (
                 <Option
-                  key={orginfo[0].orgname != null ? orginfo[0].text : ''}
-                  value={orginfo[0]['mcp-1-pk']}
+                  key={orginfo[0] != undefined ? orginfo[0].text : ''}
+                  value={orginfo[0] != undefined ? orginfo[0]['mcp-1-pk'] : ''}
                 >
-                  {orginfo[0].orgname}
+                  {orginfo[0] != undefined ? orginfo[0].orgname : ''}
                 </Option>
               )}
             </Select>
