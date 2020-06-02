@@ -14,6 +14,7 @@ export default defineConfig({
   layout: {
     name: 'Cogent Medical',
     locale: true,
+    logo: 'https://medicalprojectlogos.s3.amazonaws.com/logo.png',
   },
   locale: {
     // default zh-CN
