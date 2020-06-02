@@ -5,6 +5,7 @@ import FormOrganization from './FormOrganization';
 import FormAdmin from './FormAdmin';
 import { connect, history } from 'umi';
 import * as AWS from 'aws-sdk';
+import styles from './css/Org.less';
 let s3 = '';
 
 class CreateOrganization extends Component {
@@ -243,7 +244,7 @@ class CreateOrganization extends Component {
           )}
           {currentstep === 5 && (
             <Card>
-              <Button onClick={this.createOrganization}>Finish</Button>
+              <Button onClick={this.createOrganization} className={styles.btnSteps}>Finish</Button>
             </Card>
           )}
         </Card>
