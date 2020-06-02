@@ -31,8 +31,8 @@ class CreateOrganization extends Component {
     var IdentityPoolId = 'us-east-1:53d43971-6a4b-4699-935c-592476c26ea1';
 
     AWS.config.update({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      accessKeyId: process.env.ACCESS_KEY_ID,
+      secretAccessKey: process.env.SECRET_ACCESS_KEY,
     });
 
     s3 = new AWS.S3({
@@ -246,20 +246,21 @@ class CreateOrganization extends Component {
             <Card>
               {/* <Button onClick={this.createOrganization}>Finish</Button> */}
               <div className={styles.content}>
-
                 <div className={styles.wrapper}>
-
                   {/* <Card title="" bordered={false} className={styles.cardContent}> */}
                   <div className={styles.stepsContent}>
                     <Result
                       icon={<ClusterOutlined />}
                       title="Have you already finish?"
-                      extra={<Button onClick={this.createOrganization} type="primary">Create it!! </Button>}
+                      extra={
+                        <Button onClick={this.createOrganization} type="primary">
+                          Create it!!{' '}
+                        </Button>
+                      }
                     />
                   </div>
                 </div>
               </div>
-
             </Card>
           )}
         </Card>

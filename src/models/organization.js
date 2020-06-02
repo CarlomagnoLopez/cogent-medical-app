@@ -106,8 +106,11 @@ export default {
       return { ...state, status: {} };
     },
     getOrgDetails(state, action) {
-      if (action.payload.success) return { ...state, orgdetail: action.payload.data.Item };
-      else return { ...state, orgdetail: '' };
+      if (action.payload.success) {
+        localStorage.setItem('orgname', action.payload.data.Item.orgname.split(' ').join(''));
+
+        return { ...state, orgdetail: action.payload.data.Item };
+      } else return { ...state, orgdetail: '' };
     },
 
     getUsersByOrg(state, action) {
@@ -248,8 +251,6 @@ export default {
     },
     *getOrganizationByUserId({ payload }, { call, put }) {
       const res = yield call(getOrgByUser, payload);
-      if (res.success === true)
-        localStorage.setItem('orgname', res.data.Item.orgname.split(' ').join(''));
       yield put({
         type: 'getOrgDetails',
         payload: res,
