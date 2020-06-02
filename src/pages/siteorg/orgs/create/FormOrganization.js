@@ -39,6 +39,7 @@ import axios from 'axios';
 import * as AWS from 'aws-sdk';
 import styles from './css/Org.less';
 let s3 = '';
+
 class FormOrganization extends Component {
   constructor(props) {
     super(props);
@@ -157,15 +158,10 @@ class FormOrganization extends Component {
       multiple: false,
     };
     return (
-
-
       <div className={styles.content}>
-
         <div className={styles.wrapper}>
-
           {/* <Card title="" bordered={false} className={styles.cardContent}> */}
           <div className={styles.stepsContent}>
-
             <Form
               labelCol={{
                 xs: {
@@ -205,7 +201,6 @@ class FormOrganization extends Component {
               >
                 <Input placeholder="Organization Name" id="organizationname" />
               </Form.Item>
-
               <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
                 <Input placeholder="Contact Name" id="contactname" />
               </Form.Item>
@@ -240,7 +235,6 @@ class FormOrganization extends Component {
           valuePropName="fileList"
           getValueFromEvent={normFile}
           // extra=""
-
         >
           <Upload name="logo">
             <Button>Upload</Button>
@@ -254,34 +248,32 @@ class FormOrganization extends Component {
                   }}
                 />
               </Form.Item>
-              <Form.Item label="Logo">
-                <Form.Item name="logo">
-                  <Upload
-                    name="files"
-                    accept=".jpeg,.png"
-                    multiple={false}
-                    showUploadList={false}
-                    onChange={this.handleChange}
-                    beforeUpload={(file, fileList) => {
-                      console.log(JSON.stringify(fileList));
-                      const reader = new FileReader();
-                      reader.readAsText(file);
-                      this.setState({ file: file });
-                      // Prevent upload
-                      return false;
-                    }}
-                  >
-                    <Button type="primary">Upload File</Button>
-                    {this.state.filename != undefined ? this.state.filename : ''}
-                  </Upload>
-                </Form.Item>
+              <Form.Item name="logo" label="Logo" rules={[{ required: true }]}>
+                <Upload
+                  name="files"
+                  accept=".jpeg,.png"
+                  multiple={false}
+                  showUploadList={false}
+                  onChange={this.handleChange}
+                  beforeUpload={(file, fileList) => {
+                    console.log(JSON.stringify(fileList));
+                    const reader = new FileReader();
+                    reader.readAsText(file);
+                    this.setState({ file: file });
+                    // Prevent upload
+                    return false;
+                  }}
+                >
+                  <Button type="primary">Upload File</Button>
+                  {this.state.filename != undefined ? this.state.filename : ''}
+                </Upload>
               </Form.Item>
               <Form.Item label="office fax" name="faxNumber" rules={[{ required: true }]}>
-                <Input placeholder="office fax" id="faxnumber" />
-              </Form.Item>
-              <Form.Item label="tax number" name="taxNumber" rules={[{ required: true }]}>
-                <Input placeholder="tax number" id="taxnumber" />
-              </Form.Item>
+          <Input placeholder="office fax" id="faxnumber" />
+        </Form.Item>
+        <Form.Item label="tax number" name="taxNumber" rules={[{ required: true }]}>
+          <Input placeholder="tax number" id="taxnumber" />
+        </Form.Item>
               <Form.Item label="field1">
                 <Input placeholder="field1" id="field1" />
               </Form.Item>
@@ -327,19 +319,16 @@ class FormOrganization extends Component {
                   offset: 6,
                 }}
               >
-                <Button type="primary" htmlType="submit" className={styles.btnSteps} >
+                <Button type="primary" htmlType="submit" className={styles.btnSteps}>
                   Next
-                  </Button>
+                </Button>
               </Form.Item>
             </Form>
           </div>
 
-
           {/* </Card> */}
         </div>
       </div>
-
-
     );
   }
 }
