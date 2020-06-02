@@ -265,6 +265,11 @@ class SignUpUser extends Component {
               ]}
             >
               <Input.Password />
+           <div className={styles.tooltip}><QuestionCircleOutlined />
+              <span className={styles.tooltiptext}>
+              Mininum length should be 8, must include 1 uppercase letter,
+                 1 lowercase letter and 1 special symbol.
+                </span></div>
             </Form.Item>
             <Form.Item
               name={'verifypassword'}
