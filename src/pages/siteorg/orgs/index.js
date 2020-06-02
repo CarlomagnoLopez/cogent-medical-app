@@ -321,7 +321,7 @@ class Org extends Component {
     console.log('Info ' + JSON.stringify(info));
 
     let letterAvatar = localStorage.getItem('orgname');
-    letterAvatar = letterAvatar.toLocaleUpperCase();
+    if (letterAvatar != null) letterAvatar = letterAvatar.toLocaleUpperCase();
     let src =
       'https://medicalprojectlogos.s3.amazonaws.com/' + localStorage.getItem('orgname') + '.jpeg';
     return (
@@ -584,21 +584,23 @@ class Org extends Component {
         />
         {localStorage.getItem('currentAuth') === 'orgadmin' && (
           <div>
-            <Card title="Organization Details">
-              {this.props.orgdetail !== undefined && (
-                <div className={styles.siteCardWrapper}>
-                  <Row gutter={16}>
-                    {
-                      <Col xs={24} sm={16} md={8} lg={8}>
-                        <div className={styles.divCompany}>
-                          {this.cardOrgAdminOrg(this.props.orgdetail)}
-                        </div>
-                      </Col>
-                    }
-                  </Row>
-                </div>
-              )}
-            </Card>
+            <Spin spinning={this.props.loading}>
+              <Card title="Organization Details">
+                {this.props.orgdetail !== undefined && (
+                  <div className={styles.siteCardWrapper}>
+                    <Row gutter={16}>
+                      {
+                        <Col xs={24} sm={16} md={8} lg={8}>
+                          <div className={styles.divCompany}>
+                            {this.cardOrgAdminOrg(this.props.orgdetail)}
+                          </div>
+                        </Col>
+                      }
+                    </Row>
+                  </div>
+                )}
+              </Card>
+            </Spin>
           </div>
         )}
         {localStorage.getItem('currentAuth') === 'siteadmin' && (
