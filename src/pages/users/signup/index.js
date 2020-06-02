@@ -317,7 +317,7 @@ class SignUpUser extends Component {
         content: (
           <Result
             icon={<SmileOutlined />}
-            title="Great, we have done all the operations!"
+            title="Congratulations! You are successfully registered."
             extra={
               <Button onClick={this.gotoLogIn} type="primary">
                 Go to Log In{' '}
