@@ -15,7 +15,7 @@ import {
 import styles from './style.less';
 import { Link, history, useModel, connect } from 'umi';
 import { SmileOutlined } from '@ant-design/icons';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/noimage.png';
 const { Option } = Select;
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 const { Step } = Steps;
