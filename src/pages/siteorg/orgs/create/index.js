@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import OrganizationSteps from './OrganizationSteps';
-import { Card, Button, Spin, message } from 'antd';
+import { Card, Button, Spin, message, Result } from 'antd';
 import FormOrganization from './FormOrganization';
 import FormAdmin from './FormAdmin';
 import { connect, history } from 'umi';
 import * as AWS from 'aws-sdk';
+import styles from './css/Org.less';
+import { ClusterOutlined, CheckOutlined } from '@ant-design/icons';
+
 let s3 = '';
 
 class CreateOrganization extends Component {
@@ -190,7 +193,7 @@ class CreateOrganization extends Component {
           <OrganizationSteps currentstep={this.state.currentstep} />
           {currentstep === 0 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormOrganization
                 finishOrganizationDetails={this.finishOrganizationDetails}
                 orgdetails={this.state.organizationDetails}
@@ -199,7 +202,7 @@ class CreateOrganization extends Component {
           )}
           {currentstep === 1 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormAdmin
                 finishOrganizationDetails={this.finishAdminDetails}
                 onPressBack={this.onPressBack}
@@ -210,7 +213,7 @@ class CreateOrganization extends Component {
           )}
           {currentstep === 2 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormAdmin
                 finishOrganizationDetails={this.finishAdmin2Details}
                 onPressBack={this.onPressBack}
@@ -221,7 +224,7 @@ class CreateOrganization extends Component {
           )}
           {currentstep === 3 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormAdmin
                 finishOrganizationDetails={this.finishApproverDetails}
                 onPressBack={this.onPressBack}
@@ -232,7 +235,7 @@ class CreateOrganization extends Component {
           )}{' '}
           {currentstep === 4 && (
             <Card>
-              <p>Please fill Organization Details</p>
+              {/* <p>Please fill Organization Details</p> */}
               <FormAdmin
                 finishOrganizationDetails={this.finishApprover2Details}
                 onPressBack={this.onPressBack}
@@ -243,7 +246,22 @@ class CreateOrganization extends Component {
           )}
           {currentstep === 5 && (
             <Card>
-              <Button onClick={this.createOrganization}>Finish</Button>
+              {/* <Button onClick={this.createOrganization}>Finish</Button> */}
+              <div className={styles.content}>
+
+                <div className={styles.wrapper}>
+
+                  {/* <Card title="" bordered={false} className={styles.cardContent}> */}
+                  <div className={styles.stepsContent}>
+                    <Result
+                      icon={<ClusterOutlined />}
+                      title="Have you already finish?"
+                      extra={<Button onClick={this.createOrganization} type="primary">Create it!! </Button>}
+                    />
+                  </div>
+                </div>
+              </div>
+
             </Card>
           )}
         </Card>

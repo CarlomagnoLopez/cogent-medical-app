@@ -30,6 +30,7 @@ const FormItem = Form.Item;
 const ButtonGroup = Button.Group;
 const AutoCompleteOption = AutoComplete.Option;
 import TextArea from 'antd/lib/input/TextArea';
+import styles from './css/Org.less';
 const Option = Select.Option;
 
 const Dragger = Upload.Dragger;
@@ -50,7 +51,7 @@ class FormAdmin extends Component {
   };
   prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select
+      <Select defaultValue="1"
         style={{
           width: 70,
         }}
@@ -120,65 +121,84 @@ class FormAdmin extends Component {
     };
     return (
       <Card>
-        <Form
-         labelCol={ {
-                xs: {
-                  span: 24,
-                },
-                sm: {
-                  span: 4,
-                },
-              }}
-              wrapperCol={{
-                xs: {
-                  span: 24,
-                },
-                sm: {
-                  span: 16,
-                },
-              }}
-          onFinish={this.onFinish}
-          validateMessages={validateMessages}
-          initialValues={{
-            prefix: '86',
-            tempinitialValues,
-            contactName: tempinitialValues != undefined ? tempinitialValues.contactName : '',
-            email: tempinitialValues != undefined ? tempinitialValues.email : '',
-            phoneNumber: tempinitialValues != undefined ? tempinitialValues.phoneNumber : '',
-            prefix: tempinitialValues != undefined ? tempinitialValues.prefix : '86',
-          }}
-        >
-          {/*<Form.Item label="Company Name" name="companY" rules={[{ required: true }]}>
+
+        <div className={styles.content}>
+
+          <div className={styles.wrapper}>
+
+            {/* <Card title="" bordered={false} className={styles.cardContent}> */}
+            <div className={styles.stepsContent}>
+              <Form
+                labelCol={{
+                  xs: {
+                    span: 24,
+                  },
+                  sm: {
+                    span: 4,
+                  },
+                }}
+                wrapperCol={{
+                  xs: {
+                    span: 24,
+                  },
+                  sm: {
+                    span: 16,
+                  },
+                }}
+                onFinish={this.onFinish}
+                validateMessages={validateMessages}
+                initialValues={{
+                  prefix: '86',
+                  tempinitialValues,
+                  contactName: tempinitialValues != undefined ? tempinitialValues.contactName : '',
+                  email: tempinitialValues != undefined ? tempinitialValues.email : '',
+                  phoneNumber: tempinitialValues != undefined ? tempinitialValues.phoneNumber : '',
+                  prefix: tempinitialValues != undefined ? tempinitialValues.prefix : '86',
+                }}
+              >
+                {/*<Form.Item label="Company Name" name="companY" rules={[{ required: true }]}>
             <Input placeholder="Company Name" id="companyname" name="companyname" />
         </Form.Item>*/}
-          {/*<Form.Item label="Role" name="role" rules={[{ required: true }]}>
+                {/*<Form.Item label="Role" name="role" rules={[{ required: true }]}>
             <Input placeholder="Role" id="role" value={this.props.type} />
           </Form.Item>*/}
-          <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
-            <Input placeholder="Contact Name" id="contactname" />
-          </Form.Item>
-          <Form.Item label="Contact Number" name="phoneNumber" rules={[{ required: true }]}>
-            <Input
-              addonBefore={this.prefixSelector}
-              placeholder="Contact Number"
-              id="contactnumber"
-            />
-          </Form.Item>
-          <Form.Item label="Contact Email" name="email" rules={[{ required: true, type: 'email' }]}>
-            <Input placeholder="Contact Email" id="contactemail" />
-          </Form.Item>
+                <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
+                  <Input placeholder="Contact Name" id="contactname" />
+                </Form.Item>
+                <Form.Item label="Contact Number" name="phoneNumber" rules={[{ required: true }]}>
+                  <Input
+                    addonBefore={this.prefixSelector}
+                    placeholder="Contact Number"
+                    id="contactnumber"
+                  />
+                </Form.Item>
+                <Form.Item label="Contact Email" name="email" rules={[{ required: true, type: 'email' }]}>
+                  <Input placeholder="Contact Email" id="contactemail" />
+                </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Next
+                <Form.Item>
+                  <div>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      className={styles.btnSteps}
+                    >
+                      Next
             </Button>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" onClick={this.goBack}>
-              Back
+                    {/* </Form.Item>
+          <Form.Item> */}
+                    <Button type="secondary" onClick={this.goBack} className={styles.btnStepsSecondary}>
+                      Back
             </Button>
-          </Form.Item>
-        </Form>
+
+                  </div>
+
+                </Form.Item>
+              </Form>
+
+            </div>
+          </div>
+        </div>
       </Card>
     );
   }

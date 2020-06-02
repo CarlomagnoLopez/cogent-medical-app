@@ -42,7 +42,7 @@ export default {
       return { ...state, status: action.payload };
     },
     resetOrganizationStatus(state, action) {
-      return { ...state, status: [] };
+      return { ...state, status: {} };
     },
     generateOrgAdminStatus(state, action) {
       return { ...state, statusorgadmincreation: action.payload };
@@ -102,7 +102,9 @@ export default {
       return { ...state, deleteorgstatus: action.payload };
     },
     resetOrganizationStatus(state, action) {
-      return { ...state, deleteorgstatus: '' };
+      // return { ...state, deleteorgstatus: '' };
+      return { ...state, status: {} };
+
     },
     getOrgDetails(state, action) {
       if (action.payload.success) return { ...state, orgdetail: action.payload.data.Item };
@@ -132,20 +134,6 @@ export default {
       console.log(payload);
       const response = yield call(generateOrgnization, payload);
       console.log('***RESPONSE');
-      /*  const response = {
-        success: false,
-        sigUpUser: false,
-        log: {
-          message: 'Invalid phone number format.',
-          code: 'InvalidParameterException',
-          time: '2020-05-12T17:51:15.670Z',
-          requestId: '8ecfdd4f-8bc2-4eba-9db8-482a8d640ece',
-          statusCode: 400,
-          retryable: false,
-          retryDelay: 10.433583803727299,
-        },
-      };
-      */
       console.log(JSON.stringify(response));
 
       yield put({

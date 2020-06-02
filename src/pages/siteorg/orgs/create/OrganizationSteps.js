@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Steps, Card } from 'antd';
 import styles from './css/Org.less';
 const { Step } = Steps;
-import { ScheduleOutlined, SolutionOutlined, QuestionCircleOutlined,SmileOutlined   } from '@ant-design/icons';
+import { ScheduleOutlined, SolutionOutlined, QuestionCircleOutlined, SmileOutlined,ClusterOutlined,CheckOutlined } from '@ant-design/icons';
 
 const orgsteps = [
   {
@@ -13,28 +13,28 @@ const orgsteps = [
   },
   {
     key: 1,
-    title: 'Org Admin1',
+    title: 'Admin 1',
     content: '',
     description: '',
     icon: 'solution',
   },
   {
     key: 2,
-    title: 'Org Admin2',
+    title: 'Admin 2',
     content: '',
     description: '',
     icon: 'question-circle-o',
   },
   {
     key: 3,
-    title: 'Approver1',
+    title: 'Approver 1',
     content: '',
     description: '',
     icon: 'share-alt',
   },
   {
     key: 4,
-    title: 'Approver2',
+    title: 'Approver 2',
     content: '',
     description: '',
     icon: 'share-alt',
@@ -57,13 +57,13 @@ export default class OrganizationSteps extends Component {
   render() {
     return (
       <Card className={styles.containerStep}>
-         <Steps current={this.props.currentstep}>
-            <Step description={""} title={'Organization'}icon= {<ScheduleOutlined />} />
-            <Step description={""} title={'Org Admin1'}icon= {<SolutionOutlined />} />
-            <Step description={""} title={'Org Admin2'}icon= {<SolutionOutlined />} />
-            <Step description={""} title={'Approver1'}icon= {<QuestionCircleOutlined />} />
-            <Step description={""} title={'Approver2'}icon= {<QuestionCircleOutlined />} />
-            <Step description={""} title={'Finish'}icon= {<SmileOutlined />} />
+        <Steps current={this.props.currentstep}>
+          <Step description={""} title={orgsteps[0].title} key={orgsteps[0].title}  icon={<ScheduleOutlined />} />
+          <Step description={""} title={orgsteps[1].title} key={orgsteps[0].title}   icon={<SolutionOutlined />} />
+          <Step description={""} title={orgsteps[2].title} key={orgsteps[0].title}  icon={<SolutionOutlined />} />
+          <Step description={""} title={orgsteps[3].title} key={orgsteps[0].title}  icon={<QuestionCircleOutlined />} />
+          <Step description={""} title={orgsteps[4].title} key={orgsteps[0].title}  icon={<QuestionCircleOutlined />} />
+          <Step description={""} title={orgsteps[5].title} key={orgsteps[0].title}  icon={<CheckOutlined/>} />
         </Steps>
       </Card>
     );
