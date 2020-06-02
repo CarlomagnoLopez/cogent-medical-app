@@ -1,6 +1,7 @@
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
 import defaultSettings from './defaultSettings';
+
 import proxy from './proxy';
 
 const { REACT_APP_ENV } = process.env;
@@ -14,6 +15,7 @@ export default defineConfig({
   layout: {
     name: 'Cogent Medical',
     locale: false,
+    logo: 'https://medicalprojectlogos.s3.amazonaws.com/logo.png', //+ localStorage.getItem('orgname') + '.jpeg',
   },
   locale: {
     // default zh-CN
