@@ -13,7 +13,7 @@ export default defineConfig({
   },
   layout: {
     name: 'Cogent Medical',
-    locale: true,
+    locale: false,
   },
   locale: {
     // default zh-CN
