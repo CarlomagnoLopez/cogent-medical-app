@@ -58,8 +58,8 @@ class Org extends Component {
       }),
     });*/
     AWS.config.update({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      accessKeyId: process.env.ACCESS_KEY_ID,
+      secretAccessKey: process.env.SECRET_ACCESS_KEY,
     });
     s3 = new AWS.S3({
       apiVersion: '2006-03-01',
@@ -321,7 +321,7 @@ class Org extends Component {
     console.log('Info ' + JSON.stringify(info));
 
     let letterAvatar = localStorage.getItem('orgname');
-    letterAvatar = letterAvatar.toLocaleUpperCase();
+    if (letterAvatar != null) letterAvatar = letterAvatar.toLocaleUpperCase();
     let src =
       'https://medicalprojectlogos.s3.amazonaws.com/' + localStorage.getItem('orgname') + '.jpeg';
     return (
@@ -584,21 +584,23 @@ class Org extends Component {
         />
         {localStorage.getItem('currentAuth') === 'orgadmin' && (
           <div>
-            <Card title="Organization Details">
-              {this.props.orgdetail !== undefined && (
-                <div className={styles.siteCardWrapper}>
-                  <Row gutter={16}>
-                    {
-                      <Col xs={24} sm={16} md={8} lg={8}>
-                        <div className={styles.divCompany}>
-                          {this.cardOrgAdminOrg(this.props.orgdetail)}
-                        </div>
-                      </Col>
-                    }
-                  </Row>
-                </div>
-              )}
-            </Card>
+            <Spin spinning={this.props.loading}>
+              <Card title="Organization Details">
+                {this.props.orgdetail !== undefined && (
+                  <div className={styles.siteCardWrapper}>
+                    <Row gutter={16}>
+                      {
+                        <Col xs={24} sm={16} md={8} lg={8}>
+                          <div className={styles.divCompany}>
+                            {this.cardOrgAdminOrg(this.props.orgdetail)}
+                          </div>
+                        </Col>
+                      }
+                    </Row>
+                  </div>
+                )}
+              </Card>
+            </Spin>
           </div>
         )}
         {localStorage.getItem('currentAuth') === 'siteadmin' && (
