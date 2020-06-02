@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Link, history, useModel } from 'umi';
 import { getPageQuery } from '@/utils/utils';
 import SelectLang from '@/components/SelectLang';
-import logo from '@/assets/logo.svg';
+import logo from '@/assets/logo.png';
 import { LoginParamsType, fakeAccountLogin } from '@/services/login';
 import LoginFrom from './components/Login';
 import Signup from '../../users/signup';
@@ -206,7 +206,9 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         <div className={styles.top}>
           <div className={styles.header}>
             {/* <Link to="/"> */}
-            <img alt="logo" className={styles.logo} src={logo} />
+            <p>
+              <img alt="logo" className={styles.logo} src={logo} />
+            </p>
 
             {!link() && <span className={styles.title}>Login</span>}
 

@@ -3,7 +3,7 @@ import { Form, Input, InputNumber, Button, Card, Select, DatePicker, message, Sp
 import styles from './style.less';
 import { Link, history, useModel, connect } from 'umi';
 import { SmileOutlined } from '@ant-design/icons';
-import logo from '@/assets/logo.svg';
+import logo from '@/assets/logo.png';
 const { Option } = Select;
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 const { Step } = Steps;

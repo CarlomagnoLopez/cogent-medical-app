@@ -181,7 +181,15 @@ class Org extends Component {
   render() {
     const { updateorgdetailsstatus, deleteorgstatus } = this.props;
 
-    if (deleteorgstatus.success == true) {
+    if (deleteorgstatus.success === false) {
+      message.error(deleteorgstatus.log.message);
+      this.props.dispatch({
+        type: 'organization/resetDelOrgStatus',
+        payload: [],
+      });
+    }
+
+    if (deleteorgstatus.success === true) {
       message.success('Organization Deleted Successfully!');
       this.props.dispatch({
         type: 'organization/resetDelOrgStatus',
@@ -363,7 +371,7 @@ class Org extends Component {
         {localStorage.getItem('currentAuth') === 'orgadmin' && (
           <div>
             <Card title="Organization Details">
-              <Table columns={columns1} dataSource={[orgdetail]} />
+              <Table columns={columns1} dataSource={[orgdetail != undefined ? orgdetail : '']} />
             </Card>
           </div>
         )}
