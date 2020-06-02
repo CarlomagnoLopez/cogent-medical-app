@@ -256,6 +256,22 @@ class Org extends Component {
       {
         title: 'Action',
         key: 'action',
+        render: (text, record) => (
+          <div style={{ textAlign: 'left' }}>
+            {localStorage.getItem('currentAuth') === 'orgadmin' && (
+              <div style={{ textAlign: 'left' }}>
+                {' '}
+                <a
+                  onClick={() => {
+                    this.onEdit(record);
+                  }}
+                >
+                  <EditOutlined /> Edit
+                </a>
+              </div>
+            )}
+          </div>
+        ),
       },
     ];
 

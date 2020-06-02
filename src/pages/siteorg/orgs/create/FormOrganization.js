@@ -196,27 +196,25 @@ class FormOrganization extends Component {
         >
           <Input placeholder="Organization Name" id="organizationname" />
         </Form.Item>
-        <Form.Item label="Logo">
-          <Form.Item name="logo">
-            <Upload
-              name="files"
-              accept=".jpeg,.png"
-              multiple={false}
-              showUploadList={false}
-              onChange={this.handleChange}
-              beforeUpload={(file, fileList) => {
-                console.log(JSON.stringify(fileList));
-                const reader = new FileReader();
-                reader.readAsText(file);
-                this.setState({ file: file });
-                // Prevent upload
-                return false;
-              }}
-            >
-              <Button type="primary">Upload File</Button>
-              {this.state.filename != undefined ? this.state.filename : ''}
-            </Upload>
-          </Form.Item>
+        <Form.Item name="logo" label="Logo" rules={[{ required: true }]}>
+          <Upload
+            name="files"
+            accept=".jpeg,.png"
+            multiple={false}
+            showUploadList={false}
+            onChange={this.handleChange}
+            beforeUpload={(file, fileList) => {
+              console.log(JSON.stringify(fileList));
+              const reader = new FileReader();
+              reader.readAsText(file);
+              this.setState({ file: file });
+              // Prevent upload
+              return false;
+            }}
+          >
+            <Button type="primary">Upload File</Button>
+            {this.state.filename != undefined ? this.state.filename : ''}
+          </Upload>
         </Form.Item>
         <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
           <Input placeholder="Contact Name" id="contactname" />
