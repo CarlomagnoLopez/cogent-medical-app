@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Steps, Card } from 'antd';
 import styles from './css/Org.less';
 const { Step } = Steps;
-import { ScheduleOutlined, SolutionOutlined, QuestionCircleOutlined, SmileOutlined } from '@ant-design/icons';
+import { ScheduleOutlined, SolutionOutlined, QuestionCircleOutlined, SmileOutlined,ClusterOutlined,CheckOutlined } from '@ant-design/icons';
 
 const orgsteps = [
   {
@@ -63,7 +63,7 @@ export default class OrganizationSteps extends Component {
           <Step description={""} title={orgsteps[2].title} key={orgsteps[0].title}  icon={<SolutionOutlined />} />
           <Step description={""} title={orgsteps[3].title} key={orgsteps[0].title}  icon={<QuestionCircleOutlined />} />
           <Step description={""} title={orgsteps[4].title} key={orgsteps[0].title}  icon={<QuestionCircleOutlined />} />
-          <Step description={""} title={orgsteps[5].title} key={orgsteps[0].title}  icon={<SmileOutlined />} />
+          <Step description={""} title={orgsteps[5].title} key={orgsteps[0].title}  icon={<CheckOutlined/>} />
         </Steps>
       </Card>
     );

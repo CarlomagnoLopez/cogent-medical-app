@@ -51,7 +51,7 @@ class FormAdmin extends Component {
   };
   prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select
+      <Select defaultValue="1"
         style={{
           width: 70,
         }}
