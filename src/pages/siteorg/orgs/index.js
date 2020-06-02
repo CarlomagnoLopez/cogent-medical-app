@@ -1,6 +1,22 @@
 import React, { Component } from 'react';
 
-import { Card, Table, Button, Tag, Space, Icon, Spin, Modal, message, Input, Avatar, Result, Row, Col, Divider } from 'antd';
+import {
+  Card,
+  Table,
+  Button,
+  Tag,
+  Space,
+  Icon,
+  Spin,
+  Modal,
+  message,
+  Input,
+  Avatar,
+  Result,
+  Row,
+  Col,
+  Divider,
+} from 'antd';
 // import { SearchOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import { routerRedux } from 'dva';
@@ -9,7 +25,14 @@ import { routerRedux } from 'dva';
 import { connect } from 'dva';
 import { history } from 'umi';
 import EditOrganization from './EditOrg';
-import { EditOutlined, DeleteOutlined, SearchOutlined, SettingOutlined, EllipsisOutlined, WarningOutlined } from '@ant-design/icons';
+import {
+  EditOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+  SettingOutlined,
+  EllipsisOutlined,
+  WarningOutlined,
+} from '@ant-design/icons';
 import * as AWS from 'aws-sdk';
 import styles from './create/css/Org.less';
 let s3 = '';
@@ -176,11 +199,11 @@ class Org extends Component {
           textToHighlight={text.toString()}
         />
       ) : (
-          text
-        );
+        text
+      );
     },
   });
-  createOrgAdmin = (record) => { };
+  createOrgAdmin = (record) => {};
 
   onShowInfo = (info) => {
     Modal.info({
@@ -188,20 +211,37 @@ class Org extends Component {
       content: (
         <div>
           <Divider></Divider>
-          <p><div><span className={styles.itemCompany}>Contact Email: </span>{`${info.contactName}`} </div></p>
+          <p>
+            <div>
+              <span className={styles.itemCompany}>Contact Email: </span>
+              {`${info.contactName}`}{' '}
+            </div>
+          </p>
           <Divider></Divider>
-          <p><div><span className={styles.itemCompany}>Contact Name: </span>{`${info.contactEmail}`}</div></p>
+          <p>
+            <div>
+              <span className={styles.itemCompany}>Contact Name: </span>
+              {`${info.contactEmail}`}
+            </div>
+          </p>
           <Divider></Divider>
-          <p><div><span className={styles.itemCompany}>Secret Code: </span> {`${info.secretcode}`}</div></p>
+          <p>
+            <div>
+              <span className={styles.itemCompany}>Secret Code: </span> {`${info.secretcode}`}
+            </div>
+          </p>
           <Divider></Divider>
-          <p><div><span className={styles.itemCompany}>Permanent Key: </span> {` ${info["mcp-1-sk"]}`} </div></p>
+          <p>
+            <div>
+              <span className={styles.itemCompany}>Permanent Key: </span> {` ${info['mcp-1-sk']}`}{' '}
+            </div>
+          </p>
         </div>
       ),
-      onOk() { },
+      onOk() {},
     });
-  }
+  };
   cardOrg = (info) => {
-
     //     contactEmail: "contaemiail@cogent.com"
     // contactName: "contactname"
     // disable: false
@@ -211,46 +251,119 @@ class Org extends Component {
     // phoneNumber: "+undefined555555"
     // secretcode: "6f6-e"
     // website: "congent.com.mx"
-    let letterAvatar = "";
-    if (info.orgname.indexOf(" ") !== -1) {
-      letterAvatar = info.orgname.split(" ");
+    let letterAvatar = '';
+    if (info.orgname.indexOf(' ') !== -1) {
+      letterAvatar = info.orgname.split(' ');
       letterAvatar = letterAvatar[0].substring(0, 1) + letterAvatar[1].substring(0, 1);
     } else {
-      letterAvatar = info.orgname.substring(0, 1)
+      letterAvatar = info.orgname.substring(0, 1);
     }
     letterAvatar = letterAvatar.toLocaleUpperCase();
     return (
       <Card
         style={{ width: 300 }}
         cover={
-          <img
-            alt="logocompany"
-            src="https://medicalprojectlogos.s3.amazonaws.com/noimage.png"
-          />
+          <img alt="logocompany" src="https://medicalprojectlogos.s3.amazonaws.com/noimage.png" />
         }
         actions={[
-          <EllipsisOutlined key="data" onClick={() => {
-            this.onShowInfo(info);
-          }} />,
-          <EditOutlined key="edit" onClick={() => {
-            this.onEdit(info);
-          }} />,
-          <DeleteOutlined key="delete" onClick={() => {
-            this.showWarningDelete(info);
-          }} />,
+          <EllipsisOutlined
+            key="data"
+            onClick={() => {
+              this.onShowInfo(info);
+            }}
+          />,
+          <EditOutlined
+            key="edit"
+            onClick={() => {
+              this.onEdit(info);
+            }}
+          />,
+          <DeleteOutlined
+            key="delete"
+            onClick={() => {
+              this.showWarningDelete(info);
+            }}
+          />,
         ]}
       >
         <Meta
-          avatar={<Avatar style={{ backgroundColor: "#001529", verticalAlign: 'middle' }} size="large" gap="4">
-            {letterAvatar}
-          </Avatar>}
-          title={info.orgname} letterAvatar
-          description={<a href={info.website} target="_blank">{info.website}</a>}
+          avatar={
+            <Avatar
+              style={{ backgroundColor: '#001529', verticalAlign: 'middle' }}
+              size="large"
+              gap="4"
+            >
+              {letterAvatar}
+            </Avatar>
+          }
+          title={info.orgname}
+          letterAvatar
+          description={
+            <a href={info.website} target="_blank">
+              {info.website}
+            </a>
+          }
         />
       </Card>
-    )
-  }
+    );
+  };
+  cardOrgAdminOrg = (info) => {
+    //     contactEmail: "contaemiail@cogent.com"
+    // contactName: "contactname"
+    // disable: false
+    // mcp-1-pk: "mcp-org-6f99b6f6-e2eb-4142-87e7-7ae25d904e35"
+    // mcp-1-sk: "org-6f99b6f6-e2eb-4142-87e7-7ae25d904e35"
+    // orgname: "org test 1"
+    // phoneNumber: "+undefined555555"
+    // secretcode: "6f6-e"
+    // website: "congent.com.mx"
 
+    console.log('Info ' + JSON.stringify(info));
+
+    let letterAvatar = localStorage.getItem('orgname');
+    letterAvatar = letterAvatar.toLocaleUpperCase();
+    let src =
+      'https://medicalprojectlogos.s3.amazonaws.com/' + localStorage.getItem('orgname') + '.jpeg';
+    return (
+      <Card
+        style={{ width: 300 }}
+        cover={<img alt="logocompany" src={src} />}
+        actions={[
+          <EllipsisOutlined
+            key="data"
+            onClick={() => {
+              this.onShowInfo(info);
+            }}
+          />,
+          <EditOutlined
+            key="edit"
+            onClick={() => {
+              this.onEdit(info);
+            }}
+          />,
+        ]}
+      >
+        <Meta
+          avatar={
+            <Avatar
+              style={{ backgroundColor: '#001529', verticalAlign: 'middle' }}
+              size="large"
+              gap="4"
+            >
+              {letterAvatar}
+            </Avatar>
+          }
+          title={info.orgname}
+          letterAvatar
+          description={
+            <a href={info.website} target="_blank">
+              {info.website}
+            </a>
+          }
+        />
+      </Card>
+    );
+  };
   render() {
     const { updateorgdetailsstatus, deleteorgstatus } = this.props;
 
@@ -463,10 +576,28 @@ class Org extends Component {
     return (
       <div>
         {' '}
+        <EditOrganization
+          visible={this.state.visible}
+          onCancel={this.onCancel}
+          onEditSubmit={this.onEditSubmit}
+          current={this.state.current}
+        />
         {localStorage.getItem('currentAuth') === 'orgadmin' && (
           <div>
             <Card title="Organization Details">
-              <Table columns={columns1} dataSource={[orgdetail != undefined ? orgdetail : '']} />
+              {this.props.orgdetail !== undefined && (
+                <div className={styles.siteCardWrapper}>
+                  <Row gutter={16}>
+                    {
+                      <Col xs={24} sm={16} md={8} lg={8}>
+                        <div className={styles.divCompany}>
+                          {this.cardOrgAdminOrg(this.props.orgdetail)}
+                        </div>
+                      </Col>
+                    }
+                  </Row>
+                </div>
+              )}
             </Card>
           </div>
         )}
@@ -489,48 +620,31 @@ class Org extends Component {
               }
             >
               {/* <FormOrganization visible={this.state.visible} onCancel={this.onCancel} onOk={this.onOk} />*/}
-              <EditOrganization
-                visible={this.state.visible}
-                onCancel={this.onCancel}
-                onEditSubmit={this.onEditSubmit}
-                current={this.state.current}
-              />
               {/* <Table columns={columns} dataSource={this.props.orgslist} /> */}
 
-              {this.props.orgslist.length !== 0 &&
+              {this.props.orgslist.length !== 0 && (
                 <div className={styles.siteCardWrapper}>
-
                   <Row gutter={16}>
                     {this.props.orgslist.map((infoCompany, index) => (
                       <Col xs={24} sm={16} md={8} lg={8}>
-                        <div className={styles.divCompany}>
-                          {this.cardOrg(infoCompany)}
-                        </div>
-
-
+                        <div className={styles.divCompany}>{this.cardOrg(infoCompany)}</div>
                       </Col>
                     ))}
-
                   </Row>
                 </div>
+              )}
 
-
-              }
-
-              {this.props.orgslist.length === 0 &&
-                < Card >
+              {this.props.orgslist.length === 0 && (
+                <Card>
                   {/* <Button onClick={this.createOrganization}>Finish</Button> */}
-                  < div className={styles.content}>
-
+                  <div className={styles.content}>
                     <div className={styles.wrapper}>
-
                       {/* <Card title="" bordered={false} className={styles.cardContent}> */}
                       <div className={styles.stepsContent}>
                         <Result
                           icon={<WarningOutlined />}
                           title="No company created yet!"
                           extra={
-
                             <div>
                               {localStorage.getItem('currentAuth') !== 'SiteAdmin' && (
                                 <Button onClick={this.showOrg}>Create Organization</Button>
@@ -541,13 +655,11 @@ class Org extends Component {
                       </div>
                     </div>
                   </div>
-
                 </Card>
-              }
+              )}
             </Card>{' '}
-          </Spin >
-        )
-        }
+          </Spin>
+        )}
       </div>
     );
   }
