@@ -483,7 +483,7 @@ class Org extends Component {
 
                   <Row gutter={16}>
                     {this.props.orgslist.map((infoCompany, index) => (
-                      <Col span={8}>
+                      <Col xs={24} sm={16} md={8} lg={8}>
                         <div className={styles.divCompany}>
                           {this.cardOrg(infoCompany)}
                         </div>
