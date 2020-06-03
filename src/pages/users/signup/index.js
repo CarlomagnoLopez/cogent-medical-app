@@ -14,7 +14,7 @@ import {
 } from 'antd';
 import styles from './style.less';
 import { Link, history, useModel, connect } from 'umi';
-import { SmileOutlined,QuestionCircleOutlined  } from '@ant-design/icons';
+import { SmileOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import logo from '@/assets/noimage.png';
 const { Option } = Select;
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
@@ -265,12 +265,16 @@ class SignUpUser extends Component {
               ]}
             >
               <Input.Password />
-           <div className={styles.tooltip}><QuestionCircleOutlined />
-              <span className={styles.tooltiptext}>
-              Mininum length should be 8, must include 1 uppercase letter,
-                 1 lowercase letter and 1 special symbol.
-                </span></div>
+
             </Form.Item>
+            <div className={styles.tooltip}><QuestionCircleOutlined />
+              <p>
+                <span className={styles.tooltiptext}>
+                  Mininum length should be 8, must include 1 uppercase letter,
+                  1 lowercase letter and 1 special symbol.
+                </span>
+              </p>
+            </div>
             <Form.Item
               name={'verifypassword'}
               label="Verify Password"
