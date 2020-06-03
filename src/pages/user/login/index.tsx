@@ -295,18 +295,18 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
               ]}
             />
             </Tab>*/}
-              {/* <div>
-            <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
+              <div>
+            {/* <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
               Remember me
-            </Checkbox>
+            </Checkbox> */}
             <a
-              style={{
-                float: 'right',
-              }}
+              // style={{
+              //   float: 'right',
+              // }}
             >
               forget password
             </a>
-          </div> */}
+          </div>
               <Submit loading={submitting}>Submit</Submit>
               {/* <div className={styles.other}>
             <Link className={styles.register} to="/user/register">
