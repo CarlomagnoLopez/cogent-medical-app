@@ -88,6 +88,7 @@ export default defineConfig({
       path: '/',
       layout: false,
       component: './siteorg/orgs',
+       icon: 'HomeOutlined',
       access: 'canOrgAdmin',
       name: 'Organization',
     },

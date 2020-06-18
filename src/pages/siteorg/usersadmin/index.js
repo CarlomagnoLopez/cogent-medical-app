@@ -302,7 +302,7 @@ class AdminUsers extends Component {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        render: (text) => <a>{text != undefined ? text : ''}</a>,
+        render: (text) => <span>{text != undefined ? text : ''}</span>,
       },
       // {
       //   title: 'OrgId',
@@ -337,9 +337,9 @@ class AdminUsers extends Component {
               <DeleteOutlined /> Delete
             </a>
             <p></p>
-            <a onClick={() => this.sendLogin(record)}>
+            {/* <a onClick={() => this.sendLogin(record)}>
               <RedoOutlined /> Send login
-            </a>
+            </a> */}
           </div>
         ),
       },

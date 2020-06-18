@@ -48,7 +48,7 @@ class FormUser extends Component {
     console.log('Constructor Calling');
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   componentWillReceiveProps() {
     console.log('Componenet Will Receive Props');
@@ -70,7 +70,7 @@ class FormUser extends Component {
     }
   };
 
-  onRoleChange = (value) => {};
+  onRoleChange = (value) => { };
 
   handleChange = (value) => {
     this.setState({ value });
@@ -135,12 +135,15 @@ class FormUser extends Component {
     const options =
       this.props.data != undefined
         ? this.props.data.map((d) => (
-            <Option key={d.orgname != null ? d.text : ''} value={d['mcp-1-pk']}>
-              {d.orgname}
-            </Option>
-          ))
+          <Option key={d.orgname != null ? d.text : ''} value={d['mcp-1-pk']}>
+            {d.orgname}
+          </Option>
+        ))
         : '';
-
+    const layout = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
+    };
     return (
       <Modal
         closable={true}
@@ -152,6 +155,7 @@ class FormUser extends Component {
         onCancel={this.props.onCancel}
       >
         <Form
+          {...layout}
           ref={(form) => (this.formRef = form)}
           onFinish={this.onFinish}
           validateMessages={validateMessages}
@@ -168,7 +172,7 @@ class FormUser extends Component {
               showSearch
               value={this.state.value}
               placeholder={'companyName'}
-              style={{ width: '80%' }}
+              style={{ width: '100%' }}
               defaultActiveFirstOption={false}
               showArrow={false}
               filterOption={(input, option) =>
@@ -181,13 +185,13 @@ class FormUser extends Component {
               {localStorage.getItem('currentAuth') === 'siteadmin' ? (
                 options
               ) : (
-                <Option
-                  key={orginfo[0] != undefined ? orginfo[0].text : ''}
-                  value={orginfo[0] != undefined ? orginfo[0]['mcp-1-pk'] : ''}
-                >
-                  {orginfo[0] != undefined ? orginfo[0].orgname : ''}
-                </Option>
-              )}
+                  <Option
+                    key={orginfo[0] != undefined ? orginfo[0].text : ''}
+                    value={orginfo[0] != undefined ? orginfo[0]['mcp-1-pk'] : ''}
+                  >
+                    {orginfo[0] != undefined ? orginfo[0].orgname : ''}
+                  </Option>
+                )}
             </Select>
           </Form.Item>
 
@@ -211,14 +215,21 @@ class FormUser extends Component {
           </Form.Item>
           <Form.Item
             wrapperCol={{
-              span: 12,
-              offset: 6,
+              span: 16,
+              offset: 20,
             }}
+
+            
           >
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
+
           </Form.Item>
+          {/* <Form.Item> */}
+
+
+          {/* </Form.Item> */}
         </Form>
       </Modal>
     );
