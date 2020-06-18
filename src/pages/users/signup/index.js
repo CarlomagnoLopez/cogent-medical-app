@@ -43,8 +43,9 @@ class SignUpUser extends Component {
 
   componentWillMount() {
     localStorage.setItem('current', '0');
-    // const link = this.getUrlParam('verifylink');
-    // this.setState({ verifylink: link });
+    const link = this.getUrlParam('v');
+    this.setState({ verifylink: link });
+    this.onValidate(link)
   }
 
   changePsw = (values) => {
@@ -143,12 +144,16 @@ class SignUpUser extends Component {
     setTimeout(() => {
       this.setState({ loading: false });
     }, 3000);
-    this.props.sendRequest(this.props, values);
+    this.props.sendRequest(this.props, { verifylink: values });
+
     console.log(values);
   };
 
   gotoLogIn = () => {
-    location.href = 'https://master.ddzfdvg3qoxoo.amplifyapp.com/user/login';
+    location.href = 'http://localhost:8000/user/login';
+    // location.href = 'https://master.ddzfdvg3qoxoo.amplifyapp.com/user/login';
+    
+    
   };
 
   validatePassword = (rule, value) => {
@@ -188,37 +193,37 @@ class SignUpUser extends Component {
     };
 
     const steps = [
-      {
-        title: 'User Verification',
-        content: (
-          <Form
-            // form={this.props.form}
+      // {
+      //   title: 'User Verification',
+      //   content: (
+      //     <Form
+      //       // form={this.props.form}
 
-            {...layout}
-            name="nest-messages"
-            onFinish={this.onValidate}
-            validateMessages={validateMessages}
-          >
-            <Form.Item
-              name={'verifylink'}
-              label="Code Verify"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+      //       {...layout}
+      //       name="nest-messages"
+      //       onFinish={this.onValidate}
+      //       validateMessages={validateMessages}
+      //     >
+      //       <Form.Item
+      //         name={'verifylink'}
+      //         label="Code Verify"
+      //         rules={[
+      //           {
+      //             required: true,
+      //           },
+      //         ]}
+      //       >
+      //         <Input />
+      //       </Form.Item>
 
-            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button className={styles.stepsAction} type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        ),
-      },
+      //       <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+      //         <Button className={styles.stepsAction} type="primary" htmlType="submit">
+      //           Submit
+      //         </Button>
+      //       </Form.Item>
+      //     </Form>
+      //   ),
+      // },
       {
         title: 'Complete data',
         content: (
@@ -350,7 +355,7 @@ class SignUpUser extends Component {
         this.props.requestVerifyReset(this.props, {});
         // this.next(1);
         //  let current = 1;
-        localStorage.setItem('current', '1');
+        // localStorage.setItem('current', '1');
         localStorage.setItem(
           'userId',
           this.props.signupdetailstatus.data.Items[0]['mcp-1-sk'].replace('user-', ''),
@@ -367,7 +372,7 @@ class SignUpUser extends Component {
       }
 
       if (signupdetailstatus.changePsw) {
-        localStorage.setItem('current', '2');
+        localStorage.setItem('current', '1');
         // message.success("Now you are a user for medial app.");
         // setTimeout(function () {
         //   location.href = "http://localhost:8000/user/login";
@@ -381,6 +386,13 @@ class SignUpUser extends Component {
       message.error(signupdetailstatus.err.message);
       // this.setState({loading:false})
       this.props.requestVerifyReset(this.props, {});
+
+      if (signupdetailstatus.err.message === "user not found!") {
+        let _self = this;
+        setTimeout(function () {
+          _self.gotoLogIn();
+        }, 2000)
+      }
     }
 
     return (
