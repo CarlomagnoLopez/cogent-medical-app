@@ -98,12 +98,18 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         onSuccess: function (result) {
           // localStorage.setItem("currentAuth",result.idToken.payload["custom:role"]);
           /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/
-          var accessToken = result.getAccessToken().getJwtToken();
-          var idToken = result.idToken.jwtToken;
-          sessionStorage.setItem('accessToken', accessToken);
-          let email = authenticationData.Username;
-          let params = { email: email };
-          doLogin(email);
+
+
+          if (result.idToken.payload["custom:role"] === "User") {
+            window.location.href = 'http://ec2-34-232-66-46.compute-1.amazonaws.com/php-medical-app/signin/?id=28';
+          } else {
+            var accessToken = result.getAccessToken().getJwtToken();
+            var idToken = result.idToken.jwtToken;
+            sessionStorage.setItem('accessToken', accessToken);
+            let email = authenticationData.Username;
+            let params = { email: email };
+            doLogin(email);
+          }
 
           //  router.push(`/welcome`);
         },
@@ -296,17 +302,17 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
             />
             </Tab>*/}
               <div>
-            {/* <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
+                {/* <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
               Remember me
             </Checkbox> */}
-            <a
-              // style={{
-              //   float: 'right',
-              // }}
-            >
-              forget password
+                <a
+                // style={{
+                //   float: 'right',
+                // }}
+                >
+                  forget password
             </a>
-          </div>
+              </div>
               <Submit loading={submitting}>Submit</Submit>
               {/* <div className={styles.other}>
             <Link className={styles.register} to="/user/register">

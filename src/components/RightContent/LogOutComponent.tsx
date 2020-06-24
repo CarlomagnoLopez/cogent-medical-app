@@ -23,7 +23,10 @@ function redirectChat() {
 function LogOutContainer() {
   return (
     <div>
-      <MessageOutlined onClick={redirectChat} style={{ fontSize: '20px', padding: '20px' }} />
+      {localStorage.getItem('currentAuth') !== 'siteadmin' &&
+        <MessageOutlined onClick={redirectChat} style={{ fontSize: '20px', padding: '20px' }} />
+
+      }
       <LogoutOutlined onClick={handleLogOut} style={{ fontSize: '20px', padding: '20px' }} />
     </div>
   );
