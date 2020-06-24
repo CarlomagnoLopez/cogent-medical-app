@@ -150,10 +150,10 @@ class SignUpUser extends Component {
   };
 
   gotoLogIn = () => {
-    location.href = 'http://localhost:8000/user/login';
+    location.href = END_POINT_ENV + '/user/login';
     // location.href = 'https://master.ddzfdvg3qoxoo.amplifyapp.com/user/login';
-    
-    
+
+
   };
 
   validatePassword = (rule, value) => {

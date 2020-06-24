@@ -69,7 +69,7 @@ export default defineConfig({
     },*/
     {
       path: '/manageuserapprovals',
-      name: 'Manage User Approvals',
+      name: 'Approvals',
       icon: 'TeamOutlined',
       component: './OrganizationAdmin/userapprovals',
       access: 'canBoth',
@@ -94,7 +94,7 @@ export default defineConfig({
     },
     {
       path: '/',
-      name: 'Create an Organization',
+      name: 'Organization',
       icon: 'PlusCircleOutlined',
       access: 'canAdmin',
       component: './siteorg/orgs',
@@ -115,7 +115,7 @@ export default defineConfig({
 
     {
       path: '/adminusers',
-      name: 'Manage Org Users',
+      name: 'Users',
       icon: 'UserAddOutlined',
       access: 'canBothUser',
       component: './siteorg/usersadmin',
@@ -128,7 +128,7 @@ export default defineConfig({
     },
     {
       path: '/siteorg/userapprovals',
-      name: 'Manage User Approvals',
+      name: 'Approvals',
       icon: 'TeamOutlined',
       component: './siteorg/userapprovals',
       access: 'canAdmin',
@@ -140,6 +140,8 @@ export default defineConfig({
   define: {
     ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_zgFW3AEob',
     ANT_DESIGN_PRO_CLIENT_ID: '13pbrvceiogtq8ikiv1l9v89t4',
+    // END_POINT_ENV:"http://localhost:8000",
+    END_POINT_ENV:"/https://master.ddzfdvg3qoxoo.amplifyapp.com",
     // ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_4JmTxHDGX',
     // ANT_DESIGN_PRO_CLIENT_ID: '7s90an5ecff1blr3aej1d97p3q',
     REACT_APP_ENV: 'https://c4ymficygk.execute-api.us-east-1.amazonaws.com/dev',
