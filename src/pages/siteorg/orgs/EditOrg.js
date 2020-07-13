@@ -145,7 +145,7 @@ class EditOrganization extends Component {
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>*/}
-            <Form.Item label="Logo">
+            {/* <Form.Item label="Logo">
               <Form.Item name="logo">
                 <Upload
                   name="files"
@@ -166,7 +166,7 @@ class EditOrganization extends Component {
                   {this.state.filename != undefined ? this.state.filename : ''}
                 </Upload>
               </Form.Item>
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
               <Input placeholder="Contact Name" id="contactname" />
             </Form.Item>

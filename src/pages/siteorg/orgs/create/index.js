@@ -81,26 +81,26 @@ class CreateOrganization extends Component {
     const { loading } = this.state;
     this.setState({ loading: true });
 
-    const reader = new FileReader();
+    // const reader = new FileReader();
 
     // const buffer = reader.readAsBinaryString(this.state.file);
     //reader.readAsText(file);
-    const { organizationDetails } = this.state;
-    let params = {
-      Body: organizationDetails.file,
-      Key: organizationDetails.orgName.trim().split(' ').join('') + '.jpeg',
-      ACL: 'public-read',
-    };
+    // const { organizationDetails } = this.state;
+    // let params = {
+    //   Body: organizationDetails.file,
+    //   Key: organizationDetails.orgName.trim().split(' ').join('') + '.jpeg',
+    //   ACL: 'public-read',
+    // };
 
-    s3.putObject(params, function (err, data) {
-      console.log('Data ' + JSON.stringify(data) + ' Error ' + JSON.stringify(err));
+    // s3.putObject(params, function (err, data) {
+    //   console.log('Data ' + JSON.stringify(data) + ' Error ' + JSON.stringify(err));
 
-      if (err) {
-        message.error('There was an error creating your album: ' + err.message);
-      }
-      message.success('Successfully uploaded logo.');
-      //    console.log(albumName);
-    });
+    //   if (err) {
+    //     message.error('There was an error creating your album: ' + err.message);
+    //   }
+    //   message.success('Successfully uploaded logo.');
+    //   //    console.log(albumName);
+    // });
 
     let tempsummaryOrg = this.state.organizationDetails;
     const tempprefix = tempsummaryOrg.prefix;
@@ -108,12 +108,15 @@ class CreateOrganization extends Component {
 
     var tempadmin1Details = this.state.admin1Details;
     var tempprefix1 = tempadmin1Details.prefix;
+    tempadmin1Details.password = "Soporte20#";
     tempadmin1Details.phoneNumber = '+' + tempprefix1 + tempadmin1Details.phoneNumber;
     tempadmin1Details.role = 'OrgAdmin';
     console.log('Admin 1 Details ' + JSON.stringify(tempadmin1Details));
 
     var tempadmin2Details = this.state.admin2Details;
     var tempprefix2 = tempadmin2Details.prefix;
+    tempadmin2Details.password = "Soporte20#";
+
     tempadmin2Details.phoneNumber = '+' + tempprefix2 + tempadmin2Details.phoneNumber;
     tempadmin2Details.role = 'OrgAdmin';
 
@@ -121,6 +124,8 @@ class CreateOrganization extends Component {
 
     var tempapprovalDetails = this.state.approverDetails;
     var tempprefix3 = tempapprovalDetails.prefix;
+    tempapprovalDetails.password = "Soporte20#";
+
     tempapprovalDetails.phoneNumber = '+' + tempprefix3 + tempapprovalDetails.phoneNumber;
     tempapprovalDetails.role = 'OrgApproval';
 
@@ -128,12 +133,25 @@ class CreateOrganization extends Component {
 
     var tempapproval2Details = this.state.approver2Details;
     var tempprefix4 = tempapproval2Details.prefix;
+    tempapproval2Details.password = "Soporte20#";
+
     tempapproval2Details.phoneNumber = '+' + tempprefix4 + tempapproval2Details.phoneNumber;
     tempapproval2Details.role = 'OrgApproval';
 
     console.log('Approval 2 Details ' + JSON.stringify(tempapproval2Details));
 
     let organizationData = {};
+
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+
+
+
+    tempsummaryOrg.secretKey = uuid.split("-")[0].substr(0, 5);
 
     (organizationData.summaryOrg = tempsummaryOrg),
       (organizationData.usersOrg = [
@@ -143,10 +161,11 @@ class CreateOrganization extends Component {
         tempapprovalDetails,
       ]);
     console.log('Organization Creation Data ' + JSON.stringify(organizationData));
+    organizationData.method = "saveOrganization";
     this.props.dispatch({
       type: 'organization/createOrganization',
       payload: organizationData,
-    });
+    }); 
 
     const _Self = this;
     setTimeout(() => {
@@ -168,21 +187,29 @@ class CreateOrganization extends Component {
     const { currentstep } = this.state;
 
     const { status } = this.props;
-    if (status.logResponse != undefined) {
-      console.log(JSON.stringify(status));
+    // if (status.logResponse != undefined) {
+    //   console.log(JSON.stringify(status));
 
-      console.log('Status ' + JSON.stringify(status));
-      if (status.logResponse.length > 0) {
-        status.logResponse.map((res) => {
-          if (res.createOrg) message.success('Organization Created!');
-        });
-        // message.success('Organization Created!');
-        history.push('/');
-      }
-      if (status.logResponse[0].success === false) {
-        //history.goBack();
-        message.error('Error while creating organization!');
-      }
+    //   console.log('Status ' + JSON.stringify(status));
+    //   if (status.logResponse.length > 0) {
+    //     status.logResponse.map((res) => {
+    //       if (res.createOrg) message.success('Organization Created!');
+    //     });
+    //     // message.success('Organization Created!');
+    //     history.push('/');
+    //   }
+    //   if (status.logResponse[0].success === false) {
+    //     //history.goBack();
+    //     message.error('Error while creating organization!');
+    //   }
+    // }
+
+    if (status.data === "success" && !status.error) {
+      message.success('Organization Created!');
+    }
+
+    if (!status.data && status.error) {
+      message.error('Error while creating organization!');
     }
 
     return (

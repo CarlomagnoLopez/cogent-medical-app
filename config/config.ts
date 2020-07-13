@@ -140,8 +140,9 @@ export default defineConfig({
   define: {
     ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_zgFW3AEob',
     ANT_DESIGN_PRO_CLIENT_ID: '13pbrvceiogtq8ikiv1l9v89t4',
-    // END_POINT_ENV:"http://localhost:8000",
-    END_POINT_ENV:"/https://master.ddzfdvg3qoxoo.amplifyapp.com",
+    END_POINT_ENV:"http://localhost:8000",
+    END_POINT_MYSQL:"http://localhost/php-medical-app/door",
+    // END_POINT_ENV:"/https://master.ddzfdvg3qoxoo.amplifyapp.com",
     // ANT_DESIGN_PRO_USER_POOL_ID: 'us-east-1_4JmTxHDGX',
     // ANT_DESIGN_PRO_CLIENT_ID: '7s90an5ecff1blr3aej1d97p3q',
     REACT_APP_ENV: 'https://c4ymficygk.execute-api.us-east-1.amazonaws.com/dev',

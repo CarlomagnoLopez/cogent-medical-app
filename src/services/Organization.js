@@ -4,7 +4,8 @@ import { stringify } from 'qs';
 
 export async function generateOrgnization(payload) {
   console.log('API Called');
-  return request(REACT_APP_ENV + `/saveorg`, {
+  // return request(REACT_APP_ENV + `/saveorg`, {
+  return request(END_POINT_MYSQL + `/integration/main.php`, {
     method: 'PUT',
     body: JSON.stringify(payload),
   });
@@ -65,7 +66,9 @@ export async function getAllUsers(payload) {
 }
 
 export async function getAllOrganizations() {
-  return request(REACT_APP_ENV + '/org/all');
+  // return request(REACT_APP_ENV + '/org/all');
+  return request(END_POINT_MYSQL + `/integration/orgall.php`)
+
 }
 export async function generateOrgAdmin(payload) {
   return request(REACT_APP_ENV + '/org/orgadmin', {
