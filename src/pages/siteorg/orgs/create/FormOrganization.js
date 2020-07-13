@@ -248,7 +248,7 @@ class FormOrganization extends Component {
                   }}
                 />
               </Form.Item>
-              <Form.Item name="logo" label="Logo" rules={[{ required: true }]}>
+              {/* <Form.Item name="logo" label="Logo" rules={[{ required: true }]}>
                 <Upload
                   name="files"
                   accept=".jpeg,.png"
@@ -267,7 +267,7 @@ class FormOrganization extends Component {
                   <Button type="primary">Upload File</Button>
                   {this.state.filename != undefined ? this.state.filename : ''}
                 </Upload>
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item label="office fax" name="faxNumber" rules={[{ required: true }]}>
           <Input placeholder="office fax" id="faxnumber" />
         </Form.Item>

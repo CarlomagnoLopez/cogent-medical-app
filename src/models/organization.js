@@ -52,8 +52,21 @@ export default {
     },
     getAllOrganizationsData(state, action) {
       console.log('Response ' + JSON.stringify(action));
-      if (action.payload.body != undefined)
-        return { ...state, orgslist: action.payload.body.Items };
+      if (action.payload.message === "data")
+      // if (action.payload.body != undefined)
+        // return { ...state, orgslist: action.payload.body.Items };
+        // contactEmail: "jallumalla@cogentibs.com" // contact_email:""
+// contactName: "Jayanth"                   // contact_name:""
+// disable: false
+// faxNumber: "12587412368"
+// orgname: "Jayanth test"                  // organization:"Jayanth Test"
+// phoneNumber: "+12485318731"              // phone_number:""
+// secretcode: "5ae-3"                      // secret_key:"5ae-3"
+// taxNumber: "20147896"                    // tax_number:""
+// website: "www.cogentibs.com"             // web_site:""
+
+
+        return { ...state, orgslist: action.payload.data };
       else
         return {
           ...state,
