@@ -67,11 +67,7 @@ export async function getAllUsers(payload) {
 
 export async function getAllOrganizations() {
   // return request(REACT_APP_ENV + '/org/all');
-  return request(END_POINT_MYSQL + `/integration/orgall.php`, {
-    headers: {
-      'Access-Control-Allow-Origin': "*"
-    }
-  })
+  return request(END_POINT_MYSQL + `/integration/orgall.php`)
 
 }
 export async function generateOrgAdmin(payload) {
