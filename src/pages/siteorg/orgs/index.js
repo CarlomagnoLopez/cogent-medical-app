@@ -645,7 +645,8 @@ class Org extends Component {
                       <div className={styles.stepsContent}>
                         <Result
                           icon={<WarningOutlined />}
-                          title="No company created yet!"
+                          title="No company created yet!....."
+                          // title="No company created yet!"
                           extra={
                             <div>
                               {localStorage.getItem('currentAuth') !== 'SiteAdmin' && (
