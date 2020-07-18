@@ -274,7 +274,7 @@ class FormOrganization extends Component {
               <Form.Item label="tax number" name="taxNumber" rules={[{ required: true }]}>
                 <Input placeholder="tax number" id="taxnumber" />
               </Form.Item>
-              <Form.Item label="field1">
+              {/* <Form.Item label="field1">
                 <Input placeholder="field1" id="field1" />
               </Form.Item>
               <Form.Item label="field1">
@@ -312,7 +312,7 @@ class FormOrganization extends Component {
               </Form.Item>{' '}
               <Form.Item label="field1">
                 <Input placeholder="field1" id="field13" />
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item
                 wrapperCol={{
                   span: 12,
