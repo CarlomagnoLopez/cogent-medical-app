@@ -101,7 +101,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
 
 
           if (result.idToken.payload["custom:role"] === "User") {
-            window.location.href = 'http://ec2-34-232-66-46.compute-1.amazonaws.com/php-medical-app/signin/?id=28';
+            window.location.href = 'http://ec2-54-208-211-67.compute-1.amazonaws.com/php-medical-app/signin/?id=28';
           } else {
             var accessToken = result.getAccessToken().getJwtToken();
             var idToken = result.idToken.jwtToken;

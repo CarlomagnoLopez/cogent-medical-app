@@ -16,7 +16,7 @@ function handleLogOut() {
 }
 
 function redirectChat() {
-  window.location.href = 'http://ec2-34-232-66-46.compute-1.amazonaws.com/php-medical-app/signin/?id=28';
+  window.location.href = 'http://ec2-54-208-211-67.compute-1.amazonaws.com/php-medical-app/signin/?id=28';
 
   console.log("redireccionando")
 }
