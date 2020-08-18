@@ -305,13 +305,13 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
                 {/* <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
               Remember me
             </Checkbox> */}
-                <a
-                // style={{
-                //   float: 'right',
-                // }}
+                {/* <a
+                style={{
+                  float: 'right',
+                }}
                 >
                   forget password
-            </a>
+            </a> */}
               </div>
               <Submit loading={submitting}>Submit</Submit>
               {/* <div className={styles.other}>
