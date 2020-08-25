@@ -62,7 +62,12 @@ export async function getAllOrgAdminApprovals(payload) {
 }
 export async function getAllUsers(payload) {
   console.log('API Called');
-  return request(REACT_APP_ENV + `/users/all`);
+  // return request(REACT_APP_ENV + `/users/all`);
+  return request(END_POINT_MYSQL + `/integration/userall.php`, {
+    headers: {
+      'Access-Control-Allow-Origin': "*"
+    }
+  })
 }
 
 export async function getAllOrganizations() {
@@ -81,7 +86,7 @@ export async function generateOrgAdmin(payload) {
   });
 }
 export async function updateOrgDetails(payload) {
-  console.log(END_POINT_MYSQL  + `/integration/main.php`)
+  console.log(END_POINT_MYSQL + `/integration/main.php`)
   // return request(REACT_APP_ENV + '/org/update', {
 
   console.log(payload)

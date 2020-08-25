@@ -77,7 +77,7 @@ class FormEditUser extends Component {
     }
   };
 
-  onRoleChange = (value) => {};
+  onRoleChange = (value) => { };
 
   handleChange = (value) => {
     console.log('Handle Change ' + value);
@@ -119,10 +119,10 @@ class FormEditUser extends Component {
     const options =
       this.props.data != undefined
         ? this.props.data.map((d) => (
-            <Option key={d.orgname != null ? d.text : ''} value={d['mcp-1-pk']}>
-              {d.orgname}
-            </Option>
-          ))
+          <Option key={d.orgname != null ? d.text : ''} value={d['mcp-1-pk']}>
+            {d.orgname}
+          </Option>
+        ))
         : '';
 
     const { current } = this.props;
@@ -137,6 +137,22 @@ class FormEditUser extends Component {
         onCancel={this.props.onCancel}
       >
         <Form
+          labelCol={{
+            xs: {
+              span: 24,
+            },
+            sm: {
+              span: 10,
+            },
+          }}
+          wrapperCol={{
+            xs: {
+              span: 24,
+            },
+            sm: {
+              span: 16,
+            },
+          }}
           onFinish={this.onFinish}
           validateMessages={validateMessages}
           initialValues={{
@@ -160,7 +176,7 @@ class FormEditUser extends Component {
               showSearch
               value={this.state.value}
               placeholder={'companyName'}
-              style={{ width: '80%' }}
+              style={{ width: '100%' }}
               defaultActiveFirstOption={false}
               showArrow={false}
               filterOption={(input, option) =>

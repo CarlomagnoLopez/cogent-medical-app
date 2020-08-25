@@ -314,9 +314,29 @@ class AdminUsers extends Component {
         title: 'Role',
         dataIndex: 'role',
         key: 'role',
-        onFilter: (value, record) => record.role.indexOf(value) === 0,
-        sorter: (a, b) => a.role.length - b.role.length,
-        sortDirections: ['descend'],
+        // onFilter: (value, record) => record.role.indexOf(value) === 0,
+        // sorter: (a, b) => a.role.length - b.role.length,
+        // sortDirections: ['descend'],
+        render: (text) => {
+          switch (text) {
+            case "2":
+              return "Site Admin"
+              break;
+            case "3":
+              return "Approver"
+              break;
+            case "5":
+              return "Org Admin"
+              break;
+            case "6":
+              return "User"
+              break;
+
+            default:
+              return text
+              break;
+          }
+        }
       },
 
       {
@@ -371,12 +391,12 @@ class AdminUsers extends Component {
             </Button>
           }
         >
-          {localStorage.getItem('currentAuth') === 'siteadmin' && (
+          {/* {localStorage.getItem('currentAuth') === 'siteadmin' && (
             <Table columns={columns} dataSource={this.state.userslist} />
-          )}
-          {localStorage.getItem('currentAuth') === 'orgadmin' && (
-            <Table columns={columns} dataSource={this.props.orgsusers} />
-          )}
+          )} */}
+          {/* {localStorage.getItem('currentAuth') === 'orgadmin' && ( */}
+          <Table columns={columns} dataSource={this.props.userslist} />
+          {/* )} */}
 
           <FormUser
             visible={this.state.visible}

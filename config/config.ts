@@ -67,13 +67,13 @@ export default defineConfig({
       access: 'canOrgAdmin',
       component: './OrganizationAdmin/usersadmin',
     },*/
-    {
-      path: '/manageuserapprovals',
-      name: 'Approvals',
-      icon: 'TeamOutlined',
-      component: './OrganizationAdmin/userapprovals',
-      access: 'canBoth',
-    },
+    // {
+    //   path: '/manageuserapprovals',
+    //   name: 'Approvals',
+    //   icon: 'TeamOutlined',
+    //   component: './OrganizationAdmin/userapprovals',
+    //   access: 'canBoth',
+    // },
 
     // {
     /*
@@ -126,13 +126,13 @@ export default defineConfig({
       hideInMenu: true,
       component: './siteorg/orgs/create',
     },
-    {
-      path: '/siteorg/userapprovals',
-      name: 'Approvals',
-      icon: 'TeamOutlined',
-      component: './siteorg/userapprovals',
-      access: 'canAdmin',
-    },
+    // {
+    //   path: '/siteorg/userapprovals',
+    //   name: 'Approvals',
+    //   icon: 'TeamOutlined',
+    //   component: './siteorg/userapprovals',
+    //   access: 'canAdmin',
+    // },
     {
       component: './404',
     },
