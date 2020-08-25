@@ -221,6 +221,8 @@ export default {
     },
     *updateOrgDetails({ payload }, { call, put }) {
       const res = yield call(updateOrgDetails, payload);
+
+      console.log("mensaje")
       yield put({
         type: 'updateOrgDeatailsStatus',
         payload: res,

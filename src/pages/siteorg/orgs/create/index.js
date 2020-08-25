@@ -205,11 +205,12 @@ class CreateOrganization extends Component {
     // }
 
     if (status.data === "success" && !status.error) {
+     
       message.success('Organization Created!');
     }
 
     if (!status.data && status.error) {
-      message.error('Error while creating organization!');
+      message.error(status.message);
     }
 
     return (

@@ -122,21 +122,21 @@ class Org extends Component {
   };
 
   onEditSubmit = (values) => {
-    let params = {
-      Body: values.file,
-      Key: values.orgName.trim().split(' ').join('') + '.jpeg',
-      ACL: 'public-read',
-    };
+    // let params = {
+    //   Body: values.file,
+    //   Key: values.orgName.trim().split(' ').join('') + '.jpeg',
+    //   ACL: 'public-read',
+    // };
 
-    s3.putObject(params, function (err, data) {
-      console.log('Data ' + JSON.stringify(data) + ' Error ' + JSON.stringify(err));
+    // s3.putObject(params, function (err, data) {
+    //   console.log('Data ' + JSON.stringify(data) + ' Error ' + JSON.stringify(err));
 
-      if (err) {
-        message.error('There was an error creating your album: ' + err.message);
-      }
-      message.success('Successfully uploaded logo.');
-      //    console.log(albumName);
-    });
+    //   if (err) {
+    //     message.error('There was an error creating your album: ' + err.message);
+    //   }
+    //   message.success('Successfully uploaded logo.');
+    //   //    console.log(albumName);
+    // });
 
     console.log('Values Received ' + values);
     this.props.dispatch({
@@ -387,8 +387,10 @@ class Org extends Component {
       });
     }
 
-    if (updateorgdetailsstatus.success == true) {
-      message.success('Organization details updated!');
+    if (updateorgdetailsstatus.error == false) {
+
+      console.log("success update")
+      message.success(updateorgdetailsstatus.message);
       this.props.dispatch({
         type: 'organization/resetUpdateOrgDeatailsStat',
         payload: [],
@@ -398,8 +400,10 @@ class Org extends Component {
         payload: [],
       });
     }
-    if (updateorgdetailsstatus.success == false) {
-      message.error(updateorgdetailsstatus.err.message);
+    if (updateorgdetailsstatus.error == true) {
+      console.log("fail update")
+
+      message.success(updateorgdetailsstatus.message);
       this.props.dispatch({
         type: 'organization/resetUpdateOrgDeatailsStat',
         payload: [],
@@ -645,7 +649,7 @@ class Org extends Component {
                       <div className={styles.stepsContent}>
                         <Result
                           icon={<WarningOutlined />}
-                          title="No company created yet!....."
+                          title="No company created yet!"
                           // title="No company created yet!"
                           extra={
                             <div>

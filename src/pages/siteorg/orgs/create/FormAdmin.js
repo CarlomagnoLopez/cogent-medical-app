@@ -36,6 +36,7 @@ const Option = Select.Option;
 const Dragger = Upload.Dragger;
 import { SmileOutlined } from '@ant-design/icons';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import { stubTrue } from 'lodash';
 
 class FormAdmin extends Component {
   constructor(props) {
@@ -51,8 +52,8 @@ class FormAdmin extends Component {
   };
   prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select 
-    
+      <Select
+
         style={{
           width: 70,
         }}
@@ -166,8 +167,31 @@ class FormAdmin extends Component {
                 <Form.Item label="Contact Name" name="contactName" rules={[{ required: true }]}>
                   <Input placeholder="Contact Name" id="contactname" />
                 </Form.Item>
-                <Form.Item label="Contact Number" name="phoneNumber" rules={[{ required: true }]}>
+                <Form.Item label="Contact Number" name="phoneNumber" rules={[
+                  // { type: "number" },
+                  {
+                    required: true,
+                    asyncValidator: (rule, value) => {
+                      return new Promise((resolve, reject) => {
+                        if (isNaN(value)) {
+                          // }
+                          // console.log(rule)
+                          // if (value < 18) {
+                          reject('It does not accept this value');  // reject with error message
+                        } else {
+                          resolve();
+                        }
+                      });
+                    }
+                  },
+                  // {
+                  //   pattern: '^[{0,1}[0-9]{1,10}[)]{0,1}',
+                  //   message: "It accept only digits and ten max"
+                  // }
+                  // { whitespace: true }
+                ]}>
                   <Input
+                    maxLength={10}
                     addonBefore={this.prefixSelector}
                     placeholder="Contact Number"
                     id="contactnumber"
@@ -200,7 +224,7 @@ class FormAdmin extends Component {
             </div>
           </div>
         </div>
-      </Card>
+      </Card >
     );
   }
 }

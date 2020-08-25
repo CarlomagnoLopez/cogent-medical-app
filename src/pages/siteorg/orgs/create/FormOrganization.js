@@ -112,6 +112,11 @@ class FormOrganization extends Component {
 
     this.setState({ filename: list[0].name });
   };
+
+
+  validatingData = (value) => {
+    console.log("validating " + value)
+  }
   render() {
     const validateMessages = {
       required: '${label} is required!',
@@ -240,8 +245,32 @@ class FormOrganization extends Component {
             <Button>Upload</Button>
           </Upload>
         </Form.Item>{' '} */}
-              <Form.Item label="office phone" name="phoneNumber" rules={[{ required: true }]}>
+              <Form.Item label="office phone" name="phoneNumber"
+                rules={[
+                  // { type: "number" },
+                  // { type: "number", },
+                  // { validator: this.validatingData }
+
+                  {
+                    type: "number",
+                    required: true,
+                    asyncValidator: (rule, value) => {
+                      return new Promise((resolve, reject) => {
+                        if (isNaN(value)) {
+                          // }
+                          // console.log(rule)
+                          // if (value < 18) {
+                          reject('It does not accept this value');  // reject with error message
+                        } else {
+                          resolve();
+                        }
+                      });
+                    }
+                  }
+                ]}
+              >
                 <Input
+                  maxLength={10}
                   addonBefore={this.prefixSelector}
                   style={{
                     width: '100%',
@@ -268,12 +297,26 @@ class FormOrganization extends Component {
                   {this.state.filename != undefined ? this.state.filename : ''}
                 </Upload>
               </Form.Item> */}
-              <Form.Item label="office fax" name="faxNumber" rules={[{ required: true }]}>
-          <Input placeholder="office fax" id="faxnumber" />
-        </Form.Item>
-        <Form.Item label="tax number" name="taxNumber" rules={[{ required: true }]}>
-          <Input placeholder="tax number" id="taxnumber" />
-        </Form.Item>
+              {/* <Form.Item label="office fax" name="faxNumber" rules={[{
+                required: true,
+                asyncValidator: (rule, value) => {
+                  return new Promise((resolve, reject) => {
+                    if (isNaN(value)) {
+                      // }
+                      // console.log(rule)
+                      // if (value < 18) {
+                      reject('It does not accept this value');  // reject with error message
+                    } else {
+                      resolve();
+                    }
+                  });
+                }
+              }]}>
+                <Input placeholder="office fax" id="faxnumber" />
+              </Form.Item> */}
+              <Form.Item label="tax number" name="taxNumber" rules={[{ required: true }]}>
+                <Input placeholder="tax number" id="taxnumber" />
+              </Form.Item>
               <Form.Item label="field1">
                 <Input placeholder="field1" id="field1" />
               </Form.Item>

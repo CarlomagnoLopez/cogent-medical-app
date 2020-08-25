@@ -81,7 +81,11 @@ export async function generateOrgAdmin(payload) {
   });
 }
 export async function updateOrgDetails(payload) {
-  return request(REACT_APP_ENV + '/org/update', {
+  console.log(END_POINT_MYSQL  + `/integration/main.php`)
+  // return request(REACT_APP_ENV + '/org/update', {
+
+  console.log(payload)
+  return request(END_POINT_MYSQL + `/integration/main.php`, {
     method: 'POST',
     body: JSON.stringify(payload),
   });

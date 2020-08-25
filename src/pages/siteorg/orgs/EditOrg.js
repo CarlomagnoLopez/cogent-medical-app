@@ -46,10 +46,22 @@ class EditOrganization extends Component {
   }
 
   onFinish = (values) => {
+    // console.log(this.props)
+    // console.log(this.props.current["mcp-1-sk"])
+    let idOgr = this.props.current["mcp-1-sk"];
+    let secretcode = this.props.current.secretcode;
     console.log('Received values of form: ', values);
-    values.orgid = this.props.current['mcp-1-pk'];
-    values.file = this.state.file;
-    this.props.onEditSubmit(values);
+    values.orgid = idOgr;
+    values.secretcode = secretcode;
+
+
+    let payload = {
+      "method": "updateOrganization",
+      "summaryOrg": values
+    }
+    // console.log("there")
+    // values.file = this.state.file;
+    this.props.onEditSubmit(payload);
   };
   prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -107,7 +119,24 @@ class EditOrganization extends Component {
       },
     };
 
+    let prefix = "";
+    let phone = "";
+    if (this.props.current) {
+      if (this.props.current.phoneNumber.length < 13) {
+        prefix = this.props.current.phoneNumber.substr(0, 2)
+        phone = this.props.current.phoneNumber.substr(2, this.props.current.phoneNumber.length)
+      } else {
+        prefix = this.props.current.phoneNumber.substr(0, 3)
+        phone = this.props.current.phoneNumber.substr(3, this.props.current.phoneNumber.length)
+      }
+    }
+
+
+
     return (
+
+
+
       <Card>
         <Modal
           closable={true}
@@ -118,15 +147,32 @@ class EditOrganization extends Component {
           onCancel={this.props.onCancel}
         >
           <Form
+            labelCol={{
+              xs: {
+                span: 24,
+              },
+              sm: {
+                span: 10,
+              },
+            }}
+            wrapperCol={{
+              xs: {
+                span: 24,
+              },
+              sm: {
+                span: 16,
+              },
+            }}
             onFinish={this.onFinish}
             validateMessages={validateMessages}
             initialValues={{
-              prefix: '86',
+              // prefix: '86',prefix
+              prefix: prefix,
               orgName: this.props.current.orgname,
               contactName: this.props.current.contactName,
               contactEmail: this.props.current.contactEmail,
               orgWesite: this.props.current.website,
-              phoneNumber: this.props.current.phoneNumber,
+              phoneNumber: phone,
               faxNumber: this.props.current.faxNumber,
               taxNumber: this.props.current.taxNumber,
             }}
@@ -193,17 +239,34 @@ class EditOrganization extends Component {
             >
               <Input placeholder="Website" id="website" />
             </Form.Item>
-            <Form.Item label="office phone" name="phoneNumber" rules={[{ required: true }]}>
+            <Form.Item label="office phone" name="phoneNumber" rules={[{
+              required: true,
+              asyncValidator: (rule, value) => {
+                return new Promise((resolve, reject) => {
+                  if (isNaN(value)) {
+                    // }
+                    // console.log(rule)
+                    // if (value < 18) {
+                    reject('It does not accept this value');  // reject with error message
+                  } else {
+                    resolve();
+                  }
+                });
+              }
+
+
+            }]}>
               <Input
+                maxLength={10}
                 addonBefore={this.prefixSelector}
                 style={{
                   width: '100%',
                 }}
               />
             </Form.Item>
-            <Form.Item label="office fax" name="faxNumber" rules={[{ required: true }]}>
+            {/* <Form.Item label="office fax" name="faxNumber" rules={[{ required: true }]}>
               <Input placeholder="office fax" id="faxnumber" />
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item label="tax number" name="taxNumber" rules={[{ required: true }]}>
               <Input placeholder="tax number" id="taxnumber" />
             </Form.Item>
