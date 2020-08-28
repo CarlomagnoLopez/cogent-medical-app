@@ -4,12 +4,12 @@ import { DefaultFooter } from '@ant-design/pro-layout';
 
 export default () => (
   <DefaultFooter
-    copyright="2020@cogentibsinc"
+    copyright="2020@Track Me"
     links={[
       {
-        key: 'Cogent Medical',
-        title: 'Cogent Medical',
-        href: 'http://cogentibs.com',
+        key: 'Track Me',
+        title: 'Track Me',
+        href: 'http://TrackMe.com',
         blankTarget: true,
       },
     ]}

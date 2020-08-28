@@ -13,7 +13,7 @@ export default defineConfig({
     hmr: true,
   },
   layout: {
-    name: 'Cogent Medical',
+    name: 'Track Me',
     locale: false,
     logo: 'https://medicalprojectlogos.s3.amazonaws.com/logo.png', //+ localStorage.getItem('orgname') + '.jpeg',
   },
