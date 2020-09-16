@@ -299,7 +299,7 @@ class Org extends Component {
           title={info.orgname}
           letterAvatar
           description={
-            <a href={info.website} target="_blank">
+            <a href={info.website.indexOf("https://") === 0 ?  info.website :("https://" + info.website )  } target="_new">
               {info.website}
             </a>
           }

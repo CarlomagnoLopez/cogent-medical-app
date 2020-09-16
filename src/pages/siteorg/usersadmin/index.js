@@ -5,7 +5,7 @@ import FormEditUser from './components/EditUser';
 import { connect } from 'umi';
 const { confirm } = Modal;
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined, DeleteOutlined, RedoOutlined, EditOutlined } from '@ant-design/icons';
+import { SearchOutlined, DeleteOutlined, RedoOutlined, EyeOutlined } from '@ant-design/icons';
 class AdminUsers extends Component {
   constructor(props) {
     super(props);
@@ -323,10 +323,10 @@ class AdminUsers extends Component {
               return "Site Admin"
               break;
             case "3":
-              return "Approver"
+              return "Org Admin"
               break;
             case "5":
-              return "Org Admin"
+              return "Approver"
               break;
             case "6":
               return "User"
@@ -350,7 +350,7 @@ class AdminUsers extends Component {
         render: (record) => (
           <div style={{ textAlign: 'left' }}>
             <a onClick={() => this.editUser(record)}>
-              <EditOutlined /> Edit
+              <EyeOutlined /> Details
             </a>
             <p></p>
             <a onClick={() => this.deleteUser(record)}>

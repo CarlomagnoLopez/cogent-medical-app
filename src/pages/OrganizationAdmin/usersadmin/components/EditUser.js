@@ -76,7 +76,7 @@ class FormEditUser extends Component {
     }
   };
 
-  onRoleChange = (value) => {};
+  onRoleChange = (value) => { };
 
   handleChange = (value) => {
     console.log('Handle Change ' + value);
@@ -117,14 +117,23 @@ class FormEditUser extends Component {
     const options =
       this.props.data != undefined
         ? this.props.data.map((d) => (
-            <Option key={d.orgname != null ? d.text : ''} value={d['mcp-1-pk']}>
-              {d.orgname}
-            </Option>
-          ))
+          <Option key={d.orgname != null ? d.text : ''} value={d['mcp-1-pk']}>
+            {d.orgname}
+          </Option>
+        ))
         : '';
 
     const { current } = this.props;
     console.log('Current User ' + JSON.stringify(current));
+    let prefixName = "";
+    let phoneCel = "";
+    if (this.props.current.phone.indexOf("+1") === 0) {
+      prefixName = "+1";
+      phoneCel = this.props.current.phone.substr(2);
+    } else {
+      phoneCel = this.props.current.phone.substr(3);
+      prefixName = this.props.current.phone.substr(0, 3);
+    }
     return (
       <Modal
         closable={true}
@@ -139,11 +148,14 @@ class FormEditUser extends Component {
           validateMessages={validateMessages}
           initialValues={{
             prefix: '91',
-            orgid: this.props.current.orgid,
+            // orgid: this.props.current.orgid,id_organization
+            orgid: this.props.current.id_organization,
             role: this.props.current.role,
             name: this.props.current.name,
             email: this.props.current.email,
-            phoneNumber: this.props.current.phoneNumber,
+            // phoneNumber: this.props.current.phoneNumber,
+            phoneNumber: phoneCel,
+            prefix: prefixName
           }}
         >
           <Form.Item
@@ -174,9 +186,9 @@ class FormEditUser extends Component {
 
           <Form.Item name="role" label="Role" rules={[{ required: true }]}>
             <Select placeholder="Select a role" onChange={this.onRoleChange} allowClear>
-              <Option value="User">User</Option>
-              <Option value="OrgAdmin">OrgAdmin</Option>
-              <Option value="OrgApprover">OrgApprover</Option>
+              <Option value="6">User</Option>
+              <Option value="3">OrgAdmin</Option>
+              <Option value="5">OrgApprover</Option>
             </Select>
           </Form.Item>
           <Form.Item label="Contact Name" name="name" rules={[{ required: true }]}>

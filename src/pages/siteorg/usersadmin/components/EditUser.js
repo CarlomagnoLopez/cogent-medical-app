@@ -84,6 +84,41 @@ class FormEditUser extends Component {
     this.setState({ value });
   };
 
+
+  setPhone(phone) {
+    if (phone !== "" && phone) {
+      let phoneCel = "";
+      // phoneCel = this.props.current.phone.substr(2);
+      if (phone.indexOf("+1") === 0) {
+        // prefixName = "+1";
+        phoneCel = this.props.current.phone.substr(2);
+      } else {
+        phoneCel = this.props.current.phone.substr(3);
+        // prefixName = this.props.current.phone.substr(0, 3);
+      }
+
+      return phoneCel
+    }
+    return phone
+  }
+  
+  setPrefix(phone) {
+    let prefix= "";
+    if (phone !== "" && phone) {
+      // let phoneCel = "";
+      // phoneCel = this.props.current.phone.substr(2);
+      if (phone.indexOf("+1") === 0) {
+        prefix = "+1";
+        // phoneCel = this.props.current.phone.substr(2);
+      } else {
+        // phoneCel = this.props.current.phone.substr(3);
+        prefix = this.props.current.phone.substr(0, 3);
+      }
+
+      return prefix
+    }
+    return prefix
+  }
   render() {
     console.log('Value . ' + this.state.value);
     const validateMessages = {
@@ -127,11 +162,13 @@ class FormEditUser extends Component {
 
     const { current } = this.props;
     console.log('Current User ' + JSON.stringify(current));
+
+
     return (
       <Modal
         closable={true}
         visible={this.props.visible}
-        title="Edit User"
+        title="User Details"
         footer={null}
         destroyOnClose
         onCancel={this.props.onCancel}
@@ -157,11 +194,14 @@ class FormEditUser extends Component {
           validateMessages={validateMessages}
           initialValues={{
             prefix: '91',
-            orgid: this.props.current.orgid,
+            // orgid: this.props.current.orgid,id_organization
+            orgid: this.props.current.id_organization,
             role: this.props.current.role,
             name: this.props.current.name,
             email: this.props.current.email,
-            phoneNumber: this.props.current.phoneNumber,
+            // phoneNumber: this.props.current.phoneNumber,
+            phoneNumber: this.setPhone(this.props.current.phone),
+            prefix: this.setPrefix(this.props.current.phone),
           }}
         >
           <Form.Item
@@ -191,20 +231,21 @@ class FormEditUser extends Component {
           </Form.Item>
 
           <Form.Item name="role" label="Role" rules={[{ required: true }]}>
-            <Select placeholder="Select a role" onChange={this.onRoleChange} allowClear>
-              <Option value="User">User</Option>
-              <Option value="OrgAdmin">OrgAdmin</Option>
-              <Option value="OrgApprover">OrgApprover</Option>
+            <Select placeholder="Select a role"   disabled onChange={this.onRoleChange} allowClear>
+              <Option value="6">User</Option>
+              <Option value="2">Admin Messagin App</Option>
+              <Option value="3">OrgAdmin</Option>
+              <Option value="5">OrgApprover</Option>
             </Select>
           </Form.Item>
           <Form.Item label="Contact Name" name="name" rules={[{ required: true }]}>
-            <Input placeholder="Contact Name" id="error" />
+            <Input   disabled placeholder="Contact Name" id="error" />
           </Form.Item>
           <Form.Item label="Contact Email" name="email" rules={[{ required: true, type: 'email' }]}>
-            <Input placeholder="Contact Email" id="error" />
+            <Input   disabled placeholder="Contact Email" id="error" />
           </Form.Item>
           <Form.Item label="Contact Number" name="phoneNumber" rules={[{ required: true }]}>
-            <Input addonBefore={this.prefixSelector} placeholder="Contact Number" />
+            <Input   disabled addonBefore={this.prefixSelector} placeholder="Contact Number" />
           </Form.Item>
 
           <Form.Item
@@ -213,9 +254,9 @@ class FormEditUser extends Component {
               offset: 6,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            {/* <Button type="primary" htmlType="submit">
               Submit
-            </Button>
+            </Button> */}
           </Form.Item>
         </Form>
       </Modal>

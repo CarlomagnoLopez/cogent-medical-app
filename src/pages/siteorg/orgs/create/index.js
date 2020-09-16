@@ -165,7 +165,7 @@ class CreateOrganization extends Component {
     this.props.dispatch({
       type: 'organization/createOrganization',
       payload: organizationData,
-    }); 
+    });
 
     const _Self = this;
     setTimeout(() => {
@@ -205,8 +205,12 @@ class CreateOrganization extends Component {
     // }
 
     if (status.data === "success" && !status.error) {
-     
-      message.success('Organization Created!');
+
+      message.success(status.message);
+
+      setTimeout(() => {
+        history.push('/');
+      }, 1000);
     }
 
     if (!status.data && status.error) {
