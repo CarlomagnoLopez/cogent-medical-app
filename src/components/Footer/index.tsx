@@ -4,7 +4,7 @@ import { DefaultFooter } from '@ant-design/pro-layout';
 
 export default () => (
   <DefaultFooter
-    copyright="2020@Track Me"
+    copyright="2020"
     links={[
       {
         key: 'Track Me',
