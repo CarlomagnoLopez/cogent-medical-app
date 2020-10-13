@@ -125,23 +125,23 @@ class FormAdminOrganization extends Component {
           placeholder="Role"
         />
         <Form
-         labelCol={ {
-                xs: {
-                  span: 24,
-                },
-                sm: {
-                  span: 4,
-                },
-              }}
-              wrapperCol={{
-                xs: {
-                  span: 24,
-                },
-                sm: {
-                  span: 16,
-                },
-              }}
-      onFinish={this.onFinish}>
+          labelCol={{
+            xs: {
+              span: 24,
+            },
+            sm: {
+              span: 4,
+            },
+          }}
+          wrapperCol={{
+            xs: {
+              span: 24,
+            },
+            sm: {
+              span: 16,
+            },
+          }}
+          onFinish={this.onFinish}>
           <Form.Item label="Contact Name">
             <Input placeholder="Contact Name" id="error" />
           </Form.Item>

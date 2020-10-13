@@ -10,6 +10,7 @@ import LoginFrom from './components/Login';
 import Signup from '../../users/signup';
 import styles from './style.less';
 import { connect } from 'umi';
+import OtpInput from 'react-otp-input';
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 
 const Cognito = require('./../../../utils/Cognito.js');
@@ -53,6 +54,11 @@ const replaceGoto = () => {
 const Login: React.FC<{}> = ({ dispatch, login }) => {
   const [userLoginState, setUserLoginState] = useState<API.LoginStateType>({});
   const [submitting, setSubmitting] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [otpActive, setOtpActive] = useState(false);
+  const [cogUser, setCognitoUser] = useState();
+  const [thisC, setThisC] = useState();
+  const [disableOpt, setDisableOpt] = useState(false);
 
   const { refresh } = useModel('@@initialState');
 
@@ -93,6 +99,10 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         Pool: userPool,
       };
       var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+      // cogUser = 
+      // setCognitoUser(new AmazonCognitoIdentity.CognitoUser(userData));
+
+
       // doLogin(values.userName);
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
@@ -115,12 +125,26 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
         },
         onFailure: function (err) {
           if (err) {
+            setOtp("");
+            setDisableOpt(false);
             message.error(err.message);
           }
         },
         mfaRequired: function (codeDeliveryDetails) {
-          var verificationCode = prompt('Please input verification code', '');
-          cognitoUser.sendMFACode(verificationCode, this);
+          setCognitoUser(cognitoUser);
+          setThisC(this);
+          setOtpActive(true);
+
+          // var verificationCode = prompt('Please input verification code', '');
+          // var verificationCode = otp;
+
+          // if (verificationCode.length === 6) {
+          //   cognitoUser.sendMFACode(otp, this);
+          // }
+          // if(ot){
+
+          // }
+          // cognitoUser.sendMFACode(verificationCode, this);
         },
         newPasswordRequired: function (userAttributes, requiredAttributes) {
           // User was signed up by an admin and must provide new
@@ -201,6 +225,27 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
   };
 
   const [form] = Form.useForm();
+  const handleChangeOtp = (value) => {
+    // let _otp = otp;
+    // _otp += value;
+    // console.log(_otp)
+    setOtp(value)
+
+    // setTimeout(() => {
+
+    // }, 500);
+
+
+  }
+  if (otp.length === 6) {
+    // cogUser.sendMFACode(otp);
+    // cogUser.mfaRequired(() => {
+    cogUser.sendMFACode(otp, thisC);
+    setDisableOpt(true);
+    setOtp("");
+    // })
+  }
+
 
   // console.log(link())
   return (
@@ -239,7 +284,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
                   rules={[
                     {
                       required: true,
-                      message: 'please enter valid username!',
+                      message: 'Please enter valid username!',
                     },
                   ]}
                 />
@@ -253,6 +298,19 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
                     },
                   ]}
                 />
+                {otpActive &&
+                  <OtpInput
+                    isDisabled={disableOpt}
+                    value={otp}
+                    onChange={handleChangeOtp}
+                    numInputs={6}
+                    separator={<span> - </span>}
+                    inputStyle={styles.inputOtp}
+                    containerStyle={styles.containerOtp}
+                  />
+
+                }
+
               </Tab>
               <Tab key="verify" tab="">
                 <Captcha
@@ -313,7 +371,7 @@ const Login: React.FC<{}> = ({ dispatch, login }) => {
                   forget password
             </a> */}
               </div>
-              <Submit loading={submitting}>Submit</Submit>
+              <Submit loading={submitting} disabled={otpActive}>Log In</Submit>
               {/* <div className={styles.other}>
             <Link className={styles.register} to="/user/register">
               Register

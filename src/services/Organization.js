@@ -28,14 +28,16 @@ export async function approveUser(payload) {
 
 export async function deleteUser(payload) {
   console.log('API Called');
-  return request(REACT_APP_ENV + `/users`, {
+  // return request(REACT_APP_ENV + `/users`, {END_POINT_MYSQL
+  return request(END_POINT_MYSQL + `/user/main.php`, {
     method: 'DELETE',
     body: JSON.stringify(payload),
   });
 }
 export async function deleteOrg(payload) {
   console.log('Del Orf API Called');
-  return request(REACT_APP_ENV + `/org`, {
+  // return request(REACT_APP_ENV + `/org`, {
+  return request(END_POINT_MYSQL + `/user/main.php`, {
     method: 'DELETE',
     body: JSON.stringify(payload),
   });
@@ -80,7 +82,9 @@ export async function getAllOrganizations() {
 
 }
 export async function generateOrgAdmin(payload) {
-  return request(REACT_APP_ENV + '/org/orgadmin', {
+  // return request(REACT_APP_ENV + '/org/orgadmin', {
+  return request(END_POINT_MYSQL + `/integration/main.php`, {
+
     method: 'PUT',
     body: JSON.stringify(payload),
   });

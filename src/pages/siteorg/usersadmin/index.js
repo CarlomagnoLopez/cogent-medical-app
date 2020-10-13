@@ -52,12 +52,14 @@ class AdminUsers extends Component {
     });
   }
   deleteUser = (record) => {
-    let currentuser = localStorage.getItem('userName');
-    let tempuser = record['mcp-1-sk'].substring(5, record['mcp-1-sk'].length);
-    if (currentuser === tempuser) {
-      message.error('Can not delete this user!');
-      return;
-    }
+
+    console.log("continue")
+    // let currentuser = localStorage.getItem('userName');
+    // let tempuser = record['mcp-1-sk'].substring(5, record['mcp-1-sk'].length);
+    // if (currentuser === tempuser) {
+    //   message.error('Can not delete this user!');
+    //   return;
+    // }
 
     const _self = this;
     confirm({
@@ -71,8 +73,9 @@ class AdminUsers extends Component {
         _self.props.dispatch({
           type: 'organization/deleteUser',
           payload: {
-            userid: record['mcp-1-sk'].substring(5, record['mcp-1-sk'].length),
-            orgid: record['mcp-1-pk'],
+            method: "deleteUserOrganization",
+            id_user: record.id,
+            id_organization: record.id_organization,
             role: record.role,
           },
         });
@@ -116,10 +119,11 @@ class AdminUsers extends Component {
     console.log('Create Data ' + JSON.stringify(record));
     const { data } = this.state;
     let tempdata = data;
+    let payload = { "method": "saveUserByOrg", "record": record }
     //tempdata.push(data);
     this.props.dispatch({
       type: 'organization/generateOrgUser',
-      payload: record,
+      payload: payload,
       role: record.role,
     });
 
@@ -243,7 +247,7 @@ class AdminUsers extends Component {
     }
 
     if (deleteuserstatus) {
-      if (deleteuserstatus.success == true) {
+      if (deleteuserstatus.error == false) {
         message.success('User Deleted Successfully!');
         if (localStorage.getItem('currentAuth') === 'orgadmin') {
           this.props.dispatch({
@@ -261,8 +265,8 @@ class AdminUsers extends Component {
           });
         }
       }
-      if (deleteuserstatus.success == false) {
-        message.error(deleteuserstatus.log.message);
+      if (deleteuserstatus.error == true) {
+        message.error(deleteuserstatus.message);
         this.props.dispatch({
           type: 'organization/resetDeleteUserStatus',
           payload: [],
@@ -271,8 +275,8 @@ class AdminUsers extends Component {
     }
 
     if (statusorgadmincreation) {
-      if (statusorgadmincreation.success == true) {
-        message.success('User Created Successfully!');
+      if (statusorgadmincreation.error === false) {
+        message.success(statusorgadmincreation.message, 2);
         if (localStorage.getItem('currentAuth') === 'orgadmin') {
           this.props.dispatch({
             type: 'organization/getUsersByOrgs',
@@ -289,8 +293,8 @@ class AdminUsers extends Component {
           });
         }
       }
-      if (statusorgadmincreation.success == false) {
-        message.error(statusorgadmincreation.log.message);
+      if (statusorgadmincreation.error === true) {
+        message.error(statusorgadmincreation.message, 2);
         this.props.dispatch({
           type: 'organization/resetStatus',
           payload: [],
@@ -353,7 +357,7 @@ class AdminUsers extends Component {
               <EyeOutlined /> Details
             </a>
             <p></p>
-            <a onClick={() => this.deleteUser(record)}>
+            <a disabled={record.role === "2" ? true : false} onClick={() => this.deleteUser(record)}>
               <DeleteOutlined /> Delete
             </a>
             <p></p>

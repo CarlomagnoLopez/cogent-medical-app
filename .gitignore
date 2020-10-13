@@ -63,3 +63,4 @@ typings/
 .next
 server/config/datastores.js
 .env
+dist

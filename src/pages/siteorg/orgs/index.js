@@ -115,9 +115,16 @@ class Org extends Component {
   };
 
   deleteOrg = (record) => {
+
+    console.log("delete org")
+    console.log(record)
     this.props.dispatch({
       type: 'organization/deleteOrganization',
-      payload: { orgid: record['mcp-1-pk'] },
+      payload: {
+        method: "deleteOrganization",
+        id_organization: record[0]
+
+      },
     });
   };
 
@@ -199,11 +206,11 @@ class Org extends Component {
           textToHighlight={text.toString()}
         />
       ) : (
-        text
-      );
+          text
+        );
     },
   });
-  createOrgAdmin = (record) => {};
+  createOrgAdmin = (record) => { };
 
   onShowInfo = (info) => {
     Modal.info({
@@ -238,7 +245,7 @@ class Org extends Component {
           </p>
         </div>
       ),
-      onOk() {},
+      onOk() { },
     });
   };
   cardOrg = (info) => {
@@ -299,7 +306,7 @@ class Org extends Component {
           title={info.orgname}
           letterAvatar
           description={
-            <a href={info.website.indexOf("https://") === 0 ?  info.website :("https://" + info.website )  } target="_new">
+            <a href={info.website.indexOf("https://") === 0 ? info.website : ("https://" + info.website)} target="_new">
               {info.website}
             </a>
           }
@@ -367,16 +374,16 @@ class Org extends Component {
   render() {
     const { updateorgdetailsstatus, deleteorgstatus } = this.props;
 
-    if (deleteorgstatus.success === false) {
-      message.error(deleteorgstatus.log.message);
+    if (deleteorgstatus.error === false && deleteorgstatus.data == false) {
+      message.error(deleteorgstatus.message);
       this.props.dispatch({
         type: 'organization/resetDelOrgStatus',
         payload: [],
       });
     }
 
-    if (deleteorgstatus.success === true) {
-      message.success('Organization Deleted Successfully!');
+    if (deleteorgstatus.error === false && deleteorgstatus.data == true) {
+      message.success(deleteorgstatus.message);
       this.props.dispatch({
         type: 'organization/resetDelOrgStatus',
         payload: [],

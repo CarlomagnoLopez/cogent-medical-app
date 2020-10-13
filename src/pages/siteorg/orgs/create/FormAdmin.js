@@ -168,7 +168,6 @@ class FormAdmin extends Component {
                   <Input placeholder="Contact Name" id="contactname" />
                 </Form.Item>
                 <Form.Item label="Contact Number" name="phoneNumber" rules={[
-                  // { type: "number" },
                   {
                     required: true,
                     asyncValidator: (rule, value) => {
@@ -184,11 +183,6 @@ class FormAdmin extends Component {
                       });
                     }
                   },
-                  // {
-                  //   pattern: '^[{0,1}[0-9]{1,10}[)]{0,1}',
-                  //   message: "It accept only digits and ten max"
-                  // }
-                  // { whitespace: true }
                 ]}>
                   <Input
                     maxLength={10}

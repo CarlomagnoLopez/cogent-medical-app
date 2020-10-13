@@ -134,8 +134,11 @@ class FormUser extends Component {
 
     const options =
       this.props.data != undefined
-        ? this.props.data.map((d) => (
-          <Option key={d.orgname != null ? d.text : ''} value={d['mcp-1-pk']}>
+        ?
+        this.props.data.map((d) => (
+          // let idVal = d['mcp-1-pk'];
+          // <Option key={d.orgname != null ? d.text : ''} value={d['mcp-1-pk']}>
+          <Option value={d[0]}>
             {d.orgname}
           </Option>
         ))
@@ -182,16 +185,18 @@ class FormUser extends Component {
               onChange={this.handleChange}
               notFoundContent={null}
             >
-              {localStorage.getItem('currentAuth') === 'siteadmin' ? (
+              {
+                // localStorage.getItem('currentAuth') === 'siteadmin' ? (
                 options
-              ) : (
-                  <Option
-                    key={orginfo[0] != undefined ? orginfo[0].text : ''}
-                    value={orginfo[0] != undefined ? orginfo[0]['mcp-1-pk'] : ''}
-                  >
-                    {orginfo[0] != undefined ? orginfo[0].orgname : ''}
-                  </Option>
-                )}
+                // ) : (
+                //     <Option
+                //       key={orginfo[0] != undefined ? orginfo[0].text : ''}
+                //       value={orginfo[0] != undefined ? orginfo[0]['mcp-1-pk'] : ''}
+                //     >
+                //       {orginfo[0] != undefined ? orginfo[0].orgname : ''}
+                //     </Option>
+                //   )
+              }
             </Select>
           </Form.Item>
 
@@ -210,8 +215,24 @@ class FormUser extends Component {
             <Input placeholder="Contact Email" id="error" />
           </Form.Item>
 
-          <Form.Item label="Contact Number" name="phoneNumber" rules={[{ required: true }]}>
-            <Input addonBefore={this.prefixSelector} placeholder="Contact Number" />
+          <Form.Item label="Contact Number" name="phoneNumber" rules={[
+            {
+              required: true,
+              asyncValidator: (rule, value) => {
+                return new Promise((resolve, reject) => {
+                  if (isNaN(value)) {
+                    // }
+                    // console.log(rule)
+                    // if (value < 18) {
+                    reject('It does not accept this value');  // reject with error message
+                  } else {
+                    resolve();
+                  }
+                });
+              }
+            },
+          ]}>
+            <Input addonBefore={this.prefixSelector} placeholder="Contact Number"  maxLength={10}/>
           </Form.Item>
           <Form.Item
             wrapperCol={{
@@ -219,7 +240,7 @@ class FormUser extends Component {
               offset: 20,
             }}
 
-            
+
           >
             <Button type="primary" htmlType="submit">
               Submit
